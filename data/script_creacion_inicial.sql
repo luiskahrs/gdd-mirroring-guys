@@ -188,5 +188,18 @@ DECLARE @LimiteLogueos as INT; SET @LimiteLogueos = 3
 		SELECT * FROM MIRRORING_GUYS.Usuario WHERE Id = @UsuarioId
 
 	END
-
 GO
+
+-- INSERTS
+insert into [MIRRORING_GUYS].[Usuario] ([username], [password], [logins_fallidos], [habilitado]) values
+	('admin', 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', 0, 1)
+
+insert into [MIRRORING_GUYS].[Rol] ([nombre], [descripcion]) values
+	('Administrador', 'Rol adminitrador del sistema')
+
+insert into [MIRRORING_GUYS].[Rol] ([nombre], [descripcion]) values
+	('Cobrador', 'Usuarios que pueden cobrar las facturas')
+
+insert into [MIRRORING_GUYS].[UsuarioRol] ([id_usuario], [id_rol]) values (
+	(select id from [MIRRORING_GUYS].[Usuario] where username = 'admin'),
+	(select id from [MIRRORING_GUYS].[Rol] where nombre = 'Administrador'))
