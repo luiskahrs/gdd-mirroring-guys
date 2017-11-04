@@ -118,3 +118,75 @@ REFERENCES [MIRRORING_GUYS].[Usuario] ([id])
 GO
 ALTER TABLE [MIRRORING_GUYS].[UsuarioRol] CHECK CONSTRAINT [FK_UsuarioRol_Usuario]
 GO
+
+CREATE PROCEDURE [MIRRORING_GUYS].[Usuario_Login]
+	@Username  nvarchar(50), 
+    @Password nvarchar(64) 
+AS
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+DECLARE @UsuarioId INT;
+DECLARE @LoginFallidos INT;
+DECLARE @Habilitado BIT;
+DECLARE @PassBD nvarchar(64);
+--Es la cantidad limite de logueos permitidos antes de inhabilitar la cuenta
+DECLARE @LimiteLogueos as INT; SET @LimiteLogueos = 3 
+    
+	--Busco el Usuario
+	SELECT @UsuarioId = Id, @Habilitado = Habilitado, @LoginFallidos = Logins_Fallidos, @PassBD = Password
+    FROM MIRRORING_GUYS.Usuario
+    WHERE UPPER(Username) = UPPER(@Username)
+
+	--Verifico que exista e nombre de usuario, si no existe, lanzo excepcion
+	IF @UsuarioId IS NULL
+	BEGIN
+		RAISERROR ('El nombre de usuario no existe. Verifique el nombre de usuario.', 16, 1)
+		RETURN
+	END
+	ELSE
+	--SI existe el usuario, realizo las demas validaciones
+	BEGIN
+		--si no esta habiitado, lanzo excepcion
+		IF @Habilitado = 0
+		BEGIN
+			RAISERROR ('El usuario esta deshabilitado. Contacte al administrador.', 16, 1)
+			RETURN
+		END
+		--si el password difiere, incremento los logins fallidos, inserto log y lanzo excepcion
+		IF @PassBD <> @Password
+		BEGIN
+			--Incremento 1 la cantidad de logins fallidos
+			SET @LoginFallidos = @LoginFallidos + 1
+			DECLARE @IntentosRestantes as INT; SET @IntentosRestantes = @LimiteLogueos - @LoginFallidos
+
+			--Actualizo la table de usuario, si los logins fallidos alcanzaron el limite, se deshabilita la cuenta
+			UPDATE MIRRORING_GUYS.Usuario 
+			SET Logins_Fallidos = @LoginFallidos, 
+			Habilitado = CASE WHEN @LoginFallidos < @LimiteLogueos THEN 1 ELSE 0 END 
+			WHERE Id = @UsuarioId
+
+			--informo el error correspondiente
+			IF @LoginFallidos < @LimiteLogueos
+			BEGIN
+				RAISERROR ('Ha ingresado un password incorrecto. Le quedan %d intentos.', 16, 1, @IntentosRestantes )
+				RETURN
+			RETURN
+			END
+			ELSE
+			BEGIN
+				RAISERROR ('Se ha inhabilitado su cuenta. Contacte al administrador.', 16, 1)
+				RETURN
+			END
+		END
+
+		--Si llego hasta aca, paso todas las validaciones OK
+		--Borro los logins fallidos
+		UPDATE MIRRORING_GUYS.Usuario SET Logins_Fallidos = 0 WHERE Id = @UsuarioId
+		
+		SELECT * FROM MIRRORING_GUYS.Usuario WHERE Id = @UsuarioId
+
+	END
+
+GO
