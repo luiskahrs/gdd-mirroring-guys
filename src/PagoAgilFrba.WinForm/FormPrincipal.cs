@@ -35,7 +35,7 @@ namespace PagoAgilFrba
                     nodo.Tag = dr["formulario"];
                 }
 
-                this.Text = String.Format("Formulario principal - Usuario: {0}", _usuario.Username);
+                this.Text = String.Format("Pago Agil Frba (Main) - Usuario Logueado: {0}", _usuario.Username);
             }
             catch (Exception ex)
             {
