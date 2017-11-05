@@ -32,12 +32,12 @@ namespace PagoAgilFrba.Core
         {
             using (Database dl = new Database())
             {
-                return dl.EjecutarQuery(@"SELECT CASE WHEN rp.RolID IS NULL THEN 0 ELSE 1 END as S, 
+                return dl.EjecutarQuery(@"SELECT CASE WHEN fpr.id_rol IS NULL THEN 0 ELSE 1 END as S, 
                                     f.Nombre as Funcionalidad,
                                     f.Id as FuncionalidadId
                                     FROM [MIRRORING_GUYS].[Funcionalidad] f 
                                     LEFT JOIN [MIRRORING_GUYS].[FuncPorRol] fpr ON fpr.id_func = f.id AND fpr.id_rol  = @RolId",
-                                    Database.CrearParametro("@RolId", this.Id));
+                                    Database.CrearParametro("@RolId", this.Id.HasValue ? this.Id.Value : 0));
             }
         }
         public override void Guardar()
@@ -48,7 +48,7 @@ namespace PagoAgilFrba.Core
                 //Si el rol es nuevo, lo creo y obtengo el Id
                 if (this.EsNuevo())
                 {
-                    this.Id = dl.EjecutarEscalar<int>("INSERT INTO [MIRRORING_GUYS].[Rol] (Nombre, Habilitado)  output INSERTED.ID VALUES (@Nombre, @Habilitado)",
+                    this.Id = dl.EjecutarEscalar<int>("INSERT INTO [MIRRORING_GUYS].[Rol] (nombre, habilitado) output INSERTED.ID VALUES (@Nombre, @Habilitado)",
                         Database.CrearParametro("@Nombre", this.Nombre),
                         Database.CrearParametro("@Habilitado", this.Habilitado));
                 }
@@ -60,15 +60,15 @@ namespace PagoAgilFrba.Core
                         Database.CrearParametro("@RolId", this.Id));
                     //si lo deshabilito, tengo que borrarle el acceso a los usuarios.
                     if(!this.Habilitado)
-                        dl.EjecutarNonQuery("DELETE FROM [MIRRORING_GUYS].[UsuarioRol] WHERE RolId = @RolId", CommandType.Text,
+                        dl.EjecutarNonQuery("DELETE FROM [MIRRORING_GUYS].[UsuarioRol] WHERE id_rol = @RolId", CommandType.Text,
                            Database.CrearParametro("@RolId", this.Id));
                 }
                 //Elimino todos los funcionalidades que tenga
-                dl.EjecutarNonQuery("DELETE FROM[MIRRORING_GUYS].[FuncPorRol] WHERE RolId = @RolId", CommandType.Text, Database.CrearParametro("@RolId", this.Id));
+                dl.EjecutarNonQuery("DELETE FROM [MIRRORING_GUYS].[FuncPorRol] WHERE id_rol = @RolId", CommandType.Text, Database.CrearParametro("@RolId", this.Id));
                 //Inserto los que quedaron seleccionados de la grilla
                 foreach (int funcionalidadId in this.Funcionalidades)
                 {
-                    dl.EjecutarNonQuery("INSERT INTO [MIRRORING_GUYS].[FuncPorRol] VALUES (@RolId, @FuncionalidadId)",
+                    dl.EjecutarNonQuery("INSERT INTO [MIRRORING_GUYS].[FuncPorRol] (id_func, id_rol) VALUES (@FuncionalidadId, @RolId)",
                         CommandType.Text,
                         Database.CrearParametro("@RolId", this.Id),
                         Database.CrearParametro("@FuncionalidadId", funcionalidadId));

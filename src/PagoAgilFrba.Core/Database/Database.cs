@@ -173,6 +173,7 @@
             {
                 SqlCommand command = new SqlCommand(query, connection);
                 command.CommandType = tipo;
+                command.Transaction = transaction;
 
                 foreach (var item in parametros)
                 {
