@@ -59,8 +59,8 @@ SET ANSI_PADDING OFF
 GO
 CREATE TABLE [MIRRORING_GUYS].[Funcionalidad](
 	[id] [int] IDENTITY(1,1) NOT NULL,
-	[nombre] [varchar](20) NOT NULL,
-	[descripcion] [varchar](50) NOT NULL,
+	[nombre] [varchar](50) NOT NULL,
+	[formulario] [varchar](100) NOT NULL,
  CONSTRAINT [PK_Funcionalidad] PRIMARY KEY CLUSTERED 
 (
 	[id] ASC

@@ -27,13 +27,13 @@ namespace PagoAgilFrba
                 DataTable dtPrivilegios = _usuario.ObtenerPrivilegios();
 
                 // Hay que ver como controlar las solapas aca.
-                //if (dtPrivilegios == null || dtPrivilegios.Rows.Count == 0)
-                //    throw new PagoAgilException("No tiene ningun privilegio");
-                //foreach (DataRow dr in dtPrivilegios.Rows)
-                //{
-                //    TreeNode nodo = treeView1.Nodes.Add(dr["Nombre"].ToString());
-                //    nodo.Tag = dr["Formulario"];
-                //}
+                if (dtPrivilegios == null || dtPrivilegios.Rows.Count == 0)
+                    throw new PagoAgilException("No tiene ningun privilegio");
+                foreach (DataRow dr in dtPrivilegios.Rows)
+                {
+                    TreeNode nodo = treeView1.Nodes.Add(dr["nombre"].ToString());
+                    nodo.Tag = dr["formulario"];
+                }
 
                 this.Text = String.Format("Formulario principal - Usuario: {0}", _usuario.Username);
             }

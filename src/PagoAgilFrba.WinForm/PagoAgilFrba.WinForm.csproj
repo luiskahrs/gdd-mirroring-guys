@@ -62,53 +62,53 @@
     <Compile Include="Formularios\Login\FormLogin.Designer.cs">
       <DependentUpon>FormLogin.cs</DependentUpon>
     </Compile>
-    <Compile Include="Formularios\AbmCliente\Form1.cs">
+    <Compile Include="Formularios\AbmCliente\AbmCliente.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Formularios\AbmCliente\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Formularios\AbmCliente\AbmCliente.Designer.cs">
+      <DependentUpon>AbmCliente.cs</DependentUpon>
     </Compile>
-    <Compile Include="Formularios\AbmEmpresa\Form1.cs">
+    <Compile Include="Formularios\AbmEmpresa\AbmEmpresa.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Formularios\AbmEmpresa\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Formularios\AbmEmpresa\AbmEmpresa.Designer.cs">
+      <DependentUpon>AbmEmpresa.cs</DependentUpon>
     </Compile>
-    <Compile Include="Formularios\AbmFactura\Form1.cs">
+    <Compile Include="Formularios\AbmFactura\AbmFactura.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Formularios\AbmFactura\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Formularios\AbmFactura\AbmFactura.Designer.cs">
+      <DependentUpon>AbmFactura.cs</DependentUpon>
     </Compile>
-    <Compile Include="Formularios\AbmRol\Form1.cs">
+    <Compile Include="Formularios\AbmRol\AbmRol.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Formularios\AbmRol\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Formularios\AbmRol\AbmRol.Designer.cs">
+      <DependentUpon>AbmRol.cs</DependentUpon>
     </Compile>
-    <Compile Include="Formularios\AbmSucursal\Form1.cs">
+    <Compile Include="Formularios\AbmSucursal\AbmSucursal.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Formularios\AbmSucursal\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Formularios\AbmSucursal\AbmSucursal.Designer.cs">
+      <DependentUpon>AbmSucursal.cs</DependentUpon>
     </Compile>
-    <Compile Include="Formularios\ListadoEstadistico\Form1.cs">
+    <Compile Include="Formularios\ListadoEstadistico\ListadoEstadistico.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Formularios\ListadoEstadistico\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Formularios\ListadoEstadistico\ListadoEstadistico.Designer.cs">
+      <DependentUpon>ListadoEstadistico.cs</DependentUpon>
     </Compile>
-    <Compile Include="Formularios\RegistroPago\Form1.cs">
+    <Compile Include="Formularios\RegistroPago\RegistroPago.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Formularios\RegistroPago\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Formularios\RegistroPago\RegistroPago.Designer.cs">
+      <DependentUpon>RegistroPago.cs</DependentUpon>
     </Compile>
-    <Compile Include="Formularios\Rendicion\Form1.cs">
+    <Compile Include="Formularios\Rendicion\Rendicion.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Formularios\Rendicion\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Formularios\Rendicion\Rendicion.Designer.cs">
+      <DependentUpon>Rendicion.cs</DependentUpon>
     </Compile>
     <Compile Include="Helper\HelperWin.cs" />
     <Compile Include="Program.cs" />
@@ -119,8 +119,32 @@
     <EmbeddedResource Include="FormPrincipal.resx">
       <DependentUpon>FormPrincipal.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\AbmCliente\AbmCliente.resx">
+      <DependentUpon>AbmCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\AbmEmpresa\AbmEmpresa.resx">
+      <DependentUpon>AbmEmpresa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\AbmFactura\AbmFactura.resx">
+      <DependentUpon>AbmFactura.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\AbmRol\AbmRol.resx">
+      <DependentUpon>AbmRol.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\AbmSucursal\AbmSucursal.resx">
+      <DependentUpon>AbmSucursal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\ListadoEstadistico\ListadoEstadistico.resx">
+      <DependentUpon>ListadoEstadistico.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Formularios\Login\FormLogin.resx">
       <DependentUpon>FormLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\RegistroPago\RegistroPago.resx">
+      <DependentUpon>RegistroPago.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\Rendicion\Rendicion.resx">
+      <DependentUpon>Rendicion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
