@@ -250,3 +250,19 @@ insert into [MIRRORING_GUYS].[Rol] ([nombre], [descripcion]) values
 insert into [MIRRORING_GUYS].[UsuarioRol] ([id_usuario], [id_rol]) values (
 	(select id from [MIRRORING_GUYS].[Usuario] where username = 'admin'),
 	(select id from [MIRRORING_GUYS].[Rol] where nombre = 'Administrador'))
+
+INSERT INTO [MIRRORING_GUYS].[Funcionalidad] (nombre,formulario) VALUES ('ABM de Rol','PagoAgilFrba.AbmRol')
+INSERT INTO [MIRRORING_GUYS].[Funcionalidad] (nombre,formulario) VALUES ('ABM de Cliente','PagoAgilFrba.AbmCliente')
+INSERT INTO [MIRRORING_GUYS].[Funcionalidad] (nombre,formulario) VALUES ('ABM de Empresa','PagoAgilFrba.AbmEmpresa')
+INSERT INTO [MIRRORING_GUYS].[Funcionalidad] (nombre,formulario) VALUES ('ABM de Factura','PagoAgilFrba.AbmFactura')
+INSERT INTO [MIRRORING_GUYS].[Funcionalidad] (nombre,formulario) VALUES ('ABM de Sucursal','PagoAgilFrba.AbmSucursal')
+INSERT INTO [MIRRORING_GUYS].[Funcionalidad] (nombre,formulario) VALUES ('Listado Estadistico','PagoAgilFrba.ListadoEstadistico')
+INSERT INTO [MIRRORING_GUYS].[Funcionalidad] (nombre,formulario) VALUES ('Registro de Pagos','PagoAgilFrba.RegistroPago')
+INSERT INTO [MIRRORING_GUYS].[Funcionalidad] (nombre,formulario) VALUES ('Rendicion','PagoAgilFrba.Rendicion')
+
+INSERT INTO [MIRRORING_GUYS].[FuncPorRol] (id_rol, id_func)
+	SELECT
+		(SELECT id FROM [MIRRORING_GUYS].[Rol] where nombre = 'Administrador'),
+		f.id
+	FROM	
+		[MIRRORING_GUYS].[Funcionalidad] f
