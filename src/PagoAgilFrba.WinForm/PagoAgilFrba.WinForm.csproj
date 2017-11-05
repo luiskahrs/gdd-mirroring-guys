@@ -44,6 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EditorBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditorBase.Designer.cs">
+      <DependentUpon>EditorBase.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormListaBase.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -113,6 +119,9 @@
     <Compile Include="Helper\HelperWin.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="EditorBase.resx">
+      <DependentUpon>EditorBase.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormListaBase.resx">
       <DependentUpon>FormListaBase.cs</DependentUpon>
     </EmbeddedResource>

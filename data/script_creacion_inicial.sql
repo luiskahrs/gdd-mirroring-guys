@@ -96,7 +96,7 @@ GO
 CREATE TABLE [MIRRORING_GUYS].[Rol](
 	[id] [int] IDENTITY(1,1) NOT NULL,
 	[nombre] [varchar](20) NOT NULL,
-	[descripcion] [varchar](50) NOT NULL,
+	[habilitado] BIT NOT NULL	DEFAULT(1)
  CONSTRAINT [PK_Rol] PRIMARY KEY CLUSTERED 
 (
 	[id] ASC
