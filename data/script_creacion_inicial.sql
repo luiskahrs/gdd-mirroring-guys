@@ -32,6 +32,78 @@ BEGIN
 END
 GO
 
+IF EXISTS (SELECT COUNT(1) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'TheSchema' AND  TABLE_NAME = '[MIRRORING_GUYS].[Cliente]')
+BEGIN
+   DROP TABLE [MIRRORING_GUYS].[Cliente]
+END
+GO
+
+IF EXISTS (SELECT COUNT(1) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'TheSchema' AND  TABLE_NAME = '[MIRRORING_GUYS].[Devolucion]')
+BEGIN
+   DROP TABLE [MIRRORING_GUYS].[Devolucion]
+END
+GO
+
+IF EXISTS (SELECT COUNT(1) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'TheSchema' AND  TABLE_NAME = '[MIRRORING_GUYS].[Direccion]')
+BEGIN
+   DROP TABLE [MIRRORING_GUYS].[Direccion]
+END
+GO
+
+IF EXISTS (SELECT COUNT(1) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'TheSchema' AND  TABLE_NAME = '[MIRRORING_GUYS].[Empresa]')
+BEGIN
+   DROP TABLE [MIRRORING_GUYS].[Empresa]
+END
+GO
+
+IF EXISTS (SELECT COUNT(1) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'TheSchema' AND  TABLE_NAME = '[MIRRORING_GUYS].[Factura]')
+BEGIN
+   DROP TABLE [MIRRORING_GUYS].[Factura]
+END
+GO
+
+IF EXISTS (SELECT COUNT(1) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'TheSchema' AND  TABLE_NAME = '[MIRRORING_GUYS].[FormaPago]')
+BEGIN
+   DROP TABLE [MIRRORING_GUYS].[FormaPago]
+END
+GO
+
+IF EXISTS (SELECT COUNT(1) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'TheSchema' AND  TABLE_NAME = '[MIRRORING_GUYS].[HistoricoPago]')
+BEGIN
+   DROP TABLE [MIRRORING_GUYS].[HistoricoPago]
+END
+GO
+
+IF EXISTS (SELECT COUNT(1) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'TheSchema' AND  TABLE_NAME = '[MIRRORING_GUYS].[ItemFactura]')
+BEGIN
+   DROP TABLE [MIRRORING_GUYS].[ItemFactura]
+END
+GO
+
+IF EXISTS (SELECT COUNT(1) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'TheSchema' AND  TABLE_NAME = '[MIRRORING_GUYS].[Pago]')
+BEGIN
+   DROP TABLE [MIRRORING_GUYS].[Pago]
+END
+GO
+
+IF EXISTS (SELECT COUNT(1) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'TheSchema' AND  TABLE_NAME = '[MIRRORING_GUYS].[Rendicion]')
+BEGIN
+   DROP TABLE [MIRRORING_GUYS].[Rendicion]
+END
+GO
+
+IF EXISTS (SELECT COUNT(1) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'TheSchema' AND  TABLE_NAME = '[MIRRORING_GUYS].[Rubro]')
+BEGIN
+   DROP TABLE [MIRRORING_GUYS].[Rubro]
+END
+GO
+
+IF EXISTS (SELECT COUNT(1) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'TheSchema' AND  TABLE_NAME = '[MIRRORING_GUYS].[Sucursal]')
+BEGIN
+   DROP TABLE [MIRRORING_GUYS].[Sucursal]
+END
+GO
+
 IF EXISTS (SELECT COUNT(1) FROM sysobjects WHERE  id = object_id(N'[MIRRORING_GUYS].[Usuario_Login]') and OBJECTPROPERTY(id, N'IsProcedure') = 1 )
 BEGIN
 	DROP PROCEDURE [MIRRORING_GUYS].[Usuario_Login]
@@ -266,3 +338,267 @@ INSERT INTO [MIRRORING_GUYS].[FuncPorRol] (id_rol, id_func)
 		f.id
 	FROM	
 		[MIRRORING_GUYS].[Funcionalidad] f
+
+CREATE TABLE MIRRORING_GUYS.Rubro (
+	id						INT	IDENTITY(1,1) NOT NULL,
+	rubro					NUMERIC(18,0),
+	descripcion				NVARCHAR(50) NOT NULL,
+
+	PRIMARY KEY (id)
+)
+GO
+
+CREATE TABLE MIRRORING_GUYS.Empresa (
+	id						INT	IDENTITY(1,1) NOT NULL,
+	cuit					NVARCHAR(50) NOT NULL,
+	nombre					NVARCHAR(255) NOT NULL,
+	esta_activa				BIT	NOT NULL DEFAULT 1 ,
+	dia_rendicion			NUMERIC(2) NOT NULL DEFAULT 1,
+	id_direccion			INT NOT NULL,
+	id_rubro				INT NOT NULL,
+
+	PRIMARY KEY (id)
+)
+GO
+
+CREATE TABLE MIRRORING_GUYS.Devolucion (
+	id						INT	IDENTITY(1,1) NOT NULL,
+	fecha					DATETIME NOT NULL,
+	motivo					NVARCHAR(255) NOT NULL,
+	id_factura				INT NOT NULL,
+	
+	PRIMARY KEY (id)
+)
+GO
+
+CREATE TABLE MIRRORING_GUYS.Direccion (
+	id						INT	IDENTITY(1,1) NOT NULL,
+	direccion				NVARCHAR(255) NOT NULL,
+	codigo_postal			NVARCHAR(255),
+	
+	PRIMARY KEY (id)
+)
+GO
+
+CREATE TABLE MIRRORING_GUYS.Cliente (
+	id						INT	IDENTITY(1,1) NOT NULL,
+	dni						NUMERIC(18,0) NOT NULL,
+	apellido				NVARCHAR(255) NOT NULL,
+	nombre					NVARCHAR(255) NOT NULL,
+	fecha_nacimiento		DATETIME NOT NULL,
+	email					NVARCHAR(255) NOT NULL,
+	telefono				INT,
+	id_direccion			INT NOT NULL,
+	
+	PRIMARY KEY (id)
+)
+GO
+
+CREATE TABLE MIRRORING_GUYS.Factura (
+	id						INT	IDENTITY(1,1) NOT NULL,
+	nro						NUMERIC(18,0) NOT NULL,
+	fecha					DATETIME NOT NULL,
+	fecha_vencimiento		DATETIME NOT NULL,
+	id_cliente				INT NOT NULL,
+	id_empresa				INT NOT NULL,
+	id_pago					INT,
+	id_rendicion			INT,
+
+	PRIMARY KEY (id)
+)
+GO
+
+CREATE TABLE MIRRORING_GUYS.ItemFactura (
+	id						INT	IDENTITY(1,1) NOT NULL,
+	monto					NUMERIC(18,2) NOT NULL,
+	cantidad				NUMERIC(18,0) NOT NULL,
+	id_factura				INT NOT NULL,
+
+	PRIMARY KEY (id)
+)
+GO
+
+CREATE TABLE MIRRORING_GUYS.Sucursal (
+	id						INT	IDENTITY(1,1) NOT NULL,
+	nombre					NVARCHAR(50) NOT NULL,
+	esta_activa				BIT	NOT NULL DEFAULT 1,
+	id_direccion			INT NOT NULL,
+
+	PRIMARY KEY (id)
+)
+GO
+
+CREATE TABLE MIRRORING_GUYS.Pago (
+	id						INT	IDENTITY(1,1) NOT NULL,
+	nro						NUMERIC(18,0) NOT NULL,
+	fecha					DATETIME NOT NULL,
+	id_forma_pago			INT NOT NULL,
+	id_sucursal				INT NOT NULL,
+	id_cliente				INT NOT NULL,
+
+	PRIMARY KEY (id)
+)
+GO
+
+CREATE TABLE MIRRORING_GUYS.HistoricoPago (
+	id						INT	IDENTITY(1,1) NOT NULL,
+	id_factura				INT NOT NULL,
+	id_pago					INT NOT NULL,
+
+	PRIMARY KEY (id)
+)
+GO
+
+CREATE TABLE MIRRORING_GUYS.Rendicion (
+	id						INT	IDENTITY(1,1) NOT NULL,
+	nro						NUMERIC(18,0) NOT NULL,
+	fecha					DATETIME NOT NULL,
+	porcentaje_comision		INT,
+
+	PRIMARY KEY (id)
+)
+GO
+
+CREATE TABLE MIRRORING_GUYS.FormaPago (
+	id						INT	IDENTITY(1,1) NOT NULL,
+	descripcion				NVARCHAR(255) NOT NULL,
+
+	PRIMARY KEY (id)
+)
+GO
+
+--ALTER TABLE [MIRRORING_GUYS].[Empresa] WITH CHECK ADD FOREIGN KEY(id_direccion) REFERENCES [MIRRORING_GUYS].[Direccion](id)
+--ALTER TABLE [MIRRORING_GUYS].[Empresa] WITH CHECK ADD FOREIGN KEY(id_rubro) REFERENCES [MIRRORING_GUYS].[Rubro](id)
+--ALTER TABLE [MIRRORING_GUYS].[Devolucion] WITH CHECK ADD FOREIGN KEY(id_factura) REFERENCES [MIRRORING_GUYS].[Factura](id)
+--ALTER TABLE [MIRRORING_GUYS].[Direccion] WITH CHECK ADD FOREIGN KEY(id_codigo_postal) REFERENCES [MIRRORING_GUYS].[CodigoPostal](id)
+--ALTER TABLE [MIRRORING_GUYS].[Cliente] WITH CHECK ADD FOREIGN KEY(id_direccion) REFERENCES [MIRRORING_GUYS].[Direccion](id)
+--ALTER TABLE [MIRRORING_GUYS].[Factura] WITH CHECK ADD FOREIGN KEY(id_cliente) REFERENCES [MIRRORING_GUYS].[Cliente](id)
+--ALTER TABLE [MIRRORING_GUYS].[Factura] WITH CHECK ADD FOREIGN KEY(id_empresa) REFERENCES [MIRRORING_GUYS].[Empresa](id)
+--ALTER TABLE [MIRRORING_GUYS].[Factura] WITH CHECK ADD FOREIGN KEY(id_pago) REFERENCES [MIRRORING_GUYS].[Pago](id)
+--ALTER TABLE [MIRRORING_GUYS].[Factura] WITH CHECK ADD FOREIGN KEY(id_rendicion) REFERENCES [MIRRORING_GUYS].[Rendicion](id)
+--ALTER TABLE [MIRRORING_GUYS].[ItemFactura] WITH CHECK ADD FOREIGN KEY(id_factura) REFERENCES [MIRRORING_GUYS].[ItemFactura](id)
+--ALTER TABLE [MIRRORING_GUYS].[Sucursal] WITH CHECK ADD FOREIGN KEY(id_direccion) REFERENCES [MIRRORING_GUYS].[Direccion](id)
+--ALTER TABLE [MIRRORING_GUYS].[Pago] WITH CHECK ADD FOREIGN KEY(id_forma_pago) REFERENCES [MIRRORING_GUYS].[FormaPago](id)
+--ALTER TABLE [MIRRORING_GUYS].[Pago] WITH CHECK ADD FOREIGN KEY(id_sucursal) REFERENCES [MIRRORING_GUYS].[Sucursal](id)
+--ALTER TABLE [MIRRORING_GUYS].[Pago] WITH CHECK ADD FOREIGN KEY(id_cliente) REFERENCES [MIRRORING_GUYS].[Cliente](id)
+--ALTER TABLE [MIRRORING_GUYS].[HistoricoPago] WITH CHECK ADD FOREIGN KEY(id_factura) REFERENCES [MIRRORING_GUYS].[Factura](id)
+--ALTER TABLE [MIRRORING_GUYS].[HistoricoPago] WITH CHECK ADD FOREIGN KEY(id_pago) REFERENCES [MIRRORING_GUYS].[Pago](id)
+
+INSERT INTO MIRRORING_GUYS.Rubro(descripcion)
+SELECT DISTINCT Rubro_Descripcion 
+FROM gd_esquema.Maestra 
+WHERE Rubro_Descripcion IS NOT NULL
+GO
+
+INSERT INTO MIRRORING_GUYS.Direccion(direccion, codigo_postal)
+SELECT DISTINCT Empresa_Direccion, NULL 
+FROM [gd_esquema].[Maestra]
+UNION
+SELECT DISTINCT Cliente_Direccion, Cliente_Codigo_Postal 
+FROM [gd_esquema].[Maestra]
+UNION
+SELECT DISTINCT Sucursal_Dirección, Sucursal_Codigo_Postal
+FROM [gd_esquema].[Maestra]
+WHERE Sucursal_Dirección IS NOT NULL
+GO
+
+INSERT INTO MIRRORING_GUYS.Rendicion(nro, fecha)
+SELECT DISTINCT Rendicion_Nro, Rendicion_Fecha 
+FROM gd_esquema.Maestra 
+WHERE Rendicion_Nro IS NOT NULL
+GO
+
+INSERT INTO MIRRORING_GUYS.FormaPago(descripcion)
+SELECT DISTINCT FormaPagoDescripcion 
+FROM gd_esquema.Maestra 
+WHERE FormaPagoDescripcion IS NOT NULL
+GO
+
+INSERT INTO MIRRORING_GUYS.Cliente(dni, nombre, apellido, email, fecha_nacimiento, id_direccion)
+SELECT DISTINCT m.[Cliente-Dni], m.[Cliente-Nombre], m.[Cliente-Apellido], m.[Cliente_Mail], m.[Cliente-Fecha_Nac], d.id
+FROM [gd_esquema].[Maestra] m, [MIRRORING_GUYS].[Direccion] d
+WHERE m.Cliente_Codigo_Postal = d.codigo_postal AND m.Cliente_Direccion = d.direccion
+GO
+
+INSERT INTO MIRRORING_GUYS.Sucursal(nombre, id_direccion)
+SELECT DISTINCT m.Sucursal_Nombre, d.id
+FROM [gd_esquema].[Maestra] m, [MIRRORING_GUYS].[Direccion] d
+WHERE m.Sucursal_Codigo_Postal = d.codigo_postal AND m.Sucursal_Dirección = d.direccion AND m.Sucursal_Dirección IS NOT NULL
+GO
+
+INSERT INTO MIRRORING_GUYS.Empresa(cuit, nombre, id_direccion, id_rubro)
+SELECT DISTINCT m.Empresa_Cuit, m.Empresa_Nombre, d.id, r.id
+FROM [gd_esquema].[Maestra] m, [MIRRORING_GUYS].[Direccion] d, [MIRRORING_GUYS].[Rubro] r
+WHERE m.Empresa_Direccion = d.direccion AND m.Rubro_Descripcion = r.descripcion
+GO
+
+INSERT INTO MIRRORING_GUYS.Pago(nro, fecha, id_forma_pago, id_sucursal, id_cliente)
+SELECT DISTINCT m.Pago_nro, m.Pago_Fecha, fp.id, s.id, c.id
+FROM [gd_esquema].[Maestra] m, [MIRRORING_GUYS].[FormaPago] fp, [MIRRORING_GUYS].[Sucursal] s, [MIRRORING_GUYS].[Cliente] c
+WHERE m.FormaPagoDescripcion = fp.descripcion AND m.Sucursal_Nombre = s.nombre AND m.[Cliente-Dni] = c.dni
+ORDER BY m.Pago_nro
+GO
+
+INSERT INTO MIRRORING_GUYS.Factura(nro, fecha, fecha_vencimiento, id_cliente, id_empresa, id_pago, id_rendicion)
+SELECT DISTINCT
+	m.Nro_Factura, 
+	m.Factura_Fecha, 
+	m.Factura_Fecha_Vencimiento,
+	c.id, 
+	e.id,
+	p.id,
+	r.id
+FROM [gd_esquema].[Maestra] m
+LEFT JOIN [MIRRORING_GUYS].[Cliente] AS c ON m.[Cliente-Dni] = c.dni
+LEFT JOIN [MIRRORING_GUYS].[Empresa] AS e ON m.Empresa_Cuit = e.cuit
+RIGHT JOIN [MIRRORING_GUYS].[Pago] AS p ON m.Pago_nro = p.nro
+RIGHT JOIN [MIRRORING_GUYS].[Rendicion] AS r ON m.Rendicion_Nro = r.nro
+ORDER BY m.Nro_Factura
+GO
+
+INSERT INTO MIRRORING_GUYS.Factura(nro, fecha, fecha_vencimiento, id_cliente, id_empresa, id_pago)
+SELECT DISTINCT
+	m.Nro_Factura, 
+	m.Factura_Fecha, 
+	m.Factura_Fecha_Vencimiento,
+	c.id, 
+	e.id,
+	p.id
+FROM [gd_esquema].[Maestra] m
+LEFT JOIN [MIRRORING_GUYS].[Cliente] AS c ON m.[Cliente-Dni] = c.dni
+LEFT JOIN [MIRRORING_GUYS].[Empresa] AS e ON m.Empresa_Cuit = e.cuit
+RIGHT JOIN [MIRRORING_GUYS].[Pago] AS p ON m.Pago_nro = p.nro
+LEFT JOIN [MIRRORING_GUYS].[Factura] AS f ON f.nro = m.Nro_Factura
+WHERE f.id IS NULL
+ORDER BY m.Nro_Factura
+GO
+
+INSERT INTO MIRRORING_GUYS.Factura(nro, fecha, fecha_vencimiento, id_cliente, id_empresa)
+SELECT DISTINCT
+	m.Nro_Factura, 
+	m.Factura_Fecha, 
+	m.Factura_Fecha_Vencimiento,
+	c.id, 
+	e.id
+FROM [gd_esquema].[Maestra] m
+LEFT JOIN [MIRRORING_GUYS].[Cliente] AS c ON m.[Cliente-Dni] = c.dni
+LEFT JOIN [MIRRORING_GUYS].[Empresa] AS e ON m.Empresa_Cuit = e.cuit
+LEFT JOIN [MIRRORING_GUYS].[Factura] AS f ON f.nro = m.Nro_Factura
+WHERE f.id IS NULL
+ORDER BY m.Nro_Factura
+GO
+
+INSERT INTO MIRRORING_GUYS.ItemFactura(id_factura, cantidad, monto)
+SELECT DISTINCT
+	f.id,
+	m.ItemFactura_Cantidad, 
+	m.ItemFactura_Monto
+FROM [gd_esquema].[Maestra] m, [MIRRORING_GUYS].[Factura] f 
+WHERE f.nro = m.Nro_Factura
+GO
+
+INSERT INTO MIRRORING_GUYS.HistoricoPago(id_factura, id_pago)
+SELECT f.id, f.id_pago
+FROM [MIRRORING_GUYS].[Factura] f
+WHERE f.id_pago IS NOT NULL
+GO
