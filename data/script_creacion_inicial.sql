@@ -413,7 +413,7 @@ CREATE TABLE MIRRORING_GUYS.Cliente (
 	apellido				NVARCHAR(255) NOT NULL,
 	nombre					NVARCHAR(255) NOT NULL,
 	fecha_nacimiento		DATETIME NOT NULL,
-	email					NVARCHAR(255) NOT NULL,
+	email					NVARCHAR(255) NOT NULL UNIQUE,
 	telefono				INT,
 	habilitado				BIT NOT NULL DEFAULT 1,
 	id_direccion			INT NOT NULL,
