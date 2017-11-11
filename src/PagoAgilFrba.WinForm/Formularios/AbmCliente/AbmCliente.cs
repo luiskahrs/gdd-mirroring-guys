@@ -29,7 +29,6 @@
             }
             else
             {
-                dni = 0;
             }
 
             return Cliente.Listar(txtNombre.Text, txtApellido.Text, dni);

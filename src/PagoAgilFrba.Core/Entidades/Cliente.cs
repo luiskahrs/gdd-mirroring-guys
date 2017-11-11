@@ -19,10 +19,14 @@
         {
             using (Database dl = new Database())
             {
-                return dl.EjecutarQuery(@"SELECT Apellido, Nombre, DNI FROM [MIRRORING_GUYS].[Cliente] 
-                                    WHERE Nombre LIKE @Nombre 
-                                    Order by Apellido",
-                                        Database.CrearParametro("@Nombre", string.Format("%{0}%", nombre)));
+                return dl.EjecutarQuery(@"SELECT Apellido, Nombre, DNI FROM[MIRRORING_GUYS].Cliente
+                                            WHERE Nombre LIKE @Nombre AND Apellido LIKE @Apellido
+                                            AND
+                                            ((@dni > 0 and dni = @dni) OR @dni = 0)
+                                            Order by Apellido",
+                                        Database.CrearParametro("@Nombre", string.Format("%{0}%", nombre)),
+                                        Database.CrearParametro("@Apellido", string.Format("%{0}%", apellido)),
+                                        Database.CrearParametro("@dni", dni));
             }
         }
 
