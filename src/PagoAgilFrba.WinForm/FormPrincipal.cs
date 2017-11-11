@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PagoAgilFrba.Core;
+using PagoAgilFrba.Formularios.Login;
 
 namespace PagoAgilFrba
 {
@@ -22,13 +23,43 @@ namespace PagoAgilFrba
 
         private void FormPrincipal_Load(object sender, EventArgs e)
         {
+            var dtPrivilegios = new DataTable();
+
             try
             {
-                DataTable dtPrivilegios = _usuario.ObtenerPrivilegios();
+                // Tengo que mostrar si tiene mas de un rol el pop up
+                var dtRoles = _usuario.ObtenerRoles();
 
-                // Hay que ver como controlar las solapas aca.
+                if (dtRoles.Rows.Count > 1)
+                {
+                    var roles = new List<Rol>();
+
+                    foreach (DataRow dr in dtRoles.Rows)
+                    {
+                        roles.Add(new Rol
+                        {
+                            Id = (int)dr["Id"],
+                            Nombre = dr["nombre"].ToString()
+                        });
+                    }
+
+                    var formRoles = new FormSelRol(roles);
+
+                    if (formRoles.ShowDialog() == DialogResult.OK)
+                    {
+                        dtPrivilegios = _usuario.ObtenerPrivilegios(formRoles.Rol.Id.Value);
+                    }
+                }
+                else
+                {
+                    dtPrivilegios = _usuario.ObtenerPrivilegios();
+                }
+
                 if (dtPrivilegios == null || dtPrivilegios.Rows.Count == 0)
+                {
                     throw new PagoAgilException("No tiene ningun privilegio");
+                }
+
                 foreach (DataRow dr in dtPrivilegios.Rows)
                 {
                     TreeNode nodo = treeView1.Nodes.Add(dr["nombre"].ToString());
@@ -81,18 +112,8 @@ namespace PagoAgilFrba
                 }
             }
 
-            ToolStripMenuItem newMenuTab = new ToolStripMenuItem();   //create menu to hold tab
-            newMenuTab.Text = newChild.Text;                    //make sure the name and text are same to synchonize later
-            newMenuTab.Name = newChild.Name;
-            mnuTab.DropDownItems.Add(newMenuTab);    //add menu item
-            newMenuTab.Click += new EventHandler(newMenuTab_Click); //add event handler
             tabControl1.SelectTab(childTab);     //this is to make sure that tab page is selected in the same time
             newChild.Show();                                 //as new form created so that corresponding tab and child form is active
-        }
-
-        void newMenuTab_Click(object sender, EventArgs e)
-        {
-            SeleccionarSolapa(sender.ToString());  //sender is the clicked menu 
         }
 
         private void SeleccionarSolapa(string nombreSolapa)
@@ -111,16 +132,6 @@ namespace PagoAgilFrba
                     }
                 }
             }
-        }
-
-        private void mnuClose_Click(object sender, EventArgs e)
-        {
-            if (tabControl1.SelectedTab == null) return;
-            //if you want to close tab, you must close the corresponding form
-            mnuTab.DropDownItems.RemoveByKey(tabControl1.SelectedTab.Name);   //this is why you must make sure menu's and tab page's name are same
-            this.ActiveMdiChild.Close();                  //because of synchronize routine, you must close the form first before tab.
-            tabControl1.SelectedTab.Dispose();    //if tab first, activated tab will change and so the child form, this will be the closed form.
-            //the wrong form will close....
         }
 
         private void tabControl1_Selected(object sender, TabControlEventArgs e)
