@@ -400,7 +400,7 @@ GO
 
 CREATE TABLE MIRRORING_GUYS.Direccion (
 	id						INT	IDENTITY(1,1) NOT NULL,
-	direccion				NVARCHAR(255) NOT NULL,
+	calle   				NVARCHAR(255) NOT NULL,
 	codigo_postal			NVARCHAR(255),
 	
 	PRIMARY KEY (id)
@@ -415,6 +415,7 @@ CREATE TABLE MIRRORING_GUYS.Cliente (
 	fecha_nacimiento		DATETIME NOT NULL,
 	email					NVARCHAR(255) NOT NULL,
 	telefono				INT,
+	habilitado				BIT NOT NULL DEFAULT 1,
 	id_direccion			INT NOT NULL,
 	
 	PRIMARY KEY (id)
