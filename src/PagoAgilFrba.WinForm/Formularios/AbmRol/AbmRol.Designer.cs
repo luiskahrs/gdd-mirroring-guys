@@ -36,6 +36,10 @@
             this.grpBusqueda.SuspendLayout();
             this.SuspendLayout();
             // 
+            // panel1
+            // 
+            this.panel1.Size = new System.Drawing.Size(590, 512);
+            // 
             // grpBusqueda
             // 
             this.grpBusqueda.Controls.Add(this.label2);
@@ -82,12 +86,12 @@
             this.label2.TabIndex = 7;
             this.label2.Text = "Estado";
             // 
-            // FormListaRoles
+            // AbmRol
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(590, 511);
-            this.Name = "FormListaRoles";
+            this.ClientSize = new System.Drawing.Size(590, 512);
+            this.Name = "AbmRol";
             this.Text = "ABM Roles";
             this.panel1.ResumeLayout(false);
             this.grpBusqueda.ResumeLayout(false);
