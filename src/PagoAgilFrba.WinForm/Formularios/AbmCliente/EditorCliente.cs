@@ -9,37 +9,33 @@ namespace PagoAgilFrba
 {
     public partial class EditorCliente : EditorBase
     {
-        Rol _rol;
-        public EditorCliente(Rol rol) : base(rol)
+        Cliente _cliente;
+        public EditorCliente(Cliente cliente) : base(cliente)
         {
-            _rol = rol;
+            _cliente = cliente;
             InitializeComponent();
         }
+
         protected override void InicializarFormulario()
         {
             base.InicializarFormulario();
-            DataTable dt = _rol.ObtenerFuncionalidades();
-            txtNombre.Text = _rol.EsNuevo()? "Nuevo rol" : _rol.Nombre;
-            ckHabilitado.Checked = _rol.Habilitado;
-
-            //Cargo los privilegios
-            foreach (DataRow dr in dt.Rows)
-                dgFuncionalidades.Rows.Add(dr.ItemArray);
+            txtNombre.Text = _cliente.EsNuevo()? "Nuevo Cliente" : _cliente.Nombre;
+            ckHabilitado.Checked = _cliente.Habilitado;
         }
         protected override void Guardar()
         {
-            _rol.Nombre = txtNombre.Text;
-            _rol.Habilitado = ckHabilitado.Checked;
-            _rol.Funcionalidades = new List<int>();
+            //_rol.Nombre = txtNombre.Text;
+            //_rol.Habilitado = ckHabilitado.Checked;
+            //_rol.Funcionalidades = new List<int>();
             
-            List<DataGridViewRow> filasCheckeadas = new List<DataGridViewRow>();
-            foreach (DataGridViewRow row in dgFuncionalidades.Rows)
-            {
-                //Si la primer columna de los checks, está en true, guardo los privilegios
-                if (Convert.ToInt16(row.Cells[0].Value) == 1)
-                    _rol.Funcionalidades.Add(Convert.ToInt32(row.Cells[2].Value));
-            }
-            _rol.Guardar();
+            //List<DataGridViewRow> filasCheckeadas = new List<DataGridViewRow>();
+            //foreach (DataGridViewRow row in dgFuncionalidades.Rows)
+            //{
+            //    //Si la primer columna de los checks, está en true, guardo los privilegios
+            //    if (Convert.ToInt16(row.Cells[0].Value) == 1)
+            //        _rol.Funcionalidades.Add(Convert.ToInt32(row.Cells[2].Value));
+            //}
+            //_rol.Guardar();
         }
         protected override void RealizarValidaciones()
         {

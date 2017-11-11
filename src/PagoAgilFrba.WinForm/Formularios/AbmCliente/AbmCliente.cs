@@ -1,6 +1,6 @@
 ﻿namespace PagoAgilFrba
 {
-    using PagoAgilFrba.Core;
+    using Core;
     using System;
     using System.Data;
     using System.Windows.Forms;
@@ -36,25 +36,32 @@
 
         protected override void AbrirElemento(DataGridViewRow dr)
         {
-            Rol rol = CrearRolDesdeDataRow(dr);
-            EditorRol editor = new EditorRol(rol);
+            Cliente cliente = CrearClienteDesdeDataRow(dr);
+            EditorCliente editor = new EditorCliente(cliente);
+
             if (editor.ShowDialog() == DialogResult.OK)
+            {
                 CargarGrilla();
+            }
+        }
+
+        protected override void EliminarElemento(DataGridViewRow dr)
+        {
+            Cliente cliente = CrearClienteDesdeDataRow(dr);
+            cliente.Eliminar();
+            this.CargarGrilla();
         }
 
         public override bool AgregarElemento()
         {
-            EditorRol editor = new EditorRol(new Rol());
+            EditorCliente editor = new EditorCliente(new Cliente());
             return editor.ShowDialog() == DialogResult.OK;
         }
-        public Rol CrearRolDesdeDataRow(DataGridViewRow dr)
+
+        public Cliente CrearClienteDesdeDataRow(DataGridViewRow dr)
         {
-            return new Rol()
-            {
-                Id = Convert.ToInt32(dr.Cells["Id"].Value),
-                Habilitado = Convert.ToBoolean(dr.Cells["Habilitado"].Value),
-                Nombre = dr.Cells["Nombre"].Value.ToString()
-            };
+            Cliente cliente = Cliente.Obtener(Convert.ToInt32(dr.Cells["Id"].Value));
+            return cliente;
         }     
     }
 }
