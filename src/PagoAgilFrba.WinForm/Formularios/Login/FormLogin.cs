@@ -1,13 +1,20 @@
-﻿using PagoAgilFrba.Core;
-using System;
-using System.Windows.Forms;
-
-namespace PagoAgilFrba
+﻿namespace PagoAgilFrba
 {
+    using PagoAgilFrba.Core;
+    using System;
+    using System.Windows.Forms;
+
     public partial class FormLogin : Form
     {
         private Usuario _usuario;
-        public Usuario Usuario { get { return _usuario; } } //nose porque no me reconoce la clase cliente :S 
+
+        public Usuario Usuario
+        {
+            get
+                {
+                    return _usuario;
+            }
+        }
         
         public FormLogin()
         {
@@ -19,11 +26,16 @@ namespace PagoAgilFrba
             try
             {
                 if (String.IsNullOrWhiteSpace(txtUsuario.Text))
+                {
                     throw new PagoAgilException("Debe ingresar el nombre de usuario.");
+                }
                 if (String.IsNullOrWhiteSpace(txtPassword.Text))
+                { 
                     throw new PagoAgilException("Debe ingresar su contraseña.");
+                }
 
                 _usuario = Usuario.Loguear(txtUsuario.Text, txtPassword.Text);
+
                 DialogResult = DialogResult.OK;
                 this.Close();
             }

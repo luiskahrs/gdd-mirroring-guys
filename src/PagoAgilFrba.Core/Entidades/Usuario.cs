@@ -10,6 +10,28 @@
         public int LoginsFallidos { get; set; }
         public bool Habilitado { get; set; }
 
+        public DataTable ObtenerPrivilegios(int rolId)
+        {
+            try
+            {
+                using (Database dl = new Database())
+                {
+                    return dl.EjecutarQuery(@"SELECT DISTINCT f.*
+                                                FROM MIRRORING_GUYS.Usuario u
+                                                INNER JOIN MIRRORING_GUYS.UsuarioRol ur ON u.id = ur.id_usuario
+                                                INNER JOIN MIRRORING_GUYS.FuncPorRol fpr ON fpr.id_rol = ur.id_rol
+                                                INNER JOIN MIRRORING_GUYS.Funcionalidad f ON fpr.id_func = f.id
+                                                WHERE u.id = @UsuarioId AND ur.id_rol = @RolId", 
+                                                Database.CrearParametro("@UsuarioId", this.Id),
+                                                Database.CrearParametro("@RolId", rolId));
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public DataTable ObtenerPrivilegios()
         {
             try
@@ -22,6 +44,26 @@
                                                 INNER JOIN MIRRORING_GUYS.FuncPorRol fpr ON fpr.id_rol = ur.id_rol
                                                 INNER JOIN MIRRORING_GUYS.Funcionalidad f ON fpr.id_func = f.id
                                                 WHERE u.id = @UsuarioId", Database.CrearParametro("@UsuarioId", this.Id));
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public DataTable ObtenerRoles()
+        {
+            try
+            {
+                using (Database dl = new Database())
+                {
+                    return dl.EjecutarQuery(@"SELECT DISTINCT r.Id, r.nombre
+                                                FROM MIRRORING_GUYS.Usuario u
+                                                INNER JOIN MIRRORING_GUYS.UsuarioRol ur ON u.id = ur.id_usuario
+                                                INNER JOIN MIRRORING_GUYS.Rol r ON ur.id_rol = r.id
+                                                WHERE u.id = @UsuarioId", 
+                                                Database.CrearParametro("@UsuarioId", this.Id));
                 }
             }
             catch

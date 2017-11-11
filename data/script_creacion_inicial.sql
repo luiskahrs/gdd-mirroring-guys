@@ -188,7 +188,7 @@ GO
 
 CREATE TABLE [MIRRORING_GUYS].[Usuario](
 	[id] [int] IDENTITY(1,1) NOT NULL,
-	[username] [varchar](20) NOT NULL,
+	[username] [varchar](20) NOT NULL UNIQUE,
 	[password] [char](64) NOT NULL,
 	[logins_fallidos] [tinyint] NOT NULL,
 	[habilitado] [bit] NOT NULL
@@ -313,6 +313,12 @@ GO
 insert into [MIRRORING_GUYS].[Usuario] ([username], [password], [logins_fallidos], [habilitado]) values
 	('admin', 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', 0, 1)
 
+insert into [MIRRORING_GUYS].[Usuario] ([username], [password], [logins_fallidos], [habilitado]) values
+	('cobrador', 'fda9be620062a617156c1c6dbc788a6a204f85fe06e8ead0e3a43817b0e382db', 0, 1)
+
+insert into [MIRRORING_GUYS].[Usuario] ([username], [password], [logins_fallidos], [habilitado]) values
+	('superadmin', '186cf774c97b60a1c106ef718d10970a6a06e06bef89553d9ae65d938a886eae', 0, 1)
+
 insert into [MIRRORING_GUYS].[Rol] ([nombre]) values
 	('Administrador')
 
@@ -323,6 +329,18 @@ insert into [MIRRORING_GUYS].[UsuarioRol] ([id_usuario], [id_rol]) values (
 	(select id from [MIRRORING_GUYS].[Usuario] where username = 'admin'),
 	(select id from [MIRRORING_GUYS].[Rol] where nombre = 'Administrador'))
 
+insert into [MIRRORING_GUYS].[UsuarioRol] ([id_usuario], [id_rol]) values (
+	(select id from [MIRRORING_GUYS].[Usuario] where username = 'cobrador'),
+	(select id from [MIRRORING_GUYS].[Rol] where nombre = 'Cobrador'))
+
+insert into [MIRRORING_GUYS].[UsuarioRol] ([id_usuario], [id_rol]) values (
+	(select id from [MIRRORING_GUYS].[Usuario] where username = 'superadmin'),
+	(select id from [MIRRORING_GUYS].[Rol] where nombre = 'Administrador'))
+
+insert into [MIRRORING_GUYS].[UsuarioRol] ([id_usuario], [id_rol]) values (
+	(select id from [MIRRORING_GUYS].[Usuario] where username = 'superadmin'),
+	(select id from [MIRRORING_GUYS].[Rol] where nombre = 'Cobrador'))
+
 INSERT INTO [MIRRORING_GUYS].[Funcionalidad] (nombre,formulario) VALUES ('ABM de Rol','PagoAgilFrba.AbmRol')
 INSERT INTO [MIRRORING_GUYS].[Funcionalidad] (nombre,formulario) VALUES ('ABM de Cliente','PagoAgilFrba.AbmCliente')
 INSERT INTO [MIRRORING_GUYS].[Funcionalidad] (nombre,formulario) VALUES ('ABM de Empresa','PagoAgilFrba.AbmEmpresa')
@@ -331,6 +349,7 @@ INSERT INTO [MIRRORING_GUYS].[Funcionalidad] (nombre,formulario) VALUES ('ABM de
 INSERT INTO [MIRRORING_GUYS].[Funcionalidad] (nombre,formulario) VALUES ('Listado Estadistico','PagoAgilFrba.ListadoEstadistico')
 INSERT INTO [MIRRORING_GUYS].[Funcionalidad] (nombre,formulario) VALUES ('Registro de Pagos','PagoAgilFrba.RegistroPago')
 INSERT INTO [MIRRORING_GUYS].[Funcionalidad] (nombre,formulario) VALUES ('Rendicion','PagoAgilFrba.Rendicion')
+INSERT INTO [MIRRORING_GUYS].[Funcionalidad] (nombre,formulario) VALUES ('Devolucion','PagoAgilFrba.Devolucion')
 
 INSERT INTO [MIRRORING_GUYS].[FuncPorRol] (id_rol, id_func)
 	SELECT
@@ -338,6 +357,14 @@ INSERT INTO [MIRRORING_GUYS].[FuncPorRol] (id_rol, id_func)
 		f.id
 	FROM	
 		[MIRRORING_GUYS].[Funcionalidad] f
+
+INSERT INTO [MIRRORING_GUYS].[FuncPorRol] (id_rol, id_func)
+	SELECT
+		(SELECT id FROM [MIRRORING_GUYS].[Rol] where nombre = 'Cobrador'),
+		f.id
+	FROM	
+		[MIRRORING_GUYS].[Funcionalidad] f
+	WHERE f.nombre IN ('ABM de Factura', 'Registro de Pagos')
 
 CREATE TABLE MIRRORING_GUYS.Rubro (
 	id						INT	IDENTITY(1,1) NOT NULL,

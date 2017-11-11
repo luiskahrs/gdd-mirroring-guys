@@ -1,20 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Text;
-
-namespace PagoAgilFrba.Core
+﻿namespace PagoAgilFrba.Core
 {
+    using System.Collections.Generic;
+    using System.Data;
+
     public class Rol : EntidadBase
 	{
+        public string Nombre { get; set; }
+        public bool Habilitado { get; set; }
+        public List<int> Funcionalidades { get; set; }
+
         public Rol()
         {
             Habilitado = true;
             Funcionalidades = new List<int>();
         }
-		public string Nombre { get; set; }
-        public bool Habilitado { get; set; }
-        public List<int> Funcionalidades { get; set; }
 
         public static DataTable Listar(string nombre, string estado)
         {
@@ -28,6 +27,7 @@ namespace PagoAgilFrba.Core
                 Database.CrearParametro("@Estado", estado));
             }
         }
+
         public DataTable ObtenerFuncionalidades() 
         {
             using (Database dl = new Database())
@@ -40,6 +40,7 @@ namespace PagoAgilFrba.Core
                                     Database.CrearParametro("@RolId", this.Id.HasValue ? this.Id.Value : 0));
             }
         }
+
         public override void Guardar()
         {
             using (Database dl = new Database())
@@ -76,7 +77,6 @@ namespace PagoAgilFrba.Core
                 //Impacto todos los cambios
                 dl.ConfirmarTransaccion();
             }
-
         }
     }
 }
