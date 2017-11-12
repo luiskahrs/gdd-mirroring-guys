@@ -77,6 +77,18 @@
     <Compile Include="Formularios\AbmRol\EditorRol.Designer.cs">
       <DependentUpon>EditorRol.cs</DependentUpon>
     </Compile>
+    <Compile Include="Formularios\AbmSucursal\AbmSucursal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\AbmSucursal\AbmSucursal.Designer.cs">
+      <DependentUpon>AbmSucursal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\AbmSucursal\EditorSucursal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\AbmSucursal\EditorSucursal.Designer.cs">
+      <DependentUpon>EditorSucursal.cs</DependentUpon>
+    </Compile>
     <Compile Include="Formularios\Devolucion\Devolucion.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -118,12 +130,6 @@
     </Compile>
     <Compile Include="Formularios\AbmRol\AbmRol.Designer.cs">
       <DependentUpon>AbmRol.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Formularios\AbmSucursal\AbmSucursal.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Formularios\AbmSucursal\AbmSucursal.Designer.cs">
-      <DependentUpon>AbmSucursal.cs</DependentUpon>
     </Compile>
     <Compile Include="Formularios\ListadoEstadistico\ListadoEstadistico.cs">
       <SubType>Form</SubType>
@@ -190,6 +196,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Formularios\AbmSucursal\AbmSucursal.resx">
       <DependentUpon>AbmSucursal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\AbmSucursal\EditorSucursal.resx">
+      <DependentUpon>EditorSucursal.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Formularios\ListadoEstadistico\ListadoEstadistico.resx">
       <DependentUpon>ListadoEstadistico.cs</DependentUpon>
