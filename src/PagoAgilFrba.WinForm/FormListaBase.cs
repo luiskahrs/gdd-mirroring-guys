@@ -34,17 +34,21 @@ namespace PagoAgilFrba
                 InicializarFormulario();
                 CargarGrilla();
                 //agrego las 2 columas para poder abrir y borrar elementos
-                dgv.Columns.AddRange(Seleccionar,Eliminar);
+                dgv.Columns.AddRange(Seleccionar, Eliminar);
 
                 foreach (DataGridViewColumn col in dgv.Columns)
-	            {
+                {
                     if (col.Name.ToUpper().EndsWith("ID"))
                         col.Visible = false;
-	            } 
+                }
             }
-            catch
+            catch (PagoAgilException pEx)
             {
-                Generico.MostrarError("Ocurrió un error al iniciar el formulario.");
+                Generico.MostrarError("Ocurrió un error al iniciar el formulario: " + pEx.Message);
+            }
+            catch (Exception ex)
+            {
+                Generico.MostrarError("Ocurrió un error al iniciar el formulario: " + ex.Message);
             }
         }
 
@@ -59,9 +63,13 @@ namespace PagoAgilFrba
             {
                 CargarGrilla();
             }
-            catch 
+            catch (PagoAgilException pEx)
             {
-                MessageBox.Show("Ocurrió un error al obtener los datos.");
+                MessageBox.Show("Ocurrió un error al obtener los datos: " + pEx.Message);
+            }
+            catch (Exception Ex)
+            {
+                MessageBox.Show("Ocurrió un error al obtener los datos: " + Ex.Message);
             }
         }
 

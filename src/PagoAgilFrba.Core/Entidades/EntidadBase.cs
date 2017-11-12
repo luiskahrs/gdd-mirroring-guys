@@ -2,7 +2,6 @@
 {
     using System;
 
-
     public abstract class EntidadBase
     {
         public int? Id { get; set; }
@@ -22,14 +21,6 @@
         public virtual void Guardar()
         {
             throw new NotImplementedException("Debe implementar el método Guardar.");
-        }
-
-        /// <summary>
-        /// Se debe overridear el método y realizar el UPDATE para la entidad correspondiente
-        /// </summary>
-        public virtual void Actulizar()
-        {
-            throw new NotImplementedException("Debe implementar el método Actualizar.");
         }
 
         /// <summary>

@@ -43,8 +43,11 @@ namespace PagoAgilFrba
             try
             {
                 RealizarValidaciones();
+
                 if (sbErrores.Length > 0)
+                {
                     throw new PagoAgilException(sbErrores.ToString());
+                }
 
                 Guardar();
 
@@ -52,9 +55,9 @@ namespace PagoAgilFrba
                 DialogResult = DialogResult.OK;
                 this.Close();
             }
-            catch (PagoAgilException exN)
+            catch (PagoAgilException pEx)
             {
-                Generico.MostrarAdvertencia(exN.Message);
+                Generico.MostrarAdvertencia(pEx.Message);
             }
             catch (Exception ex)
             {
@@ -63,7 +66,8 @@ namespace PagoAgilFrba
         }
 
         protected virtual void RealizarValidaciones()
-        { }
+        {
+        }
 
         protected virtual void Guardar()
         {
