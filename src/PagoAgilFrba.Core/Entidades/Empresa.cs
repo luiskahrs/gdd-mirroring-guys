@@ -7,9 +7,10 @@
 	{
         public string Nombre { get; set; }
         public string Cuit { get; set; }
+        public int IdDireccion { get; set; }
         public string Direccion { get; set; }
         public string CodigoPostal { get; set; }
-        public string IdRubro { get; set; }
+        public int IdRubro { get; set; }
         public string Rubro { get; set; }
         public bool IsActiva { get; set; }
         public string DiaRedencion { get; set; }
@@ -19,17 +20,19 @@
         public Empresa(
             int id,
             string Nombre, 
-            string Cuit, 
+            string Cuit,
+            int IdDireccion, 
             string Direccion, 
             string CodigoPostal,
             string Rubro, 
-            string IdRubro, 
+            int IdRubro, 
             bool IsActiva,
             string DiaRedencion)
         {
             this.Id = id;
             this.Nombre = Nombre;
             this.Cuit = Cuit;
+            this.IdDireccion = IdDireccion;
             this.Direccion = Direccion;
             this.CodigoPostal = CodigoPostal;
             this.Rubro = Rubro;
@@ -50,6 +53,7 @@
 	                                                    E.nombre 'Nombre',
 	                                                    CASE WHEN E.esta_activa = 1 THEN 'si' ELSE 'no' END 'Esta activa',
 	                                                    E.dia_rendicion 'Dia de rendencion',
+                                                        D.id 'Direccion ID',
 	                                                    D.direccion 'Direccion',
                                                         D.codigo_postal 'Codigo Postal',
 	                                                    R.descripcion 'Rubro',
@@ -72,6 +76,7 @@
 	                                                    E.nombre 'Nombre',
 	                                                    CASE WHEN E.esta_activa = 1 THEN 'si' ELSE 'no' END 'Esta activa',
 	                                                    E.dia_rendicion 'Dia de rendencion',
+                                                        D.id 'Direccion ID',
 	                                                    D.direccion 'Direccion',
                                                         D.codigo_postal 'Codigo Postal',
 	                                                    R.descripcion 'Rubro',
@@ -101,6 +106,7 @@
 	                                                E.nombre 'Nombre',
 	                                                CASE WHEN E.esta_activa = 1 THEN 'si' ELSE 'no' END 'Esta activa',
 	                                                E.dia_rendicion 'Dia de rendencion',
+                                                    D.id 'Direccion ID',
 	                                                D.direccion 'Direccion',
                                                     D.codigo_postal 'Codigo Postal',
 	                                                R.descripcion 'Rubro',
@@ -110,42 +116,49 @@
                                                 Order by E.id");
             }
         }
-
+        
         public override void Guardar()
         {
-            //using (Database Database = new Database())
-            //{
-            //    Database.IniciarTransaccion();
-            //    if (this.EsNuevo())
-            //    {
-            //        this.Id = Database.EjecutarEscalar<int>("INSERT INTO [MIRRORING_GUYS].[Rol] (nombre, habilitado) output INSERTED.ID VALUES (@Nombre, @Habilitado)",
-            //            Database.CrearParametro("@Nombre", this.Nombre),
-            //            Database.CrearParametro("@Habilitado", this.Habilitado));
-            //    }
-            //    else //Si no es nuevo, actualizo los campos
-            //    {
-            //        Database.EjecutarNonQuery("UPDATE [MIRRORING_GUYS].[Rol] SET Nombre = @Nombre, Habilitado = @Habilitado WHERE Id = @RolId", CommandType.Text,
-            //            Database.CrearParametro("@Nombre", this.Nombre),
-            //            Database.CrearParametro("@Habilitado", this.Habilitado),
-            //            Database.CrearParametro("@RolId", this.Id));
-            //        //si lo deshabilito, tengo que borrarle el acceso a los usuarios.
-            //        if (!this.Habilitado)
-            //            Database.EjecutarNonQuery("DELETE FROM [MIRRORING_GUYS].[UsuarioRol] WHERE id_rol = @RolId", CommandType.Text,
-            //               Database.CrearParametro("@RolId", this.Id));
-            //    }
-            //    //Elimino todos los funcionalidades que tenga
-            //    Database.EjecutarNonQuery("DELETE FROM [MIRRORING_GUYS].[FuncPorRol] WHERE id_rol = @RolId", CommandType.Text, Database.CrearParametro("@RolId", this.Id));
-            //    //Inserto los que quedaron seleccionados de la grilla
-            //    foreach (int funcionalidadId in this.Funcionalidades)
-            //    {
-            //        Database.EjecutarNonQuery("INSERT INTO [MIRRORING_GUYS].[FuncPorRol] (id_func, id_rol) VALUES (@FuncionalidadId, @RolId)",
-            //            CommandType.Text,
-            //            Database.CrearParametro("@RolId", this.Id),
-            //            Database.CrearParametro("@FuncionalidadId", funcionalidadId));
-            //    }
-            //    //Impacto todos los cambios
-            //    Database.ConfirmarTransaccion();
-            //}
+            using (Database Database = new Database())
+            {
+                Database.IniciarTransaccion();
+                Direccion Direccion = new Direccion(this.Direccion, this.CodigoPostal);
+                if (this.Id == null)
+                {
+                    int IdDireccion = Direccion.Insert();
+
+                    this.Id = Database.EjecutarEscalar<int>(
+                        "INSERT INTO [MIRRORING_GUYS].[Empresa](cuit, nombre, esta_activa, dia_rendicion, id_direccion, id_rubro) " +
+                        "output INSERTED.ID " +
+                        "VALUES (@Cuit, @Nombre, @Act, @DRed, @Dir, @Rub)",
+                        Database.CrearParametro("@Cuit", this.Cuit),
+                        Database.CrearParametro("@Nombre", this.Nombre),
+                        Database.CrearParametro("@Act", this.IsActiva ? 1 : 0),
+                        Database.CrearParametro("@DRed", this.DiaRedencion),
+                        Database.CrearParametro("@Dir", IdDireccion),
+                        Database.CrearParametro("@Rub", this.IdRubro));
+                }
+                else
+                {
+                    Direccion.Id = this.IdDireccion;
+                    Direccion.Update();
+                    Database.EjecutarNonQuery(
+                        "UPDATE [MIRRORING_GUYS].[Empresa] SET "+
+                        "nombre = @Nombre, " +
+                        "esta_activa = @Act, "+
+                        "dia_rendicion = @DRed, " +
+                        "id_rubro = @Rub " +
+                        " WHERE id = @EId",
+                        CommandType.Text,
+                        Database.CrearParametro("@Nombre", this.Nombre),
+                        Database.CrearParametro("@Act", this.IsActiva ? 1 : 0),
+                        Database.CrearParametro("@DRed", this.DiaRedencion),
+                        Database.CrearParametro("@Rub", this.IdRubro),
+                        Database.CrearParametro("@EId", this.Id));
+                }
+                Database.ConfirmarTransaccion();
+            }
         }
+
     }
 }

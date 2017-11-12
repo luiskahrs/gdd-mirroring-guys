@@ -31,15 +31,31 @@ namespace PagoAgilFrba
             textDiaRedencion.Text = Empresa.DiaRedencion;
             tbCodigoPostal.Text = Empresa.CodigoPostal;
             txtNombre.Text = Empresa.Nombre;
-            textCuit.Text = Empresa.Cuit;
             ckActiva.Checked = Empresa.IsActiva;
             textDiaRedencion.Text = Empresa.DiaRedencion;
             comboBoxRubro.SelectedText = Empresa.Rubro;
             comboBoxRubro.SelectedValue = Empresa.IdRubro;
+            textCuit.Text = Empresa.Cuit;
+            if (Empresa.Id != null)
+                textCuit.Enabled = false;
         }
 
         protected override void Guardar()
         {
+            Empresa.Nombre = txtNombre.Text;
+            Empresa.Cuit = textCuit.Text;
+            Empresa.Direccion = textDireccion.Text;
+            Empresa.CodigoPostal = tbCodigoPostal.Text;
+            Empresa.IsActiva = ckActiva.Checked;
+            Empresa.DiaRedencion = textDiaRedencion.Text;
+
+            if (comboBoxRubro.SelectedItem != null)
+            {
+                Empresa.Rubro = (comboBoxRubro.SelectedItem as dynamic).Text;
+                string IdRub = (comboBoxRubro.SelectedItem as dynamic).Value.ToString();
+                Empresa.IdRubro = int.Parse(IdRub);
+            }
+
             Empresa.Guardar();
         }
 
@@ -49,10 +65,6 @@ namespace PagoAgilFrba
             if (String.IsNullOrWhiteSpace(txtNombre.Text))
                 sbErrores.AppendLine("Debe ingresar el nombre.");
 
-            System.Text.RegularExpressions.Regex regexCuit = new System.Text.RegularExpressions.Regex(@"[0-9]{2}-[0-9]{8}-[0-9]{2}");
-            if (!regexCuit.Match(textCuit.Text).Success)
-                sbErrores.AppendLine("Debe ingresar un cuit valido.");
-
             System.Text.RegularExpressions.Regex regexCodPost = new System.Text.RegularExpressions.Regex(@"[0-9]+");
             if (!regexCodPost.Match(tbCodigoPostal.Text).Success)
                 sbErrores.AppendLine("Debe ingresar un Codigo postal valido.");
@@ -60,8 +72,14 @@ namespace PagoAgilFrba
             if (!regexCodPost.Match(textDiaRedencion.Text).Success)
                 sbErrores.AppendLine("Debe ingresar un dia de redencion numerico.");
 
-            if (int.Parse(textDiaRedencion.Text) > 31)
+            if (int.Parse(textDiaRedencion.Text) > 28)
                 sbErrores.AppendLine("Debe ingresar un dia de redencion valido.");
+
+            string Cuit = textCuit.Text;
+            System.Text.RegularExpressions.Regex regexCuit = new System.Text.RegularExpressions.Regex(@"[0-9]-[0-9]{8}-[0-9]");
+            if (!regexCuit.Match(Cuit).Success)
+                sbErrores.AppendLine("Debe ingresar un cuit valido.");
+
         }
 
         private void label2_Click(object sender, EventArgs e)

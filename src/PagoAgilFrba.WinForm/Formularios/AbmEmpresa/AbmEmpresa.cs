@@ -43,12 +43,13 @@ namespace PagoAgilFrba
             string Cuit = dr.Cells["CUIT"].Value.ToString();
             bool IsActiva = dr.Cells["Esta Activa"].Value.ToString() == "si";
             string DiaRedencion = dr.Cells["Dia de rendencion"].Value.ToString();
+            string IdDireccion = dr.Cells["Direccion ID"].Value.ToString();
             string Direccion = dr.Cells["Direccion"].Value.ToString();
             string CodigoPostal = dr.Cells["Codigo Postal"].Value.ToString();
             string Rubro = dr.Cells["Rubro"].Value.ToString();
             string IdRubro = dr.Cells["Rubro ID"].Value.ToString();
 
-            Empresa Empresa = new Empresa(int.Parse(Id), Nombre, Cuit, Direccion, CodigoPostal, Rubro, IdRubro, IsActiva, DiaRedencion);
+            Empresa Empresa = new Empresa(int.Parse(Id), Nombre, Cuit, int.Parse(IdDireccion), Direccion, CodigoPostal, Rubro, int.Parse(IdRubro), IsActiva, DiaRedencion);
 
             EditorEmpresa editor = new EditorEmpresa(Empresa);
             
