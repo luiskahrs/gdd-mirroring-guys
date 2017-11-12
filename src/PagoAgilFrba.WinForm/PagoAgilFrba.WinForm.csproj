@@ -70,7 +70,7 @@
     </Compile>
     <Compile Include="Formularios\AbmEmpresa\EditorEmpresa.Designer.cs">
       <DependentUpon>EditorEmpresa.cs</DependentUpon>
-    </Compile>  
+    </Compile>
     <Compile Include="Formularios\AbmRol\EditorRol.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -131,6 +131,12 @@
     <Compile Include="Formularios\ListadoEstadistico\ListadoEstadistico.Designer.cs">
       <DependentUpon>ListadoEstadistico.cs</DependentUpon>
     </Compile>
+    <Compile Include="Formularios\Login\FormSelSuc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\Login\FormSelSuc.Designer.cs">
+      <DependentUpon>FormSelSuc.cs</DependentUpon>
+    </Compile>
     <Compile Include="Formularios\Login\FormSelRol.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -190,6 +196,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Formularios\Login\FormLogin.resx">
       <DependentUpon>FormLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\Login\FormSelSuc.resx">
+      <DependentUpon>FormSelSuc.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Formularios\Login\FormSelRol.resx">
       <DependentUpon>FormSelRol.cs</DependentUpon>

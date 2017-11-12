@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PagoAgilFrba.Core;
-using PagoAgilFrba.Formularios.Login;
 
 namespace PagoAgilFrba
 {

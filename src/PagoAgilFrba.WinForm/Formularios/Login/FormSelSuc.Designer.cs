@@ -1,6 +1,6 @@
 ﻿namespace PagoAgilFrba
-{ 
-    partial class FormSelRol
+{
+    partial class FormSelSuc
     {
         /// <summary>
         /// Required designer variable.
@@ -28,28 +28,28 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSelRol));
-            this.cbRoles = new System.Windows.Forms.ComboBox();
-            this.lblRol = new System.Windows.Forms.Label();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSelSuc));
+            this.cbSucursales = new System.Windows.Forms.ComboBox();
+            this.lblSuc = new System.Windows.Forms.Label();
             this.btAceptar = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // cbRoles
+            // cbSucursales
             // 
-            this.cbRoles.FormattingEnabled = true;
-            this.cbRoles.Location = new System.Drawing.Point(79, 12);
-            this.cbRoles.Name = "cbRoles";
-            this.cbRoles.Size = new System.Drawing.Size(163, 21);
-            this.cbRoles.TabIndex = 0;
+            this.cbSucursales.FormattingEnabled = true;
+            this.cbSucursales.Location = new System.Drawing.Point(79, 12);
+            this.cbSucursales.Name = "cbSucursales";
+            this.cbSucursales.Size = new System.Drawing.Size(163, 21);
+            this.cbSucursales.TabIndex = 0;
             // 
-            // lblRol
+            // lblSuc
             // 
-            this.lblRol.AutoSize = true;
-            this.lblRol.Location = new System.Drawing.Point(47, 15);
-            this.lblRol.Name = "lblRol";
-            this.lblRol.Size = new System.Drawing.Size(26, 13);
-            this.lblRol.TabIndex = 1;
-            this.lblRol.Text = "Rol:";
+            this.lblSuc.AutoSize = true;
+            this.lblSuc.Location = new System.Drawing.Point(22, 15);
+            this.lblSuc.Name = "lblSuc";
+            this.lblSuc.Size = new System.Drawing.Size(51, 13);
+            this.lblSuc.TabIndex = 1;
+            this.lblSuc.Text = "Sucursal:";
             // 
             // btAceptar
             // 
@@ -61,7 +61,7 @@
             this.btAceptar.UseVisualStyleBackColor = true;
             this.btAceptar.Click += new System.EventHandler(this.btAceptar_Click);
             // 
-            // FormSelRol
+            // FormSelSuc
             // 
             this.AcceptButton = this.btAceptar;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -69,12 +69,12 @@
             this.ClientSize = new System.Drawing.Size(284, 75);
             this.ControlBox = false;
             this.Controls.Add(this.btAceptar);
-            this.Controls.Add(this.lblRol);
-            this.Controls.Add(this.cbRoles);
+            this.Controls.Add(this.lblSuc);
+            this.Controls.Add(this.cbSucursales);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "FormSelRol";
+            this.Name = "FormSelSuc";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Selección de Rol";
+            this.Text = "Selección de Sucursal";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -82,8 +82,8 @@
 
         #endregion
 
-        private System.Windows.Forms.ComboBox cbRoles;
-        private System.Windows.Forms.Label lblRol;
+        private System.Windows.Forms.ComboBox cbSucursales;
+        private System.Windows.Forms.Label lblSuc;
         private System.Windows.Forms.Button btAceptar;
     }
 }
