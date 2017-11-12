@@ -28,7 +28,7 @@ namespace PagoAgilFrba
             else
             {
                 CargarFormulario(_cliente);
-            }   
+            }
         }
 
         protected override void Guardar()
@@ -41,6 +41,7 @@ namespace PagoAgilFrba
             _cliente.Direccion.Calle = txtDireccion.Text;
             _cliente.Direccion.Codigo_Postal = txtCodPostal.Text;
             _cliente.Fecha_Nacimiento = dtpFecNac.Value;
+            _cliente.Habilitado = ckHabilitado.Checked;
 
             _cliente.Guardar();
         }
@@ -111,6 +112,7 @@ namespace PagoAgilFrba
             txtDireccion.Text = string.Empty;
             txtCodPostal.Text = string.Empty;
             dtpFecNac.Value = DateTime.Now;
+            ckHabilitado.Checked = true;
         }
 
         private void CargarFormulario(Cliente cliente)
@@ -123,6 +125,7 @@ namespace PagoAgilFrba
             txtDireccion.Text = cliente.Direccion.Calle;
             txtCodPostal.Text = cliente.Direccion.Codigo_Postal;
             dtpFecNac.Value = cliente.Fecha_Nacimiento;
+            ckHabilitado.Checked = cliente.Habilitado;
         }
     }
 }

@@ -45,6 +45,7 @@
             this.lblCodPostal = new System.Windows.Forms.Label();
             this.lblFecNac = new System.Windows.Forms.Label();
             this.dtpFecNac = new System.Windows.Forms.DateTimePicker();
+            this.ckHabilitado = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // lblNombre
@@ -197,11 +198,23 @@
             this.dtpFecNac.Size = new System.Drawing.Size(200, 20);
             this.dtpFecNac.TabIndex = 16;
             // 
+            // ckHabilitado
+            // 
+            this.ckHabilitado.AutoSize = true;
+            this.ckHabilitado.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.ckHabilitado.Location = new System.Drawing.Point(81, 234);
+            this.ckHabilitado.Name = "ckHabilitado";
+            this.ckHabilitado.Size = new System.Drawing.Size(73, 17);
+            this.ckHabilitado.TabIndex = 17;
+            this.ckHabilitado.Text = "Habilitado";
+            this.ckHabilitado.UseVisualStyleBackColor = true;
+            // 
             // EditorCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(422, 273);
+            this.ClientSize = new System.Drawing.Size(422, 298);
+            this.Controls.Add(this.ckHabilitado);
             this.Controls.Add(this.dtpFecNac);
             this.Controls.Add(this.lblFecNac);
             this.Controls.Add(this.txtCodPostal);
@@ -237,6 +250,7 @@
             this.Controls.SetChildIndex(this.txtCodPostal, 0);
             this.Controls.SetChildIndex(this.lblFecNac, 0);
             this.Controls.SetChildIndex(this.dtpFecNac, 0);
+            this.Controls.SetChildIndex(this.ckHabilitado, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -260,5 +274,6 @@
         private System.Windows.Forms.Label lblCodPostal;
         private System.Windows.Forms.Label lblFecNac;
         private System.Windows.Forms.DateTimePicker dtpFecNac;
+        private System.Windows.Forms.CheckBox ckHabilitado;
     }
 }

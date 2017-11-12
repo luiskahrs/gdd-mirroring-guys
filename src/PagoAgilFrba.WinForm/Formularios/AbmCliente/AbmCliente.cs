@@ -47,9 +47,13 @@
 
         protected override void EliminarElemento(DataGridViewRow dr)
         {
-            Cliente cliente = CrearClienteDesdeDataRow(dr);
-            cliente.Eliminar();
-            this.CargarGrilla();
+            if (MessageBox.Show("Esta seguro que desea eliminar el cliente?", "Eliminar cliente", 
+                    MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                Cliente cliente = CrearClienteDesdeDataRow(dr);
+                cliente.Eliminar();
+                this.CargarGrilla();
+            }
         }
 
         public override bool AgregarElemento()
