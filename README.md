@@ -16,6 +16,7 @@ DROP TABLE [MIRRORING_GUYS].[Empresa]<br />
 <br />
 DROP TABLE [MIRRORING_GUYS].[FuncPorRol]<br />
 DROP TABLE [MIRRORING_GUYS].[UsuarioRol]<br />
+DROP TABLE [MIRRORING_GUYS].[UsuarioSucursal]<br />
 <br />
 DROP TABLE [MIRRORING_GUYS].[Funcionalidad]<br />
 DROP TABLE [MIRRORING_GUYS].[HistoricoPago]<br />
