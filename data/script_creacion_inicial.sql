@@ -583,6 +583,15 @@ FROM [gd_esquema].[Maestra] m, [MIRRORING_GUYS].[Direccion] d
 WHERE m.Sucursal_Codigo_Postal = d.codigo_postal AND m.Sucursal_Dirección = d.calle AND m.Sucursal_Dirección IS NOT NULL
 GO
 
+INSERT INTO [MIRRORING_GUYS].[UsuarioSucursal] (id_usuario, id_sucursal)
+	SELECT
+		u.id,
+		(SELECT TOP 1 id FROM [MIRRORING_GUYS].[Sucursal])
+	FROM	
+		[MIRRORING_GUYS].[Usuario] u
+
+GO
+
 INSERT INTO MIRRORING_GUYS.Empresa(cuit, nombre, id_direccion, id_rubro)
 SELECT DISTINCT m.Empresa_Cuit, m.Empresa_Nombre, d.id, r.id
 FROM [gd_esquema].[Maestra] m, [MIRRORING_GUYS].[Direccion] d, [MIRRORING_GUYS].[Rubro] r

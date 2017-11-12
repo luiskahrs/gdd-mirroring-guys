@@ -63,31 +63,72 @@
             }
         }
 
+        public override void Eliminar()
+        {
+            using (Database dl = new Database())
+            {
+                dl.IniciarTransaccion();
+
+                // Inhabilito a los usuarios
+                dl.EjecutarNonQuery(@"UPDATE u SET u.Habilitado = @Habilitado FROM [MIRRORING_GUYS].[Usuario] u
+		                                    INNER JOIN [MIRRORING_GUYS].[UsuarioSucursal] us
+		                                    on u.Id = us.id_usuario
+		                                    WHERE s.Id = @Id", CommandType.Text,
+                                            Database.CrearParametro("@Habilitado", false),
+                                            Database.CrearParametro("@Id", this.Id));
+
+                // Borro los registros de la tabla de relaciones
+                dl.EjecutarNonQuery("DELETE FROM [MIRRORING_GUYS].[UsuarioSucursal] WHERE id_sucursal = @Id", CommandType.Text,
+                                        Database.CrearParametro("@Id", this.Id));
+
+                // Inhabilito la sucursal
+                dl.EjecutarNonQuery("UPDATE [MIRRORING_GUYS].[Sucursal] SET Habilitado = @Habilitado WHERE Id = @Id", CommandType.Text,
+                    Database.CrearParametro("@Habilitado", false),
+                    Database.CrearParametro("@Id", this.Id));
+
+                dl.ConfirmarTransaccion();
+            }
+        }
+
         public override void Guardar()
         {
             using (Database dl = new Database())
             {
                 dl.IniciarTransaccion();
-                //Si el rol es nuevo, lo creo y obtengo el Id
-                if (this.EsNuevo())
+
+                try
                 {
-                    this.Id = dl.EjecutarEscalar<int>("INSERT INTO [MIRRORING_GUYS].[Rol] (nombre, habilitado) output INSERTED.ID VALUES (@Nombre, @Habilitado)",
-                        Database.CrearParametro("@Nombre", this.Nombre),
-                        Database.CrearParametro("@Habilitado", this.Habilitado));
+                    //Si es nuevo lo creo, si no, realizo la actualizacion de los datos.
+                    if (this.EsNuevo())
+                    {
+                        this.Direccion.Id = dl.EjecutarEscalar<int>("INSERT INTO [MIRRORING_GUYS].[Direccion] (calle, codigo_postal) output INSERTED.ID VALUES (@Calle, @Codigo_Postal)",
+                                            Database.CrearParametro("@Calle", this.Direccion.Calle),
+                                            Database.CrearParametro("@Codigo_Postal", this.Direccion.Codigo_Postal));
+
+                        this.Id = dl.EjecutarEscalar<int>("INSERT INTO [MIRRORING_GUYS].[Sucursal] (nombre, habilitado,id_direccion) output INSERTED.ID VALUES (@Nombre, @Habilitado, @Id_direccion)",
+                            Database.CrearParametro("@Nombre", this.Nombre),
+                            Database.CrearParametro("@Habilitado", 1),
+                            Database.CrearParametro("@Id_direccion", this.Direccion.Id));
+                    }
+                    else
+                    {
+                        dl.EjecutarNonQuery("UPDATE [MIRRORING_GUYS].[Direccion] SET Calle = @Calle, Codigo_Postal = @Codigo_Postal WHERE Id = @Id", CommandType.Text,
+                            Database.CrearParametro("@Calle", this.Direccion.Calle),
+                            Database.CrearParametro("@Codigo_Postal", this.Direccion.Codigo_Postal),
+                            Database.CrearParametro("@Id", this.Direccion.Id));
+
+                        dl.EjecutarNonQuery("UPDATE [MIRRORING_GUYS].[Sucursal] SET nombre = @Nombre, habilitado = @Habilitado, id_direccion = @Id_direccion WHERE id = @Id", CommandType.Text,
+                            Database.CrearParametro("@Nombre", this.Nombre),
+                            Database.CrearParametro("@Habilitado", this.Habilitado ? 1 : 0),
+                            Database.CrearParametro("@Id_direccion", this.Direccion.Id),
+                            Database.CrearParametro("@Id", this.Id));
+                    }
                 }
-                else //Si no es nuevo, actualizo los campos
+                catch (Exception ex)
                 {
-                    dl.EjecutarNonQuery("UPDATE [MIRRORING_GUYS].[Rol] SET Nombre = @Nombre, Habilitado = @Habilitado WHERE Id = @RolId", CommandType.Text,
-                        Database.CrearParametro("@Nombre", this.Nombre),
-                        Database.CrearParametro("@Habilitado", this.Habilitado),
-                        Database.CrearParametro("@RolId", this.Id));
-                    //si lo deshabilito, tengo que borrarle el acceso a los usuarios.
-                    if(!this.Habilitado)
-                        dl.EjecutarNonQuery("DELETE FROM [MIRRORING_GUYS].[UsuarioRol] WHERE id_rol = @RolId", CommandType.Text,
-                           Database.CrearParametro("@RolId", this.Id));
+                    dl.DeshacerTransaccion();
+                    throw new PagoAgilException("Ha ocurrido un error al grabar la sucursal, detalle: " + ex.Message);
                 }
-                //Elimino todos los funcionalidades que tenga
-                dl.EjecutarNonQuery("DELETE FROM [MIRRORING_GUYS].[FuncPorRol] WHERE id_rol = @RolId", CommandType.Text, Database.CrearParametro("@RolId", this.Id));
 
                 //Impacto todos los cambios
                 dl.ConfirmarTransaccion();
