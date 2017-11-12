@@ -1,19 +1,15 @@
-﻿using PagoAgilFrba.Core;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Text;
-using System.Windows.Forms;
-
-namespace PagoAgilFrba
+﻿namespace PagoAgilFrba
 {
+    using Core;
+    using System;
+
     public partial class EditorSucursal : EditorBase
     {
-        Cliente _cliente;
+        Sucursal _sucursal;
 
-        public EditorSucursal(Cliente cliente) : base(cliente)
+        public EditorSucursal(Sucursal sucursal) : base(sucursal)
         {
-            _cliente = cliente;
+            _sucursal = sucursal;
             InitializeComponent();
         }
 
@@ -21,29 +17,24 @@ namespace PagoAgilFrba
         {
             base.InicializarFormulario();
 
-            if (_cliente.EsNuevo())
+            if (_sucursal.EsNuevo())
             {
                 LimpiarFormulario();
             }
             else
             {
-                CargarFormulario(_cliente);
+                CargarFormulario(_sucursal);
             }
         }
 
         protected override void Guardar()
         {
-            _cliente.Nombre = txtNombre.Text;
-            _cliente.Apellido = txtApellido.Text;
-            _cliente.DNI = decimal.Parse(txtDNI.Text);
-            _cliente.Email = txtMail.Text;
-            _cliente.Telefono = txtTelefono.Text;
-            _cliente.Direccion.Calle = txtDireccion.Text;
-            _cliente.Direccion.Codigo_Postal = txtCodPostal.Text;
-            _cliente.Fecha_Nacimiento = dtpFecNac.Value;
-            _cliente.Habilitado = ckHabilitado.Checked;
+            _sucursal.Nombre = txtNombre.Text;
+            _sucursal.Direccion.Calle = txtDireccion.Text;
+            _sucursal.Direccion.Codigo_Postal = txtCodPostal.Text;
+            _sucursal.Habilitado = ckHabilitado.Checked;
 
-            _cliente.Guardar();
+            _sucursal.Guardar();
         }
 
         protected override void RealizarValidaciones()
@@ -56,40 +47,11 @@ namespace PagoAgilFrba
                 sbErrores.AppendLine("Debe indicar el nombre del cliente.");
             }
 
-            if (String.IsNullOrWhiteSpace(txtApellido.Text))
+            if (!_sucursal.ValidarCodigoPostal(txtCodPostal.Text))
             {
-                sbErrores.AppendLine("Debe indicar el apellido del cliente.");
+                sbErrores.AppendLine("Ya existe una sucrusal asociada al codigo postal en la base de datos. Ingrese uno distinto.");
             }
 
-            if (String.IsNullOrWhiteSpace(txtDNI.Text))
-            {
-                sbErrores.AppendLine("Debe indicar el DNI del cliente.");
-            }
-
-            if (!decimal.TryParse(txtDNI.Text, out decPrueba))
-            {
-                sbErrores.AppendLine("El DNI tiene que ser numérico.");
-            }
-
-            if (String.IsNullOrWhiteSpace(txtMail.Text))
-            {
-                sbErrores.AppendLine("Debe indicar el mail del cliente.");
-            }
-
-            if (!_cliente.ValidarMail(txtMail.Text))
-            {
-                sbErrores.AppendLine("El mail ya existe en la base de datos. Ingrese uno distinto.");
-            }
-
-            if (String.IsNullOrWhiteSpace(txtTelefono.Text))
-            {
-                sbErrores.AppendLine("Debe indicar el telefono del cliente.");
-            }
-
-            if (String.IsNullOrWhiteSpace(txtDireccion.Text))
-            {
-                sbErrores.AppendLine("Debe indicar la dirección del cliente.");
-            }
 
             if (String.IsNullOrWhiteSpace(txtCodPostal.Text))
             {
@@ -105,27 +67,17 @@ namespace PagoAgilFrba
         private void LimpiarFormulario()
         {
             txtNombre.Text = string.Empty;
-            txtApellido.Text = string.Empty;
-            txtDNI.Text = string.Empty;
-            txtMail.Text = string.Empty;
-            txtTelefono.Text = string.Empty;
             txtDireccion.Text = string.Empty;
             txtCodPostal.Text = string.Empty;
-            dtpFecNac.Value = DateTime.Now;
             ckHabilitado.Checked = true;
         }
 
-        private void CargarFormulario(Cliente cliente)
+        private void CargarFormulario(Sucursal sucursal)
         {
-            txtNombre.Text = cliente.Nombre;
-            txtApellido.Text = cliente.Apellido;
-            txtDNI.Text = cliente.DNI.ToString();
-            txtMail.Text = cliente.Email;
-            txtTelefono.Text = cliente.Telefono;
-            txtDireccion.Text = cliente.Direccion.Calle;
-            txtCodPostal.Text = cliente.Direccion.Codigo_Postal;
-            dtpFecNac.Value = cliente.Fecha_Nacimiento;
-            ckHabilitado.Checked = cliente.Habilitado;
+            txtNombre.Text = sucursal.Nombre;
+            txtDireccion.Text = sucursal.Direccion.Calle;
+            txtCodPostal.Text = sucursal.Direccion.Codigo_Postal;
+            ckHabilitado.Checked = sucursal.Habilitado;
         }
     }
 }

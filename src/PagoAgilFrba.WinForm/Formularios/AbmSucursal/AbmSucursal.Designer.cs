@@ -30,26 +30,26 @@
         {
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.lblNombre = new System.Windows.Forms.Label();
-            this.txtApellido = new System.Windows.Forms.TextBox();
-            this.lblApellido = new System.Windows.Forms.Label();
-            this.txtDni = new System.Windows.Forms.TextBox();
-            this.lblDni = new System.Windows.Forms.Label();
+            this.txtDireccion = new System.Windows.Forms.TextBox();
+            this.lblDireccion = new System.Windows.Forms.Label();
+            this.txtCodigoPostal = new System.Windows.Forms.TextBox();
+            this.lblCodigoPostal = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.grpBusqueda.SuspendLayout();
             this.SuspendLayout();
             // 
             // grpBusqueda
             // 
-            this.grpBusqueda.Controls.Add(this.txtDni);
-            this.grpBusqueda.Controls.Add(this.lblDni);
-            this.grpBusqueda.Controls.Add(this.txtApellido);
-            this.grpBusqueda.Controls.Add(this.lblApellido);
+            this.grpBusqueda.Controls.Add(this.txtCodigoPostal);
+            this.grpBusqueda.Controls.Add(this.lblCodigoPostal);
+            this.grpBusqueda.Controls.Add(this.txtDireccion);
+            this.grpBusqueda.Controls.Add(this.lblDireccion);
             this.grpBusqueda.Controls.Add(this.txtNombre);
             this.grpBusqueda.Controls.Add(this.lblNombre);
             // 
             // txtNombre
             // 
-            this.txtNombre.Location = new System.Drawing.Point(69, 19);
+            this.txtNombre.Location = new System.Drawing.Point(93, 19);
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(291, 20);
             this.txtNombre.TabIndex = 4;
@@ -63,46 +63,46 @@
             this.lblNombre.TabIndex = 3;
             this.lblNombre.Text = "Nombre";
             // 
-            // txtApellido
+            // txtDireccion
             // 
-            this.txtApellido.Location = new System.Drawing.Point(69, 45);
-            this.txtApellido.Name = "txtApellido";
-            this.txtApellido.Size = new System.Drawing.Size(291, 20);
-            this.txtApellido.TabIndex = 6;
+            this.txtDireccion.Location = new System.Drawing.Point(93, 45);
+            this.txtDireccion.Name = "txtDireccion";
+            this.txtDireccion.Size = new System.Drawing.Size(291, 20);
+            this.txtDireccion.TabIndex = 6;
             // 
-            // lblApellido
+            // lblDireccion
             // 
-            this.lblApellido.AutoSize = true;
-            this.lblApellido.Location = new System.Drawing.Point(15, 48);
-            this.lblApellido.Name = "lblApellido";
-            this.lblApellido.Size = new System.Drawing.Size(44, 13);
-            this.lblApellido.TabIndex = 5;
-            this.lblApellido.Text = "Apellido";
+            this.lblDireccion.AutoSize = true;
+            this.lblDireccion.Location = new System.Drawing.Point(15, 48);
+            this.lblDireccion.Name = "lblDireccion";
+            this.lblDireccion.Size = new System.Drawing.Size(52, 13);
+            this.lblDireccion.TabIndex = 5;
+            this.lblDireccion.Text = "Direccion";
             // 
-            // txtDni
+            // txtCodigoPostal
             // 
-            this.txtDni.Location = new System.Drawing.Point(69, 71);
-            this.txtDni.MaxLength = 8;
-            this.txtDni.Name = "txtDni";
-            this.txtDni.Size = new System.Drawing.Size(291, 20);
-            this.txtDni.TabIndex = 8;
+            this.txtCodigoPostal.Location = new System.Drawing.Point(93, 71);
+            this.txtCodigoPostal.MaxLength = 4;
+            this.txtCodigoPostal.Name = "txtCodigoPostal";
+            this.txtCodigoPostal.Size = new System.Drawing.Size(291, 20);
+            this.txtCodigoPostal.TabIndex = 8;
             // 
-            // lblDni
+            // lblCodigoPostal
             // 
-            this.lblDni.AutoSize = true;
-            this.lblDni.Location = new System.Drawing.Point(15, 74);
-            this.lblDni.Name = "lblDni";
-            this.lblDni.Size = new System.Drawing.Size(26, 13);
-            this.lblDni.TabIndex = 7;
-            this.lblDni.Text = "DNI";
+            this.lblCodigoPostal.AutoSize = true;
+            this.lblCodigoPostal.Location = new System.Drawing.Point(15, 74);
+            this.lblCodigoPostal.Name = "lblCodigoPostal";
+            this.lblCodigoPostal.Size = new System.Drawing.Size(72, 13);
+            this.lblCodigoPostal.TabIndex = 7;
+            this.lblCodigoPostal.Text = "Codigo Postal";
             // 
-            // AbmCliente
+            // AbmSucursal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(590, 511);
-            this.Name = "AbmCliente";
-            this.Text = "ABM Clientes";
+            this.Name = "AbmSucursal";
+            this.Text = "ABM Sucursales";
             this.panel1.ResumeLayout(false);
             this.grpBusqueda.ResumeLayout(false);
             this.grpBusqueda.PerformLayout();
@@ -114,9 +114,9 @@
 
         private System.Windows.Forms.TextBox txtNombre;
         private System.Windows.Forms.Label lblNombre;
-        private System.Windows.Forms.TextBox txtApellido;
-        private System.Windows.Forms.Label lblApellido;
-        private System.Windows.Forms.TextBox txtDni;
-        private System.Windows.Forms.Label lblDni;
+        private System.Windows.Forms.TextBox txtDireccion;
+        private System.Windows.Forms.Label lblDireccion;
+        private System.Windows.Forms.TextBox txtCodigoPostal;
+        private System.Windows.Forms.Label lblCodigoPostal;
     }
 }

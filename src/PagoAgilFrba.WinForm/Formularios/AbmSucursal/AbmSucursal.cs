@@ -17,27 +17,23 @@
         }
         protected override DataTable RecuperarDatos()
         {
-            decimal dni;
+            int codPostal;
 
-            if (string.IsNullOrEmpty(txtDni.Text))
+            if (!string.IsNullOrEmpty(txtCodigoPostal.Text) && !int.TryParse(txtCodigoPostal.Text, out codPostal))
             {
-                dni = 0;
-            }
-            else if (!decimal.TryParse(txtDni.Text, out dni))
-            {
-                throw new PagoAgilException("El DNI debe ser un valor numerico.");
+                throw new PagoAgilException("El Codigo Postal debe ser un valor numerico.");
             }
             else
             {
             }
 
-            return Cliente.Listar(txtNombre.Text, txtApellido.Text, dni);
+            return Sucursal.Listar(txtNombre.Text, txtDireccion.Text, txtCodigoPostal.Text);
         }
 
         protected override void AbrirElemento(DataGridViewRow dr)
         {
-            var cliente = CrearClienteDesdeDataRow(dr);
-            var editor = new EditorCliente(cliente);
+            var sucursal = CrearSucursalDesdeDataRow(dr);
+            var editor = new EditorSucursal(sucursal);
 
             if (editor.ShowDialog() == DialogResult.OK)
             {
@@ -47,25 +43,25 @@
 
         protected override void EliminarElemento(DataGridViewRow dr)
         {
-            if (MessageBox.Show("Esta seguro que desea eliminar el cliente?", "Eliminar cliente", 
+            if (MessageBox.Show("Esta seguro que desea eliminar la sucursal? Se deshabilitaran todos los usuarios asociados.", "Eliminar sucursal", 
                     MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                Cliente cliente = CrearClienteDesdeDataRow(dr);
-                cliente.Eliminar();
+                var sucursal = CrearSucursalDesdeDataRow(dr);
+                sucursal.Eliminar();
                 this.CargarGrilla();
             }
         }
 
         public override bool AgregarElemento()
         {
-            EditorCliente editor = new EditorCliente(new Cliente());
+            EditorSucursal editor = new EditorSucursal(new Sucursal());
             return editor.ShowDialog() == DialogResult.OK;
         }
 
-        public Cliente CrearClienteDesdeDataRow(DataGridViewRow dr)
+        public Sucursal CrearSucursalDesdeDataRow(DataGridViewRow dr)
         {
-            Cliente cliente = Cliente.Obtener(Convert.ToInt32(dr.Cells["Id"].Value));
-            return cliente;
+            var sucursal = Sucursal.Obtener(Convert.ToInt32(dr.Cells["Id"].Value));
+            return sucursal;
         }     
     }
 }
