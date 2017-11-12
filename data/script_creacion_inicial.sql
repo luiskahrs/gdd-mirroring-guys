@@ -495,6 +495,7 @@ CREATE TABLE MIRRORING_GUYS.FormaPago (
 )
 GO
 
+--ALTER TABLE (Nombre de la entidad) WITH CHECK ADD FOREIGN KEY (nombre del campo de la tabla padre) REFERENCES (Nombre de la tabla hija)(campo)
 --ALTER TABLE [MIRRORING_GUYS].[Empresa] WITH CHECK ADD FOREIGN KEY(id_direccion) REFERENCES [MIRRORING_GUYS].[Direccion](id)
 --ALTER TABLE [MIRRORING_GUYS].[Empresa] WITH CHECK ADD FOREIGN KEY(id_rubro) REFERENCES [MIRRORING_GUYS].[Rubro](id)
 --ALTER TABLE [MIRRORING_GUYS].[Devolucion] WITH CHECK ADD FOREIGN KEY(id_factura) REFERENCES [MIRRORING_GUYS].[Factura](id)
