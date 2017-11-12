@@ -85,6 +85,18 @@
             }
         }
 
+        public bool ValidarMail(string email)
+        {
+            using (Database dl = new Database())
+            {
+                int cantMail = dl.EjecutarEscalar<int>("SELECT COUNT(Email) FROM [MIRRORING_GUYS].[Cliente] WHERE Email = @Email AND Id <> @Id",
+                    Database.CrearParametro("@Email", email),
+                    Database.CrearParametro("@Id", this.Id.HasValue ? this.Id.Value : 0));
+
+                return cantMail > 0 ? false : true; 
+            }
+        }
+
         public override void Guardar()
         {
             using (Database dl = new Database())

@@ -75,6 +75,11 @@ namespace PagoAgilFrba
                 sbErrores.AppendLine("Debe indicar el mail del cliente.");
             }
 
+            if (!_cliente.ValidarMail(txtMail.Text))
+            {
+                sbErrores.AppendLine("El mail ya existe en la base de datos. Ingrese uno distinto.");
+            }
+
             if (String.IsNullOrWhiteSpace(txtTelefono.Text))
             {
                 sbErrores.AppendLine("Debe indicar el telefono del cliente.");
