@@ -73,7 +73,7 @@
                 dl.EjecutarNonQuery(@"UPDATE u SET u.Habilitado = @Habilitado FROM [MIRRORING_GUYS].[Usuario] u
 		                                    INNER JOIN [MIRRORING_GUYS].[UsuarioSucursal] us
 		                                    on u.Id = us.id_usuario
-		                                    WHERE s.Id = @Id", CommandType.Text,
+		                                    WHERE us.id_sucursal = @Id", CommandType.Text,
                                             Database.CrearParametro("@Habilitado", false),
                                             Database.CrearParametro("@Id", this.Id));
 

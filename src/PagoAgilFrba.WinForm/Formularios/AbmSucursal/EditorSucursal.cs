@@ -44,23 +44,29 @@
 
             if (String.IsNullOrWhiteSpace(txtNombre.Text))
             {
-                sbErrores.AppendLine("Debe indicar el nombre del cliente.");
+                sbErrores.AppendLine("Debe indicar el nombre de la sucursal.");
             }
 
             if (!_sucursal.ValidarCodigoPostal(txtCodPostal.Text))
             {
-                sbErrores.AppendLine("Ya existe una sucrusal asociada al codigo postal en la base de datos. Ingrese uno distinto.");
+                sbErrores.AppendLine("Ya existe una sucursal asociada al codigo postal en la base de datos. Ingrese uno distinto.");
             }
 
+            if (String.IsNullOrWhiteSpace(txtDireccion.Text))
+            {
+                sbErrores.AppendLine("Debe indicar la dirección de la sucursal.");
+            }
 
             if (String.IsNullOrWhiteSpace(txtCodPostal.Text))
             {
-                sbErrores.AppendLine("Debe indicar el codigo postal del cliente.");
+                sbErrores.AppendLine("Debe indicar el codigo postal de la sucursal.");
             }
-
-            if (!decimal.TryParse(txtCodPostal.Text, out decPrueba))
-            {
-                sbErrores.AppendLine("El codigo postal tiene que ser numérico.");
+            else
+            { 
+                if (!decimal.TryParse(txtCodPostal.Text, out decPrueba))
+                {
+                    sbErrores.AppendLine("El codigo postal tiene que ser numérico.");
+                }
             }
         }
 
