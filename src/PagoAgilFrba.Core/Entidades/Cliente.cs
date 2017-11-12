@@ -17,6 +17,7 @@
         public Cliente()
         {
             Habilitado = true;
+            Direccion = new Direccion();
         }
 
         public static DataTable Listar(string nombre, string apellido, decimal dni)
@@ -62,12 +63,9 @@
                     Habilitado = bool.Parse(dtCliente.Rows[0]["Habilitado"].ToString())
                 };
 
-                cliente.Direccion = new Direccion()
-                {
-                    Id = Convert.ToInt32(dtCliente.Rows[0]["Id"]),
-                    Calle = dtDireccion.Rows[0]["Calle"].ToString(),
-                    Codigo_Postal = dtDireccion.Rows[0]["Codigo_Postal"].ToString()
-                };
+                cliente.Direccion.Id = Convert.ToInt32(dtDireccion.Rows[0]["Id"]);
+                cliente.Direccion.Calle = dtDireccion.Rows[0]["Calle"].ToString();
+                cliente.Direccion.Codigo_Postal = dtDireccion.Rows[0]["Codigo_Postal"].ToString();
 
                 return cliente;
             }
@@ -92,27 +90,50 @@
             using (Database dl = new Database())
             {
                 dl.IniciarTransaccion();
-                //Si el rol es nuevo, lo creo y obtengo el Id
-                if (this.EsNuevo())
+
+                try
                 {
-                    this.Id = dl.EjecutarEscalar<int>("INSERT INTO [MIRRORING_GUYS].[Rol] (nombre, habilitado) output INSERTED.ID VALUES (@Nombre, @Habilitado)",
-                        Database.CrearParametro("@Nombre", this.Nombre),
-                        Database.CrearParametro("@Habilitado", this.Habilitado));
+                    //Si el Cliente es nuevo, lo creo y obtengo el Id. Si no actualizo el existente.
+                    if (this.EsNuevo())
+                    {
+                        this.Direccion.Id = dl.EjecutarEscalar<int>("INSERT INTO [MIRRORING_GUYS].[Direccion] (calle, codigo_postal) output INSERTED.ID VALUES (@Calle, @Codigo_Postal)",
+                            Database.CrearParametro("@Calle", this.Direccion.Calle),
+                            Database.CrearParametro("@Codigo_Postal", this.Direccion.Codigo_Postal));
+
+                        this.Id = dl.EjecutarEscalar<int>("INSERT INTO [MIRRORING_GUYS].[Cliente] (dni, apellido, nombre, fecha_nacimiento, email, telefono, habilitado, id_direccion) output INSERTED.ID VALUES (@Dni, @Apellido, @Nombre, @Fecha_nacimiento, @Email, @Telefono, @Habilitado, @Id_direccion)",
+                            Database.CrearParametro("@Dni", this.DNI),
+                            Database.CrearParametro("@Apellido", this.Apellido),
+                            Database.CrearParametro("@Nombre", this.Nombre),
+                            Database.CrearParametro("@Fecha_nacimiento", this.Fecha_Nacimiento.ToString("yyyy-MM-dd")),
+                            Database.CrearParametro("@Email", this.Email),
+                            Database.CrearParametro("@Telefono", this.Telefono),
+                            Database.CrearParametro("@Habilitado", 1),
+                            Database.CrearParametro("@Id_direccion", this.Direccion.Id));
+                    }
+                    else
+                    {
+                        dl.EjecutarNonQuery("UPDATE [MIRRORING_GUYS].[Direccion] SET Calle = @Calle, Codigo_Postal = @Codigo_Postal WHERE Id = @Id", CommandType.Text,
+                            Database.CrearParametro("@Calle", this.Direccion.Calle),
+                            Database.CrearParametro("@Codigo_Postal", this.Direccion.Codigo_Postal),
+                            Database.CrearParametro("@Id", this.Direccion.Id));
+
+                        dl.EjecutarNonQuery("UPDATE [MIRRORING_GUYS].[Cliente] SET dni = @Dni, apellido = @Apellido, nombre = @Nombre, fecha_nacimiento = @Fecha_nacimiento, email = @Email, telefono = @Telefono, habilitado = @Habilitado, id_direccion = @Id_direccion WHERE id = @Id", CommandType.Text,
+                            Database.CrearParametro("@Dni", this.DNI),
+                            Database.CrearParametro("@Apellido", this.Apellido),
+                            Database.CrearParametro("@Nombre", this.Nombre),
+                            Database.CrearParametro("@Fecha_nacimiento", this.Fecha_Nacimiento.ToString("yyyy-MM-dd")),
+                            Database.CrearParametro("@Email", this.Email),
+                            Database.CrearParametro("@Telefono", this.Telefono),
+                            Database.CrearParametro("@Habilitado", this.Habilitado ? 1 : 0),
+                            Database.CrearParametro("@Id_direccion", this.Direccion.Id),
+                            Database.CrearParametro("@Id", this.Id));
+                    }
                 }
-                else //Si no es nuevo, actualizo los campos
+                catch (Exception ex)
                 {
-                    dl.EjecutarNonQuery("UPDATE [MIRRORING_GUYS].[Rol] SET Nombre = @Nombre, Habilitado = @Habilitado WHERE Id = @RolId", CommandType.Text,
-                        Database.CrearParametro("@Nombre", this.Nombre),
-                        Database.CrearParametro("@Habilitado", this.Habilitado),
-                        Database.CrearParametro("@RolId", this.Id));
-                    //si lo deshabilito, tengo que borrarle el acceso a los usuarios.
-                    if(!this.Habilitado)
-                        dl.EjecutarNonQuery("DELETE FROM [MIRRORING_GUYS].[UsuarioRol] WHERE id_rol = @RolId", CommandType.Text,
-                           Database.CrearParametro("@RolId", this.Id));
+                    dl.DeshacerTransaccion();
+                    throw new PagoAgilException("Ha ocurrido un error al grabar el usuario, detalle: " + ex.Message);
                 }
-                //Elimino todos los funcionalidades que tenga
-                dl.EjecutarNonQuery("DELETE FROM [MIRRORING_GUYS].[FuncPorRol] WHERE id_rol = @RolId", CommandType.Text, Database.CrearParametro("@RolId", this.Id));
-                //Inserto los que quedaron seleccionados de la grilla
 
                 //Impacto todos los cambios
                 dl.ConfirmarTransaccion();

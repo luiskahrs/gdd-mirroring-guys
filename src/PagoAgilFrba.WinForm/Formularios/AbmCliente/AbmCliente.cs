@@ -36,8 +36,8 @@
 
         protected override void AbrirElemento(DataGridViewRow dr)
         {
-            Cliente cliente = CrearClienteDesdeDataRow(dr);
-            EditorCliente editor = new EditorCliente(cliente);
+            var cliente = CrearClienteDesdeDataRow(dr);
+            var editor = new EditorCliente(cliente);
 
             if (editor.ShowDialog() == DialogResult.OK)
             {
