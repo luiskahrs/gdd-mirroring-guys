@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database\Database.cs" />
+    <Compile Include="Entidades\Rubro.cs" />
+    <Compile Include="Entidades\Empresa.cs" />
     <Compile Include="Entidades\EntidadBase.cs" />
     <Compile Include="Entidades\Rol.cs" />
     <Compile Include="Entidades\Usuario.cs" />

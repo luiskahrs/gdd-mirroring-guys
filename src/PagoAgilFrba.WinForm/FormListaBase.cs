@@ -53,7 +53,7 @@ namespace PagoAgilFrba
             
         }
 
-        private void btnBuscar_Click(object sender, EventArgs e)
+        protected virtual void btnBuscar_Click(object sender, EventArgs e)
         {
             try
             {
@@ -87,6 +87,7 @@ namespace PagoAgilFrba
                     AbrirElemento(ObtenerDataRow(e.RowIndex));
                 }
         }
+        
         protected virtual void AbrirElemento(DataGridViewRow dr)
         {
             //throw new NotImplementedException();

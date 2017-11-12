@@ -65,6 +65,18 @@
     <Compile Include="FormPrincipal.Designer.cs">
       <DependentUpon>FormPrincipal.cs</DependentUpon>
     </Compile>
+    <Compile Include="Formularios\AbmEmpresa\AbmEmpresa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\AbmEmpresa\AbmEmpresa.Designer.cs">
+      <DependentUpon>AbmEmpresa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\AbmEmpresa\EditorEmpresa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\AbmEmpresa\EditorEmpresa.Designer.cs">
+      <DependentUpon>EditorEmpresa.cs</DependentUpon>
+    </Compile>
     <Compile Include="Formularios\AbmRol\EditorRol.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -88,12 +100,6 @@
     </Compile>
     <Compile Include="Formularios\AbmCliente\AbmCliente.Designer.cs">
       <DependentUpon>AbmCliente.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Formularios\AbmEmpresa\AbmEmpresa.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Formularios\AbmEmpresa\AbmEmpresa.Designer.cs">
-      <DependentUpon>AbmEmpresa.cs</DependentUpon>
     </Compile>
     <Compile Include="Formularios\AbmFactura\AbmFactura.cs">
       <SubType>Form</SubType>
@@ -154,6 +160,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Formularios\AbmEmpresa\AbmEmpresa.resx">
       <DependentUpon>AbmEmpresa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\AbmEmpresa\EditorEmpresa.resx">
+      <DependentUpon>EditorEmpresa.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Formularios\AbmFactura\AbmFactura.resx">
       <DependentUpon>AbmFactura.cs</DependentUpon>
