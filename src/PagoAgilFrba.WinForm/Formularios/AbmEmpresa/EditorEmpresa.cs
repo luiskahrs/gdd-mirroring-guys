@@ -80,6 +80,9 @@ namespace PagoAgilFrba
             if (!regexCuit.Match(Cuit).Success)
                 sbErrores.AppendLine("Debe ingresar un cuit valido.");
 
+            if (Empresa.Id != null && !ckActiva.Checked && Empresa.IsActiva && Factura.EmpresaTieneFacturasPagasNoRendidas(Empresa.Id.GetValueOrDefault(-1)))
+                sbErrores.AppendLine("La empresa tiene facturas pagas sin rendir.");
+
         }
 
         private void label2_Click(object sender, EventArgs e)
