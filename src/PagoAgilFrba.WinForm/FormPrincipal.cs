@@ -65,6 +65,8 @@ namespace PagoAgilFrba
                     nodo.Tag = dr["formulario"];
                 }
 
+                // Tengo que hacer lo mismo que Roles para sucursales
+
                 this.Text = String.Format("Pago Agil Frba (Main) - Usuario Logueado: {0}", _usuario.Username);
             }
             catch (Exception ex)
