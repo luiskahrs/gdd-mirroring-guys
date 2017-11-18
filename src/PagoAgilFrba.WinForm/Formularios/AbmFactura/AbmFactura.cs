@@ -45,20 +45,23 @@ namespace PagoAgilFrba
 
         protected override void AbrirElemento(DataGridViewRow dr)
         {
-            string Id = dr.Cells["id"].Value.ToString();
-            string Nombre = dr.Cells["Nombre"].Value.ToString();
-            string Cuit = dr.Cells["CUIT"].Value.ToString();
-            bool IsActiva = dr.Cells["Esta Activa"].Value.ToString() == "si";
-            string DiaRedencion = dr.Cells["Dia de rendencion"].Value.ToString();
-            string IdDireccion = dr.Cells["Direccion ID"].Value.ToString();
-            string Direccion = dr.Cells["Direccion"].Value.ToString();
-            string CodigoPostal = dr.Cells["Codigo Postal"].Value.ToString();
-            string Rubro = dr.Cells["Rubro"].Value.ToString();
-            string IdRubro = dr.Cells["Rubro ID"].Value.ToString();
+            int Id = int.Parse(dr.Cells["id"].Value.ToString());
+            string Numero = dr.Cells["Numero"].Value.ToString();
+            DateTime Fecha = DateTime.Parse(dr.Cells["fecha"].Value.ToString());
+            DateTime FechaVencimiento = DateTime.Parse(dr.Cells["Vencimiento"].Value.ToString());
+            int IdCliente = int.Parse(dr.Cells["Cliente ID"].Value.ToString());
+            //string ClienteNombre = dr.Cells["Nombre Cliente"].Value.ToString();
+            //string ClienteApellido = dr.Cells["Apellido Cliente"].Value.ToString();
+            string ClenteDni = dr.Cells["Cliente DNI"].Value.ToString();
+            int IdEmpresa = int.Parse(dr.Cells["Empresa ID"].Value.ToString());
+            //string NombreEmpresa = dr.Cells["Nombre Empresa"].Value.ToString();
+            string CuitEmpresa = dr.Cells["Cuit Empresa"].Value.ToString();
+            int IdPago = int.Parse(dr.Cells["Pago ID"].Value.ToString());
+            int IdRendicion = int.Parse(dr.Cells["Rendicion ID"].Value.ToString());
 
-            Empresa Empresa = new Empresa(int.Parse(Id), Nombre, Cuit, int.Parse(IdDireccion), Direccion, CodigoPostal, Rubro, int.Parse(IdRubro), IsActiva, DiaRedencion);
+            Factura Factura = new Factura(Id, Numero, Fecha, FechaVencimiento, IdCliente, ClenteDni, IdEmpresa, CuitEmpresa, IdPago, IdRendicion);
 
-            EditorEmpresa editor = new EditorEmpresa(Empresa);
+            EditorFactura editor = new EditorFactura(Factura);
             
             if (editor.ShowDialog() == DialogResult.OK)
                 CargarGrilla();

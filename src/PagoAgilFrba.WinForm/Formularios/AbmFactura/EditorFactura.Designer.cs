@@ -111,6 +111,7 @@
             this.dtpVencimiento.Name = "dtpVencimiento";
             this.dtpVencimiento.Size = new System.Drawing.Size(200, 20);
             this.dtpVencimiento.TabIndex = 25;
+            this.dtpVencimiento.ValueChanged += new System.EventHandler(this.dtpVencimiento_ValueChanged);
             // 
             // label7
             // 
@@ -139,6 +140,7 @@
             this.dvgItemsFactura.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dvgItemsFactura.Size = new System.Drawing.Size(398, 148);
             this.dvgItemsFactura.TabIndex = 27;
+            this.dvgItemsFactura.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dvgItemsFactura_CellContentClick);
             // 
             // label2
             // 
@@ -158,6 +160,7 @@
             this.btnNuevo.TabIndex = 30;
             this.btnNuevo.Text = "Agregar Item";
             this.btnNuevo.UseVisualStyleBackColor = true;
+            this.btnNuevo.Click += new System.EventHandler(this.btnNuevo_Click);
             // 
             // textBoxCantidad
             // 

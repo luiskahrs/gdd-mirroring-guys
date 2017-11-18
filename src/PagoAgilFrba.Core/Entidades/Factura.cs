@@ -10,7 +10,9 @@ namespace PagoAgilFrba.Core
         public DateTime Fecha { get; set; }
         public DateTime FechaVencimiento { get; set; }
         public int IdCliente { get; set; }
+        public string DniCliente { get; set; }
         public int IdEmpresa { get; set; }
+        public string CuitEmpresa { get; set; }
         public int IdPago { get; set; }
         public int IdRendicion { get; set; }
 
@@ -18,7 +20,7 @@ namespace PagoAgilFrba.Core
         {
         }
 
-        public Factura(int id, string Numero, DateTime Fecha, DateTime FechaVenc, int cliente, int empresa, int pago, int rendi)
+        public Factura(int id, string Numero, DateTime Fecha, DateTime FechaVenc, int cliente, string DNI, int empresa, string CuitEm, int pago, int rendi)
         {
             this.Id = id;
             this.Numero = Numero;
@@ -28,6 +30,8 @@ namespace PagoAgilFrba.Core
             this.IdEmpresa = empresa;
             this.IdPago = pago;
             this.IdRendicion = rendi;
+            this.DniCliente = DNI;
+            this.CuitEmpresa = CuitEm;
         }
 
         public static DataTable ListarParaAbm()
@@ -42,10 +46,12 @@ namespace PagoAgilFrba.Core
 	                                                F.id_cliente 'Cliente ID',
 	                                                C.nombre 'Nombre Cliente',
 	                                                C.apellido 'Apellido Cliente',
-	                                                C.dni 'Nombre DNI', 
+	                                                C.dni 'Cliente DNI', 
 	                                                F.id_empresa 'Empresa ID', 
 	                                                E.nombre 'Nombre Empresa',
 	                                                E.cuit 'Cuit Empresa',
+                                                    F.id_pago 'Pago ID',
+                                                    F.id_rendicion 'Rendicion ID',
 	                                                CASE WHEN id_pago IS NOT NULL THEN 'Paga' ELSE 'Impaga' END 'Esta paga',
 	                                                CASE WHEN id_rendicion IS NOT NULL THEN 'Rendida' ELSE 'No rendida' END 'Esta rendiad'
                                                 FROM [MIRRORING_GUYS].[Factura] F, [MIRRORING_GUYS].[Cliente] C, [MIRRORING_GUYS].[Empresa] E

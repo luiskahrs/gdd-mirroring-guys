@@ -10,6 +10,7 @@ namespace PagoAgilFrba
     public partial class EditorFactura : EditorBase
     {
         private Factura Factura;
+        private DataGridViewButtonColumn EliminarItem;
 
         public EditorFactura(Factura Factura): base(Factura)
         {
@@ -27,6 +28,8 @@ namespace PagoAgilFrba
             {
                 comboBoxCliente.Items.Add(new { Value = o.Item1, Text = o.Item2 });
             }
+            comboBoxCliente.SelectedText = Factura.DniCliente;
+            comboBoxCliente.SelectedValue = Factura.IdCliente;
 
             comboBoxEmpresa.DisplayMember = "Text";
             comboBoxEmpresa.ValueMember = "Value";
@@ -34,18 +37,31 @@ namespace PagoAgilFrba
             {
                 comboBoxEmpresa.Items.Add(new { Value = o.Item1, Text = o.Item2 });
             }
+            comboBoxEmpresa.SelectedText = Factura.CuitEmpresa;
+            comboBoxEmpresa.SelectedValue = Factura.IdEmpresa;
 
             textNumero.Text = Factura.Numero;
 
-            if (Factura.Id != null) 
+            dtpVencimiento.Value = Factura.FechaVencimiento;
+
+            if (Factura.Id != null)
             {
                 dvgItemsFactura.DataSource = ItemFactura.ListarPorIdFac(Factura.Id.GetValueOrDefault(-1));
+                foreach (DataGridViewColumn col in dvgItemsFactura.Columns)
+                {
+                    if (col.Name.ToUpper().EndsWith("ID"))
+                        col.Visible = false;
+                }
+            }
+            else
+            {
+                dvgItemsFactura.Columns.AddRange(EliminarItem);
             }
         }
 
         protected override void Guardar()
         {
-            
+            throw new NotImplementedException("No está implementada la función Eliminar");
         }
 
         protected override void RealizarValidaciones()
@@ -92,6 +108,33 @@ namespace PagoAgilFrba
         private void label7_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void dtpVencimiento_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dvgItemsFactura_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+                if (e.ColumnIndex == EliminarItem.Index)
+                {
+                    DataGridViewRow DataGridViewRow = dvgItemsFactura.Rows[e.RowIndex];
+                    int ItemId = int.Parse(DataGridViewRow.Cells["id"].Value.ToString());
+                    (new ItemFactura(ItemId)).Borrar();
+                    dvgItemsFactura.DataSource = ItemFactura.ListarPorIdFac(Factura.Id.GetValueOrDefault(-1));
+                    foreach (DataGridViewColumn col in dvgItemsFactura.Columns)
+                    {
+                        if (col.Name.ToUpper().EndsWith("ID"))
+                            col.Visible = false;
+                    }
+                }
+        }
+
+        private void btnNuevo_Click(object sender, EventArgs e)
+        {
+            
         }
        
     }
