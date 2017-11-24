@@ -42,7 +42,7 @@ namespace PagoAgilFrba
 
             textNumero.Text = Factura.Numero;
 
-            dtpVencimiento.Value = Factura.FechaVencimiento;
+            if (Factura.FechaVencimiento!=null) dtpVencimiento.Value = Factura.FechaVencimiento.GetValueOrDefault();
 
             if (Factura.Id != null)
             {
@@ -55,19 +55,51 @@ namespace PagoAgilFrba
             }
             else
             {
-                dvgItemsFactura.Columns.AddRange(EliminarItem);
+                EliminarItem = new DataGridViewButtonColumn();
+                EliminarItem.DefaultCellStyle.NullValue = "Eliminar";
+                dvgItemsFactura.Columns.Add(EliminarItem);
             }
         }
 
         protected override void Guardar()
         {
-            throw new NotImplementedException("No está implementada la función Eliminar");
+            Factura.IdCliente = (comboBoxCliente.SelectedItem as dynamic).Value;
+            Factura.IdEmpresa = (comboBoxEmpresa.SelectedItem as dynamic).Value;
+            Factura.Numero = textNumero.Text;
+            Factura.FechaVencimiento = dtpVencimiento.Value;
+            Factura.Fecha = DateTime.Now;
+
+            Factura.Guardar();
         }
 
         protected override void RealizarValidaciones()
         {
             sbErrores.Clear();
-            
+
+            try
+            {
+                if ((comboBoxCliente.SelectedItem as dynamic).Value == null) sbErrores.AppendLine("Ingresar el cliente.");
+            }
+            catch (Exception ex)
+            {
+                sbErrores.AppendLine("Ingresar el cliente.");
+            }
+
+            try
+            {
+                if ((comboBoxCliente.SelectedItem as dynamic).Value == null) sbErrores.AppendLine("Ingresar la empresa.");
+            }
+            catch (Exception ex)
+            {
+                sbErrores.AppendLine("Ingresar la empresa.");
+            }
+            if (String.IsNullOrEmpty(textNumero.Text)) sbErrores.AppendLine("Ingresar el numero.");
+            System.Text.RegularExpressions.Regex regexNumero = new System.Text.RegularExpressions.Regex(@"[0-9]+");
+            if (!regexNumero.IsMatch(textNumero.Text)) sbErrores.AppendLine("El numero ser numerico.");
+
+            if (dtpVencimiento.Value.CompareTo(DateTime.Now.AddDays(1)) < 0) sbErrores.AppendLine("Ingresar una fecha de vencimiento posterior a la de hoy.");
+
+            if (Factura.Items.Count <= 0) sbErrores.AppendLine("Ingresar al menos un item.");
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -120,21 +152,51 @@ namespace PagoAgilFrba
             if (e.RowIndex >= 0)
                 if (e.ColumnIndex == EliminarItem.Index)
                 {
-                    DataGridViewRow DataGridViewRow = dvgItemsFactura.Rows[e.RowIndex];
-                    int ItemId = int.Parse(DataGridViewRow.Cells["id"].Value.ToString());
-                    (new ItemFactura(ItemId)).Borrar();
-                    dvgItemsFactura.DataSource = ItemFactura.ListarPorIdFac(Factura.Id.GetValueOrDefault(-1));
-                    foreach (DataGridViewColumn col in dvgItemsFactura.Columns)
-                    {
-                        if (col.Name.ToUpper().EndsWith("ID"))
-                            col.Visible = false;
-                    }
+                    Factura.Items.RemoveAt(e.RowIndex);
+                    loadItemsFacturaList();
                 }
         }
 
         private void btnNuevo_Click(object sender, EventArgs e)
         {
+            StringBuilder errs = new StringBuilder();
+
+            System.Text.RegularExpressions.Regex regexNumero = new System.Text.RegularExpressions.Regex(@"[0-9]+");
+            if (String.IsNullOrEmpty(textBoxCantidad.Text)) 
+            {
+                errs.AppendLine("Ingrese la cantidad");
+            }
+            else
+            {
+                if (!regexNumero.IsMatch(textBoxCantidad.Text)) errs.AppendLine("La cantidad debe ser numerica");
+            }
             
+
+            if (String.IsNullOrEmpty(textBoxMonto.Text)) 
+            {
+                errs.AppendLine("Ingrese el monto");
+            }
+            else
+            {
+                if (!regexNumero.IsMatch(textBoxMonto.Text)) errs.AppendLine("El monto debe ser numerico");
+            }
+
+            if (errs.Length > 0) Generico.MostrarAdvertencia(errs.ToString());
+
+            ItemFactura ItemFactura = new ItemFactura(int.Parse(textBoxMonto.Text), int.Parse(textBoxCantidad.Text));
+            Factura.Items.Add(ItemFactura);
+
+            loadItemsFacturaList();
+        }
+
+        private void loadItemsFacturaList()
+        {
+            List<object> source = new List<object>();
+            foreach (ItemFactura i in Factura.Items)
+            {
+                source.Add(new { Cantidad = i.Cantidad, Monto = i.Monto });
+            }
+            dvgItemsFactura.DataSource = source;
         }
        
     }

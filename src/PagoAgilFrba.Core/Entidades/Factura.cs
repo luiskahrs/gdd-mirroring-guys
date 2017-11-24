@@ -3,24 +3,37 @@
 namespace PagoAgilFrba.Core
 {
     using System.Data;
+    using System.Collections.Generic;
 
     public class Factura : EntidadBase
 	{
         public string Numero { get; set; }
         public DateTime Fecha { get; set; }
-        public DateTime FechaVencimiento { get; set; }
+        public DateTime? FechaVencimiento { get; set; }
         public int IdCliente { get; set; }
         public string DniCliente { get; set; }
         public int IdEmpresa { get; set; }
         public string CuitEmpresa { get; set; }
-        public int IdPago { get; set; }
-        public int IdRendicion { get; set; }
+        public int? IdPago { get; set; }
+        public int? IdRendicion { get; set; }
+        public List<ItemFactura> Items { get; set; }
 
         public Factura()
         {
+            Items = new List<ItemFactura>();
         }
 
-        public Factura(int id, string Numero, DateTime Fecha, DateTime FechaVenc, int cliente, string DNI, int empresa, string CuitEm, int pago, int rendi)
+        public Factura(
+            int id, 
+            string Numero, 
+            DateTime Fecha, 
+            DateTime FechaVenc, 
+            int cliente, 
+            string DNI, 
+            int empresa, 
+            string CuitEm, 
+            int? pago, 
+            int? rendi)
         {
             this.Id = id;
             this.Numero = Numero;
@@ -32,6 +45,7 @@ namespace PagoAgilFrba.Core
             this.IdRendicion = rendi;
             this.DniCliente = DNI;
             this.CuitEmpresa = CuitEm;
+            this.Items = Items;
         }
 
         public static DataTable ListarParaAbm()
@@ -56,7 +70,7 @@ namespace PagoAgilFrba.Core
 	                                                CASE WHEN id_rendicion IS NOT NULL THEN 'Rendida' ELSE 'No rendida' END 'Esta rendiad'
                                                 FROM [MIRRORING_GUYS].[Factura] F, [MIRRORING_GUYS].[Cliente] C, [MIRRORING_GUYS].[Empresa] E
                                                 WHERE F.id_cliente = C.id AND F.id_empresa = E.id
-                                                ORDER BY F.nro");
+                                                ORDER BY F.id desc");
             }
         }
 
@@ -94,13 +108,44 @@ namespace PagoAgilFrba.Core
 
         public override void Guardar()
         {
+            using (Database Database = new Database())
+            {
+                if (this.Id == null)
+                {
+                    this.Id = this.Insert();
+
+                    foreach (ItemFactura i in this.Items)
+                    {
+                        i.IdFactura = this.Id.GetValueOrDefault();
+                        i.Insert();
+                    }
+                }
+                else
+                {
+                    Database.IniciarTransaccion();
+                    throw new NotImplementedException("implementar");
+                    Database.ConfirmarTransaccion();    
+                }
+                
+            }
         }
 
         public int Insert()
         {
             using (Database Database = new Database())
             {
-                throw new NotImplementedException("implementar");
+                Database.IniciarTransaccion();
+                int InsertedId = Database.EjecutarEscalar<int>(
+                    "INSERT INTO [MIRRORING_GUYS].[Factura] ([nro],[fecha],[fecha_vencimiento],[id_cliente],[id_empresa])" +
+                    "output INSERTED.ID " +
+                    "VALUES (@Nro, @Fecha, @FechaVen, @IdCli, @IdEmp)",
+                    Database.CrearParametro("@Nro", int.Parse(this.Numero)),
+                    Database.CrearParametro("@Fecha", this.Fecha.ToString("yyyy-MM-dd")),
+                    Database.CrearParametro("@FechaVen", this.FechaVencimiento.Value.ToString("yyyy-MM-dd")),
+                    Database.CrearParametro("@IdCli", this.IdCliente),
+                    Database.CrearParametro("@IdEmp", this.IdEmpresa));
+                Database.ConfirmarTransaccion();
+                return InsertedId;
             }
         }
 

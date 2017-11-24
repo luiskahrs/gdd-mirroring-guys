@@ -19,6 +19,12 @@ namespace PagoAgilFrba.Core
             this.Id = id;
         }
 
+        public ItemFactura(int Monto, int Cantidad)
+        {
+            this.Monto = Monto;
+            this.Cantidad = Cantidad;
+        }
+
         public ItemFactura(int id, int Monto, int Cantidad, int Fac)
         {
             this.Id = id;
@@ -42,33 +48,17 @@ namespace PagoAgilFrba.Core
         {
             using (Database Database = new Database())
             {
-                Database.IniciarTransaccion();
                 if (this.Id == null)
                 {
-                    this.Id = Database.EjecutarEscalar<int>(
-                        "INSERT INTO [MIRRORING_GUYS].[ItemFactura](id, monto, cantidad, id_factura) " +
-                        "output INSERTED.ID " +
-                        "VALUES (@Id, @Mon, @Can, @IDF)",
-                        Database.CrearParametro("@Id", this.Id),
-                        Database.CrearParametro("@Mon", this.Monto),
-                        Database.CrearParametro("@Can", this.Cantidad),
-                        Database.CrearParametro("@IDF", this.IdFactura));
+                    this.Id = this.Insert();
                 }
                 else
                 {
-                    //Direccion.Id = 1;
-                    //Direccion.Update();
-                    //Database.EjecutarNonQuery(
-                    //    "UPDATE [MIRRORING_GUYS].[Empresa] SET " +
-                    //    "nombre = @Nombre, " +
-                    //    "esta_activa = @Act, " +
-                    //    "dia_rendicion = @DRed, " +
-                    //    "id_rubro = @Rub " +
-                    //    " WHERE id = @EId",
-                    //    CommandType.Text,
-                    //    Database.CrearParametro("@EId", this.Id));
+                   Database.IniciarTransaccion();
+                   throw new NotImplementedException("implementar");
+                   Database.ConfirmarTransaccion();
                 }
-                Database.ConfirmarTransaccion();
+                
             }
         }
 
@@ -88,7 +78,16 @@ namespace PagoAgilFrba.Core
         {
             using (Database Database = new Database())
             {
-                throw new NotImplementedException("implementar");
+                Database.IniciarTransaccion();
+                int InsertedId = Database.EjecutarEscalar<int>(
+                    "INSERT INTO MIRRORING_GUYS.ItemFactura (monto, cantidad, [id_factura])" +
+                    "output INSERTED.ID " +
+                    "VALUES (@Monto, @Cantidad, @IFactura)",
+                    Database.CrearParametro("@Monto", this.Monto),
+                    Database.CrearParametro("@Cantidad", this.Cantidad),
+                    Database.CrearParametro("@IFactura", this.IdFactura));
+                Database.ConfirmarTransaccion();
+                return InsertedId;
             }
         }
 

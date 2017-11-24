@@ -40,7 +40,8 @@ namespace PagoAgilFrba
 
         public override bool AgregarElemento()
         {
-            return false;
+            EditorFactura EditorFactura = new EditorFactura(new Factura());
+            return EditorFactura.ShowDialog() == DialogResult.OK;
         }
 
         protected override void AbrirElemento(DataGridViewRow dr)
@@ -56,8 +57,14 @@ namespace PagoAgilFrba
             int IdEmpresa = int.Parse(dr.Cells["Empresa ID"].Value.ToString());
             //string NombreEmpresa = dr.Cells["Nombre Empresa"].Value.ToString();
             string CuitEmpresa = dr.Cells["Cuit Empresa"].Value.ToString();
-            int IdPago = int.Parse(dr.Cells["Pago ID"].Value.ToString());
-            int IdRendicion = int.Parse(dr.Cells["Rendicion ID"].Value.ToString());
+            
+            int? IdPago = null;
+            if (!String.IsNullOrEmpty(dr.Cells["Pago ID"].Value.ToString()))
+                IdPago = int.Parse(dr.Cells["Pago ID"].Value.ToString());
+
+            int? IdRendicion = null;
+            if (!String.IsNullOrEmpty(dr.Cells["Rendicion ID"].Value.ToString()))
+                IdRendicion = int.Parse(dr.Cells["Rendicion ID"].Value.ToString());
 
             Factura Factura = new Factura(Id, Numero, Fecha, FechaVencimiento, IdCliente, ClenteDni, IdEmpresa, CuitEmpresa, IdPago, IdRendicion);
 

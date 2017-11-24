@@ -38,7 +38,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.dvgItemsFactura = new System.Windows.Forms.DataGridView();
             this.label2 = new System.Windows.Forms.Label();
-            this.btnNuevo = new System.Windows.Forms.Button();
+            this.btnAgregarItem = new System.Windows.Forms.Button();
             this.textBoxCantidad = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -151,16 +151,16 @@
             this.label2.TabIndex = 28;
             this.label2.Text = "Items";
             // 
-            // btnNuevo
+            // btnAgregarItem
             // 
-            this.btnNuevo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnNuevo.Location = new System.Drawing.Point(328, 136);
-            this.btnNuevo.Name = "btnNuevo";
-            this.btnNuevo.Size = new System.Drawing.Size(75, 23);
-            this.btnNuevo.TabIndex = 30;
-            this.btnNuevo.Text = "Agregar Item";
-            this.btnNuevo.UseVisualStyleBackColor = true;
-            this.btnNuevo.Click += new System.EventHandler(this.btnNuevo_Click);
+            this.btnAgregarItem.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAgregarItem.Location = new System.Drawing.Point(328, 136);
+            this.btnAgregarItem.Name = "btnAgregarItem";
+            this.btnAgregarItem.Size = new System.Drawing.Size(75, 23);
+            this.btnAgregarItem.TabIndex = 30;
+            this.btnAgregarItem.Text = "Agregar Item";
+            this.btnAgregarItem.UseVisualStyleBackColor = true;
+            this.btnAgregarItem.Click += new System.EventHandler(this.btnNuevo_Click);
             // 
             // textBoxCantidad
             // 
@@ -209,7 +209,7 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.textBoxCantidad);
-            this.Controls.Add(this.btnNuevo);
+            this.Controls.Add(this.btnAgregarItem);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.dvgItemsFactura);
             this.Controls.Add(this.label7);
@@ -232,7 +232,7 @@
             this.Controls.SetChildIndex(this.label7, 0);
             this.Controls.SetChildIndex(this.dvgItemsFactura, 0);
             this.Controls.SetChildIndex(this.label2, 0);
-            this.Controls.SetChildIndex(this.btnNuevo, 0);
+            this.Controls.SetChildIndex(this.btnAgregarItem, 0);
             this.Controls.SetChildIndex(this.textBoxCantidad, 0);
             this.Controls.SetChildIndex(this.label3, 0);
             this.Controls.SetChildIndex(this.label4, 0);
@@ -255,7 +255,7 @@
         private System.Windows.Forms.Label label7;
         protected System.Windows.Forms.DataGridView dvgItemsFactura;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button btnNuevo;
+        private System.Windows.Forms.Button btnAgregarItem;
         private System.Windows.Forms.TextBox textBoxCantidad;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
