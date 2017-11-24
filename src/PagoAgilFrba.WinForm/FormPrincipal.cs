@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using PagoAgilFrba.Core;
-
-namespace PagoAgilFrba
+﻿namespace PagoAgilFrba
 {
+    using PagoAgilFrba.Core;
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Linq;
+    using System.Windows.Forms;
+
     public partial class FormPrincipal : Form
     {
         Usuario _usuario;
+        Sucursal _sucursal;
+
         public FormPrincipal(Usuario usuario)
         {
             _usuario = usuario;
@@ -65,7 +63,46 @@ namespace PagoAgilFrba
                     nodo.Tag = dr["formulario"];
                 }
 
-                this.Text = String.Format("Pago Agil Frba (Main) - Usuario Logueado: {0}", _usuario.Username);
+                // Hacemos lo mismo que rol, pero para sucursal
+                var dtSucursales = _usuario.ObtenerSucursales();
+
+                if (dtSucursales.Rows.Count > 1)
+                {
+                    var sucursales = new List<Sucursal>();
+
+                    foreach (DataRow dr in dtSucursales.Rows)
+                    {
+                        sucursales.Add(new Sucursal
+                        {
+                            Id = (int)dr["Id"],
+                            Nombre = dr["nombre"].ToString()
+                        });
+                    }
+
+                    var formSucursales = new FormSelSuc(sucursales);
+
+                    if (formSucursales.ShowDialog() == DialogResult.OK)
+                    {
+                        _sucursal = formSucursales.Sucursal;
+                    }
+                }
+                else
+                {
+                    if (dtSucursales == null || dtSucursales.Rows.Count == 0)
+                    {
+                        throw new PagoAgilException("No tiene ninguna sucursal asociada.");
+                    }
+
+                    var sucursal = new Sucursal()
+                    {
+                        Id = (int)dtSucursales.Rows[0]["Id"],
+                        Nombre = dtSucursales.Rows[0]["nombre"].ToString()
+                    };
+
+                    _sucursal = sucursal;
+                }
+
+                this.Text = String.Format("Pago Agil Frba (Main) - Usuario Logueado: {0} Sucursal: {1}", _usuario.Username, _sucursal.Nombre);
             }
             catch (Exception ex)
             {

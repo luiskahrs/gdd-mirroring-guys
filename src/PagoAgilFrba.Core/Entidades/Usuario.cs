@@ -72,6 +72,26 @@
             }
         }
 
+        public DataTable ObtenerSucursales()
+        {
+            try
+            {
+                using (Database dl = new Database())
+                {
+                    return dl.EjecutarQuery(@"SELECT DISTINCT s.Id, s.nombre
+                                                FROM MIRRORING_GUYS.Usuario u
+                                                INNER JOIN MIRRORING_GUYS.UsuarioSucursal us ON u.id = us.id_usuario
+                                                INNER JOIN MIRRORING_GUYS.Sucursal s ON us.id_sucursal = s.id
+                                                WHERE u.id = @UsuarioId",
+                                                Database.CrearParametro("@UsuarioId", this.Id));
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public static Usuario Loguear(string username, string password)
         {
             try
