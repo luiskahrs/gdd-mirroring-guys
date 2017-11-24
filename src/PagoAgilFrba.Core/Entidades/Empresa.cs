@@ -55,7 +55,7 @@
 	                                                    CASE WHEN E.esta_activa = 1 THEN 'si' ELSE 'no' END 'Esta activa',
 	                                                    E.dia_rendicion 'Dia de rendencion',
                                                         D.id 'Direccion ID',
-	                                                    D.direccion 'Direccion',
+	                                                    D.calle 'Direccion',
                                                         D.codigo_postal 'Codigo Postal',
 	                                                    R.descripcion 'Rubro',
                                                         R.id 'Rubro ID'
@@ -78,7 +78,7 @@
 	                                                    CASE WHEN E.esta_activa = 1 THEN 'si' ELSE 'no' END 'Esta activa',
 	                                                    E.dia_rendicion 'Dia de rendencion',
                                                         D.id 'Direccion ID',
-	                                                    D.direccion 'Direccion',
+	                                                    D.calle 'Direccion',
                                                         D.codigo_postal 'Codigo Postal',
 	                                                    R.descripcion 'Rubro',
                                                         R.id 'Rubro ID'
@@ -108,7 +108,7 @@
 	                                                CASE WHEN E.esta_activa = 1 THEN 'si' ELSE 'no' END 'Esta activa',
 	                                                E.dia_rendicion 'Dia de rendencion',
                                                     D.id 'Direccion ID',
-	                                                D.direccion 'Direccion',
+	                                                D.calle 'Direccion',
                                                     D.codigo_postal 'Codigo Postal',
 	                                                R.descripcion 'Rubro',
                                                     R.id 'Rubro ID'
