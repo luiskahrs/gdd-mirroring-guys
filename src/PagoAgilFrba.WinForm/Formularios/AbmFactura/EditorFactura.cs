@@ -69,7 +69,9 @@ namespace PagoAgilFrba
                         col.Visible = false;
                 }
             }
-            
+
+            if (Factura.IdPago != null || Factura.IdRendicion != null)
+                btnGuardar.Visible = false;
         }
 
         protected override void Guardar()
