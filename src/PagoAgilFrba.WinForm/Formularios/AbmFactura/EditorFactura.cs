@@ -44,30 +44,50 @@ namespace PagoAgilFrba
 
             if (Factura.FechaVencimiento!=null) dtpVencimiento.Value = Factura.FechaVencimiento.GetValueOrDefault();
 
+            EliminarItem = new DataGridViewButtonColumn();
+            EliminarItem.DefaultCellStyle.NullValue = "Eliminar";
+            dvgItemsFactura.Columns.Add(EliminarItem);
+
             if (Factura.Id != null)
             {
-                dvgItemsFactura.DataSource = ItemFactura.ListarPorIdFac(Factura.Id.GetValueOrDefault(-1));
+                DataTable DataTable = ItemFactura.ListarPorIdFac(Factura.Id.GetValueOrDefault(-1));
+
+                Factura.Items = new List<ItemFactura>();
+                foreach (DataRow d in DataTable.Rows)
+                {
+                    int Id = d.Field<int>("ID");
+                    decimal Monto = d.Field<decimal>("Monto");
+                    decimal Cantidad = d.Field<decimal>("Cantidad");
+                    ItemFactura ItemFac = new ItemFactura(Id, Monto, Cantidad, Factura.Id.GetValueOrDefault());
+                    Factura.Items.Add(ItemFac);
+                }
+
+                dvgItemsFactura.DataSource = DataTable;
                 foreach (DataGridViewColumn col in dvgItemsFactura.Columns)
                 {
                     if (col.Name.ToUpper().EndsWith("ID"))
                         col.Visible = false;
                 }
             }
-            else
-            {
-                EliminarItem = new DataGridViewButtonColumn();
-                EliminarItem.DefaultCellStyle.NullValue = "Eliminar";
-                dvgItemsFactura.Columns.Add(EliminarItem);
-            }
+            
         }
 
         protected override void Guardar()
         {
-            Factura.IdCliente = (comboBoxCliente.SelectedItem as dynamic).Value;
-            Factura.IdEmpresa = (comboBoxEmpresa.SelectedItem as dynamic).Value;
+            try
+            {
+                Factura.IdCliente = (comboBoxCliente.SelectedItem as dynamic).Value;
+            }
+            catch (Exception) { }
+
+            try
+            {
+                Factura.IdEmpresa = (comboBoxEmpresa.SelectedItem as dynamic).Value;
+            }
+            catch (Exception) { }
+
             Factura.Numero = textNumero.Text;
             Factura.FechaVencimiento = dtpVencimiento.Value;
-            Factura.Fecha = DateTime.Now;
 
             Factura.Guardar();
         }
@@ -80,18 +100,18 @@ namespace PagoAgilFrba
             {
                 if ((comboBoxCliente.SelectedItem as dynamic).Value == null) sbErrores.AppendLine("Ingresar el cliente.");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                sbErrores.AppendLine("Ingresar el cliente.");
+                if (Factura.IdCliente == null) sbErrores.AppendLine("Ingresar el cliente.");
             }
 
             try
             {
-                if ((comboBoxCliente.SelectedItem as dynamic).Value == null) sbErrores.AppendLine("Ingresar la empresa.");
+                if ((comboBoxEmpresa.SelectedItem as dynamic).Value == null) sbErrores.AppendLine("Ingresar la empresa.");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                sbErrores.AppendLine("Ingresar la empresa.");
+                if (Factura.IdEmpresa == null) sbErrores.AppendLine("Ingresar la empresa.");
             }
             if (String.IsNullOrEmpty(textNumero.Text)) sbErrores.AppendLine("Ingresar el numero.");
             System.Text.RegularExpressions.Regex regexNumero = new System.Text.RegularExpressions.Regex(@"[0-9]+");
@@ -152,6 +172,7 @@ namespace PagoAgilFrba
             if (e.RowIndex >= 0)
                 if (e.ColumnIndex == EliminarItem.Index)
                 {
+                    Factura.DeletedItems.Add(Factura.Items[e.RowIndex]);
                     Factura.Items.RemoveAt(e.RowIndex);
                     loadItemsFacturaList();
                 }
@@ -183,8 +204,9 @@ namespace PagoAgilFrba
 
             if (errs.Length > 0) Generico.MostrarAdvertencia(errs.ToString());
 
-            ItemFactura ItemFactura = new ItemFactura(int.Parse(textBoxMonto.Text), int.Parse(textBoxCantidad.Text));
+            ItemFactura ItemFactura = new ItemFactura(int.Parse(textBoxMonto.Text), int.Parse(textBoxCantidad.Text), Factura.Id.GetValueOrDefault());
             Factura.Items.Add(ItemFactura);
+            Factura.AddedItems.Add(ItemFactura);
 
             loadItemsFacturaList();
         }

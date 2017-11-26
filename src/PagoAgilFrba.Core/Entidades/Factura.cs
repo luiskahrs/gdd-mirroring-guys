@@ -17,10 +17,15 @@ namespace PagoAgilFrba.Core
         public int? IdPago { get; set; }
         public int? IdRendicion { get; set; }
         public List<ItemFactura> Items { get; set; }
+        public List<ItemFactura> AddedItems { get; set; }
+        public List<ItemFactura> DeletedItems { get; set; }
 
         public Factura()
         {
             Items = new List<ItemFactura>();
+            this.DeletedItems = new List<ItemFactura>();
+            this.AddedItems = new List<ItemFactura>();
+            Fecha = DateTime.Now;
         }
 
         public Factura(
@@ -46,6 +51,8 @@ namespace PagoAgilFrba.Core
             this.DniCliente = DNI;
             this.CuitEmpresa = CuitEm;
             this.Items = Items;
+            this.DeletedItems = new List<ItemFactura>();
+            this.AddedItems = new List<ItemFactura>();
         }
 
         public static DataTable ListarParaAbm()
@@ -86,10 +93,12 @@ namespace PagoAgilFrba.Core
 	                                                F.id_cliente 'Cliente ID',
 	                                                C.nombre 'Nombre Cliente',
 	                                                C.apellido 'Apellido Cliente',
-	                                                C.dni 'Nombre DNI', 
+	                                                C.dni 'Cliente DNI', 
 	                                                F.id_empresa 'Empresa ID', 
 	                                                E.nombre 'Nombre Empresa',
 	                                                E.cuit 'Cuit Empresa',
+                                                    F.id_pago 'Pago ID',
+                                                    F.id_rendicion 'Rendicion ID',
 	                                                CASE WHEN id_pago IS NOT NULL THEN 'Paga' ELSE 'Impaga' END 'Esta paga',
 	                                                CASE WHEN id_rendicion IS NOT NULL THEN 'Rendida' ELSE 'No rendida' END 'Esta rendiad'
                                                 FROM [MIRRORING_GUYS].[Factura] F, [MIRRORING_GUYS].[Cliente] C, [MIRRORING_GUYS].[Empresa] E
@@ -108,25 +117,46 @@ namespace PagoAgilFrba.Core
 
         public override void Guardar()
         {
-            using (Database Database = new Database())
+            if (this.Id == null)
             {
-                if (this.Id == null)
-                {
-                    this.Id = this.Insert();
+                this.Id = this.Insert();
 
-                    foreach (ItemFactura i in this.Items)
-                    {
-                        i.IdFactura = this.Id.GetValueOrDefault();
-                        i.Insert();
-                    }
+                foreach (ItemFactura i in this.Items)
+                {
+                    i.IdFactura = this.Id.GetValueOrDefault();
+                    i.Insert();
                 }
-                else
+            }
+            else
+            {
+                using (Database Database = new Database())
                 {
                     Database.IniciarTransaccion();
-                    throw new NotImplementedException("implementar");
+                    foreach (ItemFactura i in DeletedItems)
+                    {
+                        i.Borrar();
+                    }
+                    foreach (ItemFactura i in AddedItems)
+                    {
+                        i.Insert();
+                    }
+                    
+                    Database.EjecutarNonQuery(
+                        "UPDATE [MIRRORING_GUYS].[Factura]"+
+                        "SET [nro] = @Nro,"+
+                              "[fecha_vencimiento] = @FechaVen,"+
+                              "[id_cliente] = @IdCli,"+
+                              "[id_empresa] = @IdEmp"+
+                        " WHERE id = @FId",
+                        CommandType.Text,
+                        Database.CrearParametro("@Nro", int.Parse(this.Numero)),
+                        Database.CrearParametro("@FechaVen", this.FechaVencimiento.Value.ToString("yyyy-MM-dd")),
+                        Database.CrearParametro("@IdCli", this.IdCliente),
+                        Database.CrearParametro("@IdEmp", this.IdEmpresa),
+                        Database.CrearParametro("@FId", this.Id));
+
                     Database.ConfirmarTransaccion();    
                 }
-                
             }
         }
 

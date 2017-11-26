@@ -6,8 +6,8 @@ namespace PagoAgilFrba.Core
 
     public class ItemFactura : EntidadBase
 	{
-        public int Monto { get; set; }
-        public int Cantidad { get; set; }
+        public decimal Monto { get; set; }
+        public decimal Cantidad { get; set; }
         public int IdFactura { get; set; }
 
         public ItemFactura()
@@ -19,13 +19,14 @@ namespace PagoAgilFrba.Core
             this.Id = id;
         }
 
-        public ItemFactura(int Monto, int Cantidad)
+        public ItemFactura(int Monto, int Cantidad, int Fac)
         {
             this.Monto = Monto;
             this.Cantidad = Cantidad;
+            this.IdFactura = Fac;
         }
 
-        public ItemFactura(int id, int Monto, int Cantidad, int Fac)
+        public ItemFactura(int id, decimal Monto, decimal Cantidad, int Fac)
         {
             this.Id = id;
             this.Monto = Monto;
@@ -37,7 +38,7 @@ namespace PagoAgilFrba.Core
         {
             using (Database database = new Database())
             {
-                return database.EjecutarQuery(@"SELECT F.id 'ID', F.monto 'Monto', F.cantidad 'Cantidad', F.id_factura 'Factura ID'
+                return database.EjecutarQuery(@"SELECT F.id 'ID', F.cantidad 'Cantidad', F.monto 'Monto', F.id_factura 'Factura ID'
                                                 FROM [MIRRORING_GUYS].[ItemFactura] F
                                                 WHERE F.id_factura = @Id",
                                                 Database.CrearParametro("@Id", idFac));
@@ -50,16 +51,10 @@ namespace PagoAgilFrba.Core
             {
                 if (this.Id == null)
                 {
-                    this.Id = this.Insert();
+                    this.Insert();
                 }
-                else
-                {
-                   Database.IniciarTransaccion();
-                   throw new NotImplementedException("implementar");
-                   Database.ConfirmarTransaccion();
-                }
-                
             }
+            throw new NotImplementedException("implementar");
         }
 
         public void Borrar()
@@ -67,19 +62,20 @@ namespace PagoAgilFrba.Core
             using (Database Database = new Database())
             {
                 Database.IniciarTransaccion();
-                this.Id = Database.EjecutarEscalar<int>(
-                    "DELETE FROM [MIRRORING_GUYS].[ItemFactura] I WHERE I.id = @Id output DELETED.ID ",
+                Database.EjecutarNonQuery(
+                    "DELETE FROM [MIRRORING_GUYS].ItemFactura WHERE id = @Id", 
+                    CommandType.Text, 
                     Database.CrearParametro("@Id", this.Id));
                 Database.ConfirmarTransaccion();
             }
         }
 
-        public int Insert()
+        public void Insert()
         {
             using (Database Database = new Database())
             {
                 Database.IniciarTransaccion();
-                int InsertedId = Database.EjecutarEscalar<int>(
+                this.Id = Database.EjecutarEscalar<int>(
                     "INSERT INTO MIRRORING_GUYS.ItemFactura (monto, cantidad, [id_factura])" +
                     "output INSERTED.ID " +
                     "VALUES (@Monto, @Cantidad, @IFactura)",
@@ -87,7 +83,6 @@ namespace PagoAgilFrba.Core
                     Database.CrearParametro("@Cantidad", this.Cantidad),
                     Database.CrearParametro("@IFactura", this.IdFactura));
                 Database.ConfirmarTransaccion();
-                return InsertedId;
             }
         }
 
