@@ -193,5 +193,10 @@
                 AbrirFormulario(tv.SelectedNode.Tag as string);
             }
         }
+
+        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+
+        }
     }
 }

@@ -179,11 +179,20 @@ namespace PagoAgilFrba.Core
             }
         }
 
-        public void Update()
+        public static void Rendir(List<int> Ids, int RedencionId)
         {
             using (Database Database = new Database())
             {
-                throw new NotImplementedException("implementar");
+                foreach (int id in Ids)
+                {
+                    Database.EjecutarNonQuery(
+                            "UPDATE [MIRRORING_GUYS].[Factura]" +
+                            "SET [id_rendicion] = @IdRen" +
+                            " WHERE id = @FId",
+                            CommandType.Text,
+                            Database.CrearParametro("@IdRen", RedencionId),
+                            Database.CrearParametro("@FId", id));
+                }
             }
         }
 

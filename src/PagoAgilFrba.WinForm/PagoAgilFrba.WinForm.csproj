@@ -101,6 +101,12 @@
     <Compile Include="Formularios\AbmSucursal\EditorSucursal.Designer.cs">
       <DependentUpon>EditorSucursal.cs</DependentUpon>
     </Compile>
+    <Compile Include="Formularios\AbmRendicion\AbmRendicion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\AbmRendicion\AbmRendicion.Designer.cs">
+      <DependentUpon>AbmRendicion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Formularios\Devolucion\Devolucion.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -161,12 +167,6 @@
     <Compile Include="Formularios\RegistroPago\RegistroPago.Designer.cs">
       <DependentUpon>RegistroPago.cs</DependentUpon>
     </Compile>
-    <Compile Include="Formularios\Rendicion\Rendicion.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Formularios\Rendicion\Rendicion.Designer.cs">
-      <DependentUpon>Rendicion.cs</DependentUpon>
-    </Compile>
     <Compile Include="Helper\HelperWin.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -209,6 +209,9 @@
     <EmbeddedResource Include="Formularios\AbmSucursal\EditorSucursal.resx">
       <DependentUpon>EditorSucursal.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\AbmRendicion\AbmRendicion.resx">
+      <DependentUpon>AbmRendicion.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Formularios\ListadoEstadistico\ListadoEstadistico.resx">
       <DependentUpon>ListadoEstadistico.cs</DependentUpon>
     </EmbeddedResource>
@@ -223,9 +226,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Formularios\RegistroPago\RegistroPago.resx">
       <DependentUpon>RegistroPago.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Formularios\Rendicion\Rendicion.resx">
-      <DependentUpon>Rendicion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

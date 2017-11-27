@@ -344,7 +344,7 @@ INSERT INTO [MIRRORING_GUYS].[Funcionalidad] (nombre,formulario) VALUES ('ABM de
 INSERT INTO [MIRRORING_GUYS].[Funcionalidad] (nombre,formulario) VALUES ('ABM de Sucursal','PagoAgilFrba.AbmSucursal')
 INSERT INTO [MIRRORING_GUYS].[Funcionalidad] (nombre,formulario) VALUES ('Listado Estadistico','PagoAgilFrba.ListadoEstadistico')
 INSERT INTO [MIRRORING_GUYS].[Funcionalidad] (nombre,formulario) VALUES ('Registro de Pagos','PagoAgilFrba.RegistroPago')
-INSERT INTO [MIRRORING_GUYS].[Funcionalidad] (nombre,formulario) VALUES ('Rendicion','PagoAgilFrba.Rendicion')
+INSERT INTO [MIRRORING_GUYS].[Funcionalidad] (nombre,formulario) VALUES ('Rendicion','PagoAgilFrba.AbmRendicion')
 INSERT INTO [MIRRORING_GUYS].[Funcionalidad] (nombre,formulario) VALUES ('Devolucion','PagoAgilFrba.Devolucion')
 
 INSERT INTO [MIRRORING_GUYS].[FuncPorRol] (id_rol, id_func)
@@ -474,7 +474,7 @@ GO
 
 CREATE TABLE MIRRORING_GUYS.Rendicion (
 	id						INT	IDENTITY(1,1) NOT NULL,
-	nro						NUMERIC(18,0) NOT NULL,
+	nro						NUMERIC(18,0),
 	fecha					DATETIME NOT NULL,
 	porcentaje_comision		INT,
 
