@@ -119,6 +119,12 @@
     <Compile Include="Formularios\DevolucionRendicion\DevolucionRendicion.Designer.cs">
       <DependentUpon>DevolucionRendicion.cs</DependentUpon>
     </Compile>
+    <Compile Include="Formularios\ListadoEstadistico\ListadoEstadistico.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\ListadoEstadistico\ListadoEstadistico.Designer.cs">
+      <DependentUpon>ListadoEstadistico.cs</DependentUpon>
+    </Compile>
     <Compile Include="Formularios\Login\FormLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -148,12 +154,6 @@
     </Compile>
     <Compile Include="Formularios\AbmRol\AbmRol.Designer.cs">
       <DependentUpon>AbmRol.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Formularios\ListadoEstadistico\ListadoEstadistico.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Formularios\ListadoEstadistico\ListadoEstadistico.Designer.cs">
-      <DependentUpon>ListadoEstadistico.cs</DependentUpon>
     </Compile>
     <Compile Include="Formularios\Login\FormSelSuc.cs">
       <SubType>Form</SubType>

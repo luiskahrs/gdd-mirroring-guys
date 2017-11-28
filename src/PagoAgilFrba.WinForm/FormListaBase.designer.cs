@@ -137,7 +137,7 @@
 
         protected System.Windows.Forms.Button btnNuevo;
         private System.Windows.Forms.Button btnBuscar;
-        private System.Windows.Forms.Button btnLimpiar;
+        protected System.Windows.Forms.Button btnLimpiar;
         public System.Windows.Forms.Panel panel1;
         protected System.Windows.Forms.GroupBox grpBusqueda;
         protected System.Windows.Forms.DataGridView dgv;

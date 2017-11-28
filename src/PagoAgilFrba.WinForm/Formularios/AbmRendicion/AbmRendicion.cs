@@ -22,7 +22,8 @@ namespace PagoAgilFrba
         {
             base.InicializarFormulario();
             Seleccionar.Visible = false; 
-            Eliminar.Visible = false; 
+            Eliminar.Visible = false;
+            buttonRendir.Enabled = false;
         }
         
         protected override DataTable RecuperarDatos()
@@ -37,7 +38,6 @@ namespace PagoAgilFrba
             txtTotal.Text = Total.ToString();
             txtCantidad.Text = DataTable.Rows.Count.ToString();
 
-            if (Total == 0) buttonRendir.Enabled = false;
             return DataTable;
         }
 
@@ -76,6 +76,7 @@ namespace PagoAgilFrba
                 if (!regexCodPost.Match(((TextBox)sender).Text).Success)
                 {
                     Generico.MostrarAdvertencia("El porcentaje debe ser numerico");
+                    buttonRendir.Enabled = false;
                     return;
                 }
 
@@ -83,12 +84,15 @@ namespace PagoAgilFrba
                 if (Porcentaje > 100)
                 {
                     Generico.MostrarAdvertencia("El porcentaje debe estar entres 0 y 100");
+                    buttonRendir.Enabled = false;
                     return;
                 }
                 
                 
                 decimal ARendir = (this.Total * Porcentaje / 100);
                 txtARendir.Text = ARendir.ToString();
+
+                buttonRendir.Enabled = true;
             }
             catch (Exception)
             {

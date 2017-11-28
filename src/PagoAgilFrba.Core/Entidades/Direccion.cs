@@ -48,7 +48,7 @@
                 Database.IniciarTransaccion();
                 Database.EjecutarNonQuery(
                     "UPDATE [MIRRORING_GUYS].[Direccion] SET "+
-                    "direccion = @Calle, " +
+                    "calle = @Calle, " +
                     "codigo_postal = @CP "+
                     " WHERE id = @DId",
                     CommandType.Text,
