@@ -345,7 +345,8 @@ INSERT INTO [MIRRORING_GUYS].[Funcionalidad] (nombre,formulario) VALUES ('ABM de
 INSERT INTO [MIRRORING_GUYS].[Funcionalidad] (nombre,formulario) VALUES ('Listado Estadistico','PagoAgilFrba.ListadoEstadistico')
 INSERT INTO [MIRRORING_GUYS].[Funcionalidad] (nombre,formulario) VALUES ('Registro de Pagos','PagoAgilFrba.RegistroPago')
 INSERT INTO [MIRRORING_GUYS].[Funcionalidad] (nombre,formulario) VALUES ('Rendicion','PagoAgilFrba.AbmRendicion')
-INSERT INTO [MIRRORING_GUYS].[Funcionalidad] (nombre,formulario) VALUES ('Devolucion','PagoAgilFrba.Devolucion')
+INSERT INTO [MIRRORING_GUYS].[Funcionalidad] (nombre,formulario) VALUES ('Devolucion de Pago','PagoAgilFrba.DevolucionPago')
+INSERT INTO [MIRRORING_GUYS].[Funcionalidad] (nombre,formulario) VALUES ('Devolucion de Rendicion','PagoAgilFrba.DevolucionRendicion')
 
 INSERT INTO [MIRRORING_GUYS].[FuncPorRol] (id_rol, id_func)
 	SELECT
@@ -353,6 +354,7 @@ INSERT INTO [MIRRORING_GUYS].[FuncPorRol] (id_rol, id_func)
 		f.id
 	FROM	
 		[MIRRORING_GUYS].[Funcionalidad] f
+	WHERE f.nombre != 'Devolucion de Pago'
 
 INSERT INTO [MIRRORING_GUYS].[FuncPorRol] (id_rol, id_func)
 	SELECT
@@ -360,7 +362,7 @@ INSERT INTO [MIRRORING_GUYS].[FuncPorRol] (id_rol, id_func)
 		f.id
 	FROM	
 		[MIRRORING_GUYS].[Funcionalidad] f
-	WHERE f.nombre IN ('ABM de Factura', 'Registro de Pagos')
+	WHERE f.nombre IN ('ABM de Factura', 'Registro de Pagos', 'Devolucion de Pago')
 
 CREATE TABLE MIRRORING_GUYS.Rubro (
 	id						INT	IDENTITY(1,1) NOT NULL,

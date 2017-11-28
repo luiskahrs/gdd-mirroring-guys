@@ -107,11 +107,17 @@
     <Compile Include="Formularios\AbmRendicion\AbmRendicion.Designer.cs">
       <DependentUpon>AbmRendicion.cs</DependentUpon>
     </Compile>
-    <Compile Include="Formularios\Devolucion\Devolucion.cs">
+    <Compile Include="Formularios\DevolucionPago\DevolucionPago.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Formularios\Devolucion\Devolucion.Designer.cs">
-      <DependentUpon>Devolucion.cs</DependentUpon>
+    <Compile Include="Formularios\DevolucionPago\DevolucionPago.Designer.cs">
+      <DependentUpon>DevolucionPago.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\DevolucionRendicion\DevolucionRendicion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\DevolucionRendicion\DevolucionRendicion.Designer.cs">
+      <DependentUpon>DevolucionRendicion.cs</DependentUpon>
     </Compile>
     <Compile Include="Formularios\Login\FormLogin.cs">
       <SubType>Form</SubType>
@@ -211,6 +217,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Formularios\AbmRendicion\AbmRendicion.resx">
       <DependentUpon>AbmRendicion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\DevolucionPago\DevolucionPago.resx">
+      <DependentUpon>DevolucionPago.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\DevolucionRendicion\DevolucionRendicion.resx">
+      <DependentUpon>DevolucionRendicion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Formularios\ListadoEstadistico\ListadoEstadistico.resx">
       <DependentUpon>ListadoEstadistico.cs</DependentUpon>

@@ -115,6 +115,127 @@ namespace PagoAgilFrba.Core
             }
         }
 
+        public static DataTable getRendidas(string numero)
+        {
+            using (Database database = new Database())
+            {
+                if (numero == "ALL")
+                {
+                    return database.EjecutarQuery(@"SELECT
+	                                                    F.id, 
+	                                                    F.nro 'Numero', 
+	                                                    F.fecha, 
+	                                                    F.fecha_vencimiento 'Vencimiento',
+	                                                    F.id_cliente 'Cliente ID',
+	                                                    C.nombre 'Nombre Cliente',
+	                                                    C.apellido 'Apellido Cliente',
+	                                                    C.dni 'Cliente DNI', 
+	                                                    F.id_empresa 'Empresa ID', 
+	                                                    E.nombre 'Nombre Empresa',
+	                                                    E.cuit 'Cuit Empresa',
+                                                        F.id_pago 'Pago ID',
+                                                        F.id_rendicion 'Rendicion ID',
+	                                                    CASE WHEN id_pago IS NOT NULL THEN 'Paga' ELSE 'Impaga' END 'Esta paga',
+	                                                    CASE WHEN id_rendicion IS NOT NULL THEN 'Rendida' ELSE 'No rendida' END 'Esta rendiad'
+                                                    FROM [MIRRORING_GUYS].[Factura] F, [MIRRORING_GUYS].[Cliente] C, [MIRRORING_GUYS].[Empresa] E
+                                                    WHERE 
+	                                                    F.id_cliente = C.id AND 
+	                                                    F.id_empresa = E.id AND
+	                                                    F.id_rendicion IS NOT NULL
+                                                    ORDER BY F.nro");
+                }
+                else
+                {
+                    return database.EjecutarQuery(@"SELECT TOP 10
+	                                                    F.id, 
+	                                                    F.nro 'Numero', 
+	                                                    F.fecha, 
+	                                                    F.fecha_vencimiento 'Vencimiento',
+	                                                    F.id_cliente 'Cliente ID',
+	                                                    C.nombre 'Nombre Cliente',
+	                                                    C.apellido 'Apellido Cliente',
+	                                                    C.dni 'Cliente DNI', 
+	                                                    F.id_empresa 'Empresa ID', 
+	                                                    E.nombre 'Nombre Empresa',
+	                                                    E.cuit 'Cuit Empresa',
+                                                        F.id_pago 'Pago ID',
+                                                        F.id_rendicion 'Rendicion ID',
+	                                                    CASE WHEN id_pago IS NOT NULL THEN 'Paga' ELSE 'Impaga' END 'Esta paga',
+	                                                    CASE WHEN id_rendicion IS NOT NULL THEN 'Rendida' ELSE 'No rendida' END 'Esta rendiad'
+                                                    FROM [MIRRORING_GUYS].[Factura] F, [MIRRORING_GUYS].[Cliente] C, [MIRRORING_GUYS].[Empresa] E
+                                                    WHERE 
+	                                                    F.id_cliente = C.id AND 
+	                                                    F.id_empresa = E.id AND
+	                                                    (@Numero = -1 OR F.nro = @Numero) AND
+	                                                    F.id_rendicion IS NOT NULL
+                                                    ORDER BY F.nro",
+                                                    Database.CrearParametro("@Numero", (numero == null || numero == "") ? -1 : int.Parse(numero)));
+                }
+            }
+        }
+
+        public static DataTable getPagasNoRendidas(string numero)
+        {
+            using (Database database = new Database())
+            {
+                if (numero == "ALL")
+                {
+                    return database.EjecutarQuery(@"SELECT
+	                                                    F.id, 
+	                                                    F.nro 'Numero', 
+	                                                    F.fecha, 
+	                                                    F.fecha_vencimiento 'Vencimiento',
+	                                                    F.id_cliente 'Cliente ID',
+	                                                    C.nombre 'Nombre Cliente',
+	                                                    C.apellido 'Apellido Cliente',
+	                                                    C.dni 'Cliente DNI', 
+	                                                    F.id_empresa 'Empresa ID', 
+	                                                    E.nombre 'Nombre Empresa',
+	                                                    E.cuit 'Cuit Empresa',
+                                                        F.id_pago 'Pago ID',
+                                                        F.id_rendicion 'Rendicion ID',
+	                                                    CASE WHEN id_pago IS NOT NULL THEN 'Paga' ELSE 'Impaga' END 'Esta paga',
+	                                                    CASE WHEN id_rendicion IS NOT NULL THEN 'Rendida' ELSE 'No rendida' END 'Esta rendiad'
+                                                    FROM [MIRRORING_GUYS].[Factura] F, [MIRRORING_GUYS].[Cliente] C, [MIRRORING_GUYS].[Empresa] E
+                                                    WHERE 
+	                                                    F.id_cliente = C.id AND 
+	                                                    F.id_empresa = E.id AND
+	                                                    F.id_rendicion IS NULL AND
+                                                        F.id_pago IS NOT NULL
+                                                    ORDER BY F.nro");
+                }
+                else
+                {
+                    return database.EjecutarQuery(@"SELECT TOP 10
+	                                                    F.id, 
+	                                                    F.nro 'Numero', 
+	                                                    F.fecha, 
+	                                                    F.fecha_vencimiento 'Vencimiento',
+	                                                    F.id_cliente 'Cliente ID',
+	                                                    C.nombre 'Nombre Cliente',
+	                                                    C.apellido 'Apellido Cliente',
+	                                                    C.dni 'Cliente DNI', 
+	                                                    F.id_empresa 'Empresa ID', 
+	                                                    E.nombre 'Nombre Empresa',
+	                                                    E.cuit 'Cuit Empresa',
+                                                        F.id_pago 'Pago ID',
+                                                        F.id_rendicion 'Rendicion ID',
+	                                                    CASE WHEN id_pago IS NOT NULL THEN 'Paga' ELSE 'Impaga' END 'Esta paga',
+	                                                    CASE WHEN id_rendicion IS NOT NULL THEN 'Rendida' ELSE 'No rendida' END 'Esta rendiad'
+                                                    FROM [MIRRORING_GUYS].[Factura] F, [MIRRORING_GUYS].[Cliente] C, [MIRRORING_GUYS].[Empresa] E
+                                                    WHERE 
+	                                                    F.id_cliente = C.id AND 
+	                                                    F.id_empresa = E.id AND
+	                                                    (@Numero = -1 OR F.nro = @Numero) AND
+	                                                    F.id_rendicion IS NULL AND
+                                                        F.id_pago IS NOT NULL
+                                                    ORDER BY F.nro",
+                                                    Database.CrearParametro("@Numero", (numero == null || numero == "") ? -1 : int.Parse(numero)));
+                }
+            }
+        }
+
+
         public override void Guardar()
         {
             if (this.Id == null)
@@ -193,6 +314,36 @@ namespace PagoAgilFrba.Core
                             Database.CrearParametro("@IdRen", RedencionId),
                             Database.CrearParametro("@FId", id));
                 }
+            }
+        }
+
+        public static void DesRendir(int Id)
+        {
+            using (Database Database = new Database())
+            {
+                
+                Database.EjecutarNonQuery(
+                        "UPDATE [MIRRORING_GUYS].[Factura]" +
+                        "SET [id_rendicion] = NULL" +
+                        " WHERE id = @FId",
+                        CommandType.Text,
+                        Database.CrearParametro("@FId", Id));
+                
+            }
+        }
+
+        public static void BorrarPago(int Id)
+        {
+            using (Database Database = new Database())
+            {
+
+                Database.EjecutarNonQuery(
+                        "UPDATE [MIRRORING_GUYS].[Factura]" +
+                        "SET [id_pago] = NULL" +
+                        " WHERE id = @FId",
+                        CommandType.Text,
+                        Database.CrearParametro("@FId", Id));
+
             }
         }
 

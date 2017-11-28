@@ -135,7 +135,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button btnNuevo;
+        protected System.Windows.Forms.Button btnNuevo;
         private System.Windows.Forms.Button btnBuscar;
         private System.Windows.Forms.Button btnLimpiar;
         public System.Windows.Forms.Panel panel1;
