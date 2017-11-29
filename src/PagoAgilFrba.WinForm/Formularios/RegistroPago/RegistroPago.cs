@@ -223,9 +223,5 @@ namespace PagoAgilFrba
                     dgv.DataSource = Facturas;        
                 }
         }
-
-
-
-
     }
 }

@@ -44,19 +44,26 @@
             this.grpBusqueda.SuspendLayout();
             this.SuspendLayout();
             // 
+            // btnNuevo
+            // 
+            this.btnNuevo.Location = new System.Drawing.Point(524, 70);
+            // 
+            // btnBuscar
+            // 
+            this.btnBuscar.Location = new System.Drawing.Point(525, 12);
+            // 
+            // btnLimpiar
+            // 
+            this.btnLimpiar.Location = new System.Drawing.Point(525, 41);
+            // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.comboBoxFormaPago);
-            this.panel1.Size = new System.Drawing.Size(590, 512);
-            this.panel1.Controls.SetChildIndex(this.grpBusqueda, 0);
-            this.panel1.Controls.SetChildIndex(this.btnLimpiar, 0);
-            this.panel1.Controls.SetChildIndex(this.btnBuscar, 0);
-            this.panel1.Controls.SetChildIndex(this.comboBoxFormaPago, 0);
-            this.panel1.Controls.SetChildIndex(this.btnNuevo, 0);
+            this.panel1.Size = new System.Drawing.Size(601, 512);
             // 
             // grpBusqueda
             // 
             this.grpBusqueda.Controls.Add(this.label2);
+            this.grpBusqueda.Controls.Add(this.comboBoxFormaPago);
             this.grpBusqueda.Controls.Add(this.textBoxImporte);
             this.grpBusqueda.Controls.Add(this.txtImporte);
             this.grpBusqueda.Controls.Add(this.label7);
@@ -67,12 +74,15 @@
             this.grpBusqueda.Controls.Add(this.comboBoxCliente);
             this.grpBusqueda.Controls.Add(this.textNumero);
             this.grpBusqueda.Controls.Add(this.Numero);
+            this.grpBusqueda.Location = new System.Drawing.Point(12, 9);
+            this.grpBusqueda.Size = new System.Drawing.Size(508, 106);
             this.grpBusqueda.Text = "Datos Factura";
             // 
             // label1
             // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(335, 22);
+            this.label1.Location = new System.Drawing.Point(283, 22);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(48, 13);
             this.label1.TabIndex = 31;
@@ -80,17 +90,19 @@
             // 
             // comboBoxEmpresa
             // 
+            this.comboBoxEmpresa.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxEmpresa.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBoxEmpresa.FormattingEnabled = true;
-            this.comboBoxEmpresa.Location = new System.Drawing.Point(388, 19);
+            this.comboBoxEmpresa.Location = new System.Drawing.Point(337, 19);
             this.comboBoxEmpresa.Name = "comboBoxEmpresa";
-            this.comboBoxEmpresa.Size = new System.Drawing.Size(367, 21);
+            this.comboBoxEmpresa.Size = new System.Drawing.Size(149, 21);
             this.comboBoxEmpresa.TabIndex = 30;
             // 
             // label6
             // 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(365, 49);
+            this.label6.Location = new System.Drawing.Point(292, 54);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(39, 13);
             this.label6.TabIndex = 29;
@@ -98,27 +110,28 @@
             // 
             // comboBoxCliente
             // 
+            this.comboBoxCliente.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxCliente.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBoxCliente.FormattingEnabled = true;
-            this.comboBoxCliente.Location = new System.Drawing.Point(406, 46);
+            this.comboBoxCliente.Location = new System.Drawing.Point(337, 46);
             this.comboBoxCliente.Name = "comboBoxCliente";
-            this.comboBoxCliente.Size = new System.Drawing.Size(298, 21);
+            this.comboBoxCliente.Size = new System.Drawing.Size(149, 21);
             this.comboBoxCliente.TabIndex = 28;
             // 
             // textNumero
             // 
             this.textNumero.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textNumero.Location = new System.Drawing.Point(66, 19);
+            this.textNumero.Location = new System.Drawing.Point(74, 19);
             this.textNumero.MaxLength = 50;
             this.textNumero.Name = "textNumero";
-            this.textNumero.Size = new System.Drawing.Size(32, 20);
+            this.textNumero.Size = new System.Drawing.Size(54, 20);
             this.textNumero.TabIndex = 27;
             // 
             // Numero
             // 
             this.Numero.AutoSize = true;
-            this.Numero.Location = new System.Drawing.Point(13, 22);
+            this.Numero.Location = new System.Drawing.Point(27, 22);
             this.Numero.Name = "Numero";
             this.Numero.Size = new System.Drawing.Size(44, 13);
             this.Numero.TabIndex = 26;
@@ -145,16 +158,16 @@
             // 
             this.textBoxImporte.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxImporte.Location = new System.Drawing.Point(66, 73);
+            this.textBoxImporte.Location = new System.Drawing.Point(74, 73);
             this.textBoxImporte.MaxLength = 50;
             this.textBoxImporte.Name = "textBoxImporte";
-            this.textBoxImporte.Size = new System.Drawing.Size(63, 20);
+            this.textBoxImporte.Size = new System.Drawing.Size(85, 20);
             this.textBoxImporte.TabIndex = 35;
             // 
             // txtImporte
             // 
             this.txtImporte.AutoSize = true;
-            this.txtImporte.Location = new System.Drawing.Point(13, 76);
+            this.txtImporte.Location = new System.Drawing.Point(26, 76);
             this.txtImporte.Name = "txtImporte";
             this.txtImporte.Size = new System.Drawing.Size(42, 13);
             this.txtImporte.TabIndex = 34;
@@ -162,8 +175,9 @@
             // 
             // label2
             // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(283, 80);
+            this.label2.Location = new System.Drawing.Point(252, 79);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(79, 13);
             this.label2.TabIndex = 37;
@@ -172,18 +186,19 @@
             // 
             // comboBoxFormaPago
             // 
+            this.comboBoxFormaPago.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxFormaPago.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBoxFormaPago.FormattingEnabled = true;
-            this.comboBoxFormaPago.Location = new System.Drawing.Point(379, 88);
+            this.comboBoxFormaPago.Location = new System.Drawing.Point(337, 76);
             this.comboBoxFormaPago.Name = "comboBoxFormaPago";
-            this.comboBoxFormaPago.Size = new System.Drawing.Size(298, 21);
+            this.comboBoxFormaPago.Size = new System.Drawing.Size(149, 21);
             this.comboBoxFormaPago.TabIndex = 36;
             // 
             // RegistroPago
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(590, 512);
+            this.ClientSize = new System.Drawing.Size(601, 512);
             this.Name = "RegistroPago";
             this.Text = "Registro de Pago";
             this.panel1.ResumeLayout(false);
