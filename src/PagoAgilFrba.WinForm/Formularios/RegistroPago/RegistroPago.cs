@@ -204,6 +204,11 @@ namespace PagoAgilFrba
         protected override void btnNuevo_Click(object sender, EventArgs e)
         {
             Pago.Pagar(Facturas, Suc, IdFormaPago.GetValueOrDefault());
+            Generico.MostrarInformacion("La operacion fue exitosa");
+            dgv.DataSource = null;
+            dgv.Update();
+            dgv.Refresh();
+            Facturas = new List<Factura>();
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -220,7 +225,7 @@ namespace PagoAgilFrba
                     dgv.DataSource = null;
                     dgv.Update();
                     dgv.Refresh();
-                    dgv.DataSource = Facturas;        
+                    dgv.DataSource = Facturas;
                 }
         }
     }
