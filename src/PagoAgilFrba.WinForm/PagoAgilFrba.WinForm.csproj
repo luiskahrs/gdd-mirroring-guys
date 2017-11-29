@@ -268,6 +268,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Iconos\cliente.ico" />
+    <Content Include="Iconos\main.ico" />
+    <Content Include="Iconos\rol.ico" />
+    <Content Include="Iconos\sucursal.ico" />
     <Content Include="main.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
