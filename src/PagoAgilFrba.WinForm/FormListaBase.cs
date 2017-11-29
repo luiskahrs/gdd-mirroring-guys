@@ -124,7 +124,7 @@ namespace PagoAgilFrba
             }
         }
 
-        private void btnNuevo_Click(object sender, EventArgs e)
+        protected virtual void btnNuevo_Click(object sender, EventArgs e)
         {
             try
             {

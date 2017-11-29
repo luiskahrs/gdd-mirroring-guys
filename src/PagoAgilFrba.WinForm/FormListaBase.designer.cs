@@ -136,7 +136,7 @@
         #endregion
 
         protected System.Windows.Forms.Button btnNuevo;
-        private System.Windows.Forms.Button btnBuscar;
+        protected System.Windows.Forms.Button btnBuscar;
         protected System.Windows.Forms.Button btnLimpiar;
         public System.Windows.Forms.Panel panel1;
         protected System.Windows.Forms.GroupBox grpBusqueda;

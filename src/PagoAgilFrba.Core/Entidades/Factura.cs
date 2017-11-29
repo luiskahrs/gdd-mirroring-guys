@@ -19,6 +19,7 @@ namespace PagoAgilFrba.Core
         public List<ItemFactura> Items { get; set; }
         public List<ItemFactura> AddedItems { get; set; }
         public List<ItemFactura> DeletedItems { get; set; }
+        public decimal Importe { get; set; }
 
         public Factura()
         {
@@ -100,7 +101,8 @@ namespace PagoAgilFrba.Core
                                                     F.id_pago 'Pago ID',
                                                     F.id_rendicion 'Rendicion ID',
 	                                                CASE WHEN id_pago IS NOT NULL THEN 'Paga' ELSE 'Impaga' END 'Esta paga',
-	                                                CASE WHEN id_rendicion IS NOT NULL THEN 'Rendida' ELSE 'No rendida' END 'Esta rendiad'
+	                                                CASE WHEN id_rendicion IS NOT NULL THEN 'Rendida' ELSE 'No rendida' END 'Esta rendiad',
+                                                    (SELECT SUM(I.monto) FROM MIRRORING_GUYS.ItemFactura I WHERE I.id_factura = F.id) 'Importe'
                                                 FROM [MIRRORING_GUYS].[Factura] F, [MIRRORING_GUYS].[Cliente] C, [MIRRORING_GUYS].[Empresa] E
                                                 WHERE 
 	                                                F.id_cliente = C.id AND 
@@ -329,6 +331,21 @@ namespace PagoAgilFrba.Core
                         CommandType.Text,
                         Database.CrearParametro("@FId", Id));
                 
+            }
+        }
+
+        public void Pagar()
+        {
+            using (Database Database = new Database())
+            {
+                
+                    Database.EjecutarNonQuery(
+                            "UPDATE [MIRRORING_GUYS].[Factura]" +
+                            "SET [id_pago] = @IdPag" +
+                            " WHERE id = @FId",
+                            CommandType.Text,
+                            Database.CrearParametro("@IdPag", this.IdPago),
+                            Database.CrearParametro("@FId", this.Id));
             }
         }
 

@@ -455,7 +455,7 @@ GO
 
 CREATE TABLE MIRRORING_GUYS.Pago (
 	id						INT	IDENTITY(1,1) NOT NULL,
-	nro						NUMERIC(18,0) NOT NULL,
+	nro						NUMERIC(18,0),
 	fecha					DATETIME NOT NULL,
 	id_forma_pago			INT NOT NULL,
 	id_sucursal				INT NOT NULL,

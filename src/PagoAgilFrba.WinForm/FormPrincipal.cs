@@ -148,6 +148,9 @@
                 }
             }
 
+            if (newChild is RegistroPago)
+                (newChild as RegistroPago).Suc = _sucursal;
+
             tabControl1.SelectTab(childTab);     //this is to make sure that tab page is selected in the same time
             newChild.Show();                                 //as new form created so that corresponding tab and child form is active
         }
