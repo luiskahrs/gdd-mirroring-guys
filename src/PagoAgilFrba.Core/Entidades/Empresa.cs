@@ -1,5 +1,6 @@
 ﻿namespace PagoAgilFrba.Core
 {
+    using System;
     using System.Collections.Generic;
     using System.Data;
 
@@ -54,7 +55,7 @@
 	                                                    CASE WHEN E.esta_activa = 1 THEN 'si' ELSE 'no' END 'Esta activa',
 	                                                    E.dia_rendicion 'Dia de rendencion',
                                                         D.id 'Direccion ID',
-	                                                    D.direccion 'Direccion',
+	                                                    D.calle 'Direccion',
                                                         D.codigo_postal 'Codigo Postal',
 	                                                    R.descripcion 'Rubro',
                                                         R.id 'Rubro ID'
@@ -64,7 +65,7 @@
                                                         E.id_rubro = R.id AND 
                                                         E.cuit LIKE @Cuit AND 
                                                         E.nombre LIKE @Nombre
-                                                    Order by E.id",
+                                                    Order by E.nombre",
                                                     Database.CrearParametro("@Nombre", string.Format("%{0}%", Nombre)),
                                                     Database.CrearParametro("@Cuit", string.Format("%{0}%", Cuit)));
                 }
@@ -77,7 +78,7 @@
 	                                                    CASE WHEN E.esta_activa = 1 THEN 'si' ELSE 'no' END 'Esta activa',
 	                                                    E.dia_rendicion 'Dia de rendencion',
                                                         D.id 'Direccion ID',
-	                                                    D.direccion 'Direccion',
+	                                                    D.calle 'Direccion',
                                                         D.codigo_postal 'Codigo Postal',
 	                                                    R.descripcion 'Rubro',
                                                         R.id 'Rubro ID'
@@ -107,7 +108,7 @@
 	                                                CASE WHEN E.esta_activa = 1 THEN 'si' ELSE 'no' END 'Esta activa',
 	                                                E.dia_rendicion 'Dia de rendencion',
                                                     D.id 'Direccion ID',
-	                                                D.direccion 'Direccion',
+	                                                D.calle 'Direccion',
                                                     D.codigo_postal 'Codigo Postal',
 	                                                R.descripcion 'Rubro',
                                                     R.id 'Rubro ID'
@@ -116,7 +117,21 @@
                                                 Order by E.id");
             }
         }
-        
+
+        public static List<Tuple<int, string>> ListarEmpresas()
+        {
+            List<Tuple<int, string>> descs = new List<Tuple<int, string>>();
+            foreach (DataRow dr in Empresa.Listar().Rows)
+            {
+                String Nombre = dr.Field<string>("Nombre");
+                String Cuit = dr.Field<string>("CUIT");
+                int id = dr.Field<int>("id");
+
+                descs.Add(new Tuple<int, string>(id, Nombre + " - " + Cuit));
+            }
+            return descs;
+        }
+
         public override void Guardar()
         {
             using (Database Database = new Database())

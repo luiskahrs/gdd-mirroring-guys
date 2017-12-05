@@ -71,6 +71,18 @@
     <Compile Include="Formularios\AbmEmpresa\EditorEmpresa.Designer.cs">
       <DependentUpon>EditorEmpresa.cs</DependentUpon>
     </Compile>
+    <Compile Include="Formularios\AbmFactura\AbmFactura.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\AbmFactura\AbmFactura.Designer.cs">
+      <DependentUpon>AbmFactura.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\AbmFactura\EditorFactura.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\AbmFactura\EditorFactura.Designer.cs">
+      <DependentUpon>EditorFactura.cs</DependentUpon>
+    </Compile>
     <Compile Include="Formularios\AbmRol\EditorRol.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -89,11 +101,29 @@
     <Compile Include="Formularios\AbmSucursal\EditorSucursal.Designer.cs">
       <DependentUpon>EditorSucursal.cs</DependentUpon>
     </Compile>
-    <Compile Include="Formularios\Devolucion\Devolucion.cs">
+    <Compile Include="Formularios\AbmRendicion\AbmRendicion.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Formularios\Devolucion\Devolucion.Designer.cs">
-      <DependentUpon>Devolucion.cs</DependentUpon>
+    <Compile Include="Formularios\AbmRendicion\AbmRendicion.Designer.cs">
+      <DependentUpon>AbmRendicion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\DevolucionPago\DevolucionPago.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\DevolucionPago\DevolucionPago.Designer.cs">
+      <DependentUpon>DevolucionPago.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\DevolucionRendicion\DevolucionRendicion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\DevolucionRendicion\DevolucionRendicion.Designer.cs">
+      <DependentUpon>DevolucionRendicion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\ListadoEstadistico\ListadoEstadistico.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\ListadoEstadistico\ListadoEstadistico.Designer.cs">
+      <DependentUpon>ListadoEstadistico.cs</DependentUpon>
     </Compile>
     <Compile Include="Formularios\Login\FormLogin.cs">
       <SubType>Form</SubType>
@@ -119,23 +149,11 @@
     <Compile Include="Formularios\AbmEmpresa\AbmEmpresa.Designer.cs">
       <DependentUpon>AbmEmpresa.cs</DependentUpon>
     </Compile>
-    <Compile Include="Formularios\AbmFactura\AbmFactura.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Formularios\AbmFactura\AbmFactura.Designer.cs">
-      <DependentUpon>AbmFactura.cs</DependentUpon>
-    </Compile>
     <Compile Include="Formularios\AbmRol\AbmRol.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Formularios\AbmRol\AbmRol.Designer.cs">
       <DependentUpon>AbmRol.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Formularios\ListadoEstadistico\ListadoEstadistico.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Formularios\ListadoEstadistico\ListadoEstadistico.Designer.cs">
-      <DependentUpon>ListadoEstadistico.cs</DependentUpon>
     </Compile>
     <Compile Include="Formularios\Login\FormSelSuc.cs">
       <SubType>Form</SubType>
@@ -154,12 +172,6 @@
     </Compile>
     <Compile Include="Formularios\RegistroPago\RegistroPago.Designer.cs">
       <DependentUpon>RegistroPago.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Formularios\Rendicion\Rendicion.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Formularios\Rendicion\Rendicion.Designer.cs">
-      <DependentUpon>Rendicion.cs</DependentUpon>
     </Compile>
     <Compile Include="Helper\HelperWin.cs" />
     <Compile Include="Program.cs" />
@@ -188,6 +200,9 @@
     <EmbeddedResource Include="Formularios\AbmFactura\AbmFactura.resx">
       <DependentUpon>AbmFactura.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\AbmFactura\EditorFactura.resx">
+      <DependentUpon>EditorFactura.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Formularios\AbmRol\AbmRol.resx">
       <DependentUpon>AbmRol.cs</DependentUpon>
     </EmbeddedResource>
@@ -199,6 +214,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Formularios\AbmSucursal\EditorSucursal.resx">
       <DependentUpon>EditorSucursal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\AbmRendicion\AbmRendicion.resx">
+      <DependentUpon>AbmRendicion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\DevolucionPago\DevolucionPago.resx">
+      <DependentUpon>DevolucionPago.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\DevolucionRendicion\DevolucionRendicion.resx">
+      <DependentUpon>DevolucionRendicion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Formularios\ListadoEstadistico\ListadoEstadistico.resx">
       <DependentUpon>ListadoEstadistico.cs</DependentUpon>
@@ -214,9 +238,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Formularios\RegistroPago\RegistroPago.resx">
       <DependentUpon>RegistroPago.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Formularios\Rendicion\Rendicion.resx">
-      <DependentUpon>Rendicion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -238,7 +259,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PagoAgilFrba.Core\PagoAgilFrba.Core.csproj">
@@ -247,6 +270,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Iconos\cliente.ico" />
+    <Content Include="Iconos\main.ico" />
+    <Content Include="Iconos\rol.ico" />
+    <Content Include="Iconos\sucursal.ico" />
     <Content Include="main.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -32,7 +32,7 @@
             {
                 Database.IniciarTransaccion();
                 int InsertedId = Database.EjecutarEscalar<int>(
-                    "INSERT INTO MIRRORING_GUYS.Direccion(direccion, codigo_postal) output INSERTED.ID " +
+                    "INSERT INTO MIRRORING_GUYS.Direccion(calle, codigo_postal) output INSERTED.ID " +
                     "VALUES (@Calle, @CodigoPostal)",
                     Database.CrearParametro("@Calle", this.Calle),
                     Database.CrearParametro("@CodigoPostal", this.Codigo_Postal));
@@ -48,7 +48,7 @@
                 Database.IniciarTransaccion();
                 Database.EjecutarNonQuery(
                     "UPDATE [MIRRORING_GUYS].[Direccion] SET "+
-                    "direccion = @Calle, " +
+                    "calle = @Calle, " +
                     "codigo_postal = @CP "+
                     " WHERE id = @DId",
                     CommandType.Text,

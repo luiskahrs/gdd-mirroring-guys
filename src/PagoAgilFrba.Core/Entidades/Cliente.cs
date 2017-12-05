@@ -2,6 +2,7 @@
 {
     using System;
     using System.Data;
+    using System.Collections.Generic;
 
     public class Cliente : EntidadBase
 	{
@@ -32,6 +33,14 @@
                                         Database.CrearParametro("@Nombre", string.Format("%{0}%", nombre)),
                                         Database.CrearParametro("@Apellido", string.Format("%{0}%", apellido)),
                                         Database.CrearParametro("@dni", dni));
+            }
+        }
+
+        public static DataTable Listar()
+        {
+            using (Database dl = new Database())
+            {
+                return dl.EjecutarQuery(@"SELECT id, nombre, apellido, dni FROM [MIRRORING_GUYS].[Cliente] ORDER BY nombre");
             }
         }
 
@@ -150,6 +159,21 @@
                 //Impacto todos los cambios
                 dl.ConfirmarTransaccion();
             }
+        }
+
+        public static List<Tuple<int, string>> ListarClientes()
+        {
+            List<Tuple<int, string>> descs = new List<Tuple<int, string>>();
+            foreach (DataRow dr in Cliente.Listar().Rows)
+            {
+                String Nombre = dr.Field<string>("nombre");
+                String Apellido = dr.Field<string>("apellido");
+                decimal Dni = dr.Field<decimal>("dni");
+                int id = dr.Field<int>("id");
+
+                descs.Add(new Tuple<int, string>(id, Nombre + " " + Apellido + " - " + Dni));
+            }
+            return descs;
         }
     }
 }
