@@ -1,7 +1,9 @@
 ﻿using PagoAgilFrba.Core;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
+using System.Globalization;
 using System.Text;
 using System.Windows.Forms;
 
@@ -118,6 +120,9 @@ namespace PagoAgilFrba
             if (String.IsNullOrEmpty(textNumero.Text)) sbErrores.AppendLine("Ingresar el numero.");
             System.Text.RegularExpressions.Regex regexNumero = new System.Text.RegularExpressions.Regex(@"[0-9]+");
             if (!regexNumero.IsMatch(textNumero.Text)) sbErrores.AppendLine("El numero ser numerico.");
+
+            // Traigo la fecha del config y la convierto a DateTime.
+            var today = DateTime.Parse(ConfigurationManager.AppSettings.Get("SystemDate"), new CultureInfo("es-ES", true));
 
             if (dtpVencimiento.Value.CompareTo(DateTime.Now.AddDays(1)) < 0) sbErrores.AppendLine("Ingresar una fecha de vencimiento posterior a la de hoy.");
 
