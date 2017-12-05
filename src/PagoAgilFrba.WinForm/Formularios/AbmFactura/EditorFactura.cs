@@ -124,7 +124,7 @@ namespace PagoAgilFrba
             // Traigo la fecha del config y la convierto a DateTime.
             var today = DateTime.Parse(ConfigurationManager.AppSettings.Get("SystemDate"), new CultureInfo("es-ES", true));
 
-            if (dtpVencimiento.Value.CompareTo(DateTime.Now.AddDays(1)) < 0) sbErrores.AppendLine("Ingresar una fecha de vencimiento posterior a la de hoy.");
+            if (dtpVencimiento.Value.CompareTo(today) < 0) sbErrores.AppendLine("Ingresar una fecha de vencimiento posterior a la de hoy.");
 
             if (Factura.Items.Count <= 0) sbErrores.AppendLine("Ingresar al menos un item.");
         }

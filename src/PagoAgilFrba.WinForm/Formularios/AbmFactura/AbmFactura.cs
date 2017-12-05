@@ -2,6 +2,7 @@
 using System;
 using System.Data;
 using System.Windows.Forms;
+using System.Globalization;
 
 namespace PagoAgilFrba
 {
@@ -48,8 +49,8 @@ namespace PagoAgilFrba
         {
             int Id = int.Parse(dr.Cells["id"].Value.ToString());
             string Numero = dr.Cells["Numero"].Value.ToString();
-            DateTime Fecha = DateTime.Parse(dr.Cells["fecha"].Value.ToString());
-            DateTime FechaVencimiento = DateTime.Parse(dr.Cells["Vencimiento"].Value.ToString());
+            DateTime Fecha = DateTime.ParseExact(dr.Cells["fecha"].Value.ToString(), "yyyy-MM-dd", new CultureInfo("es-ES", true));
+            DateTime FechaVencimiento = DateTime.ParseExact(dr.Cells["Vencimiento"].Value.ToString(), "yyyy-MM-dd", new CultureInfo("es-ES", true));
             int IdCliente = int.Parse(dr.Cells["Cliente ID"].Value.ToString());
             //string ClienteNombre = dr.Cells["Nombre Cliente"].Value.ToString();
             //string ClienteApellido = dr.Cells["Apellido Cliente"].Value.ToString();

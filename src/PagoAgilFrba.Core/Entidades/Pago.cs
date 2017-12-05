@@ -4,6 +4,8 @@ namespace PagoAgilFrba.Core
 {
     using System.Data;
     using System.Collections.Generic;
+    using System.Globalization;
+    using System.Configuration;
 
     public class Pago
 	{
@@ -13,11 +15,14 @@ namespace PagoAgilFrba.Core
         {
             using (Database Database = new Database())
             {
+                
+            DateTime Now = DateTime.Parse(ConfigurationManager.AppSettings.Get("SystemDate"), new CultureInfo("es-ES", true));;
                 Database.IniciarTransaccion();
                 int InsertedId = Database.EjecutarEscalar<int>(
                     "INSERT INTO [MIRRORING_GUYS].[Pago] ([fecha],[id_forma_pago],[id_sucursal],[id_cliente])" +
                     "output INSERTED.ID " +
-                    "VALUES (GETDATE(),@ForPago,@Sucu,@Cli)",
+                    "VALUES (@Fecha,@ForPago,@Sucu,@Cli)",
+                    Database.CrearParametro("@Fecha", Now.ToString("yyyy-MM-dd")),
                     Database.CrearParametro("@ForPago", IdFormaPago),
                     Database.CrearParametro("@Sucu", Sus.Id),
                     Database.CrearParametro("@Cli", Facturas[0].IdCliente));

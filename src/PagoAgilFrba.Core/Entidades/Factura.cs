@@ -4,6 +4,8 @@ namespace PagoAgilFrba.Core
 {
     using System.Data;
     using System.Collections.Generic;
+    using System.Globalization;
+    using System.Configuration;
 
     public class Factura : EntidadBase
 	{
@@ -26,7 +28,7 @@ namespace PagoAgilFrba.Core
             Items = new List<ItemFactura>();
             this.DeletedItems = new List<ItemFactura>();
             this.AddedItems = new List<ItemFactura>();
-            Fecha = DateTime.Now;
+            Fecha = DateTime.Parse(ConfigurationManager.AppSettings.Get("SystemDate"), new CultureInfo("es-ES", true));
         }
 
         public Factura(

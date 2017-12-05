@@ -4,6 +4,8 @@ namespace PagoAgilFrba.Core
 {
     using System.Data;
     using System.Collections.Generic;
+    using System.Globalization;
+    using System.Configuration;
 
     public class Rendicion
 	{
@@ -18,11 +20,13 @@ namespace PagoAgilFrba.Core
         {
             using (Database Database = new Database())
             {
+                DateTime Now = DateTime.Parse(ConfigurationManager.AppSettings.Get("SystemDate"), new CultureInfo("es-ES", true)); ;
                 Database.IniciarTransaccion();
                 int InsertedId = Database.EjecutarEscalar<int>(
                     "INSERT INTO [MIRRORING_GUYS].[Rendicion] (fecha, [porcentaje_comision])"+
                     "output INSERTED.ID " +
-                    "VALUES (GETDATE(), @Porcentaje)",
+                    "VALUES (@Fecha, @Porcentaje)",
+                    Database.CrearParametro("@Fecha", Now.ToString("yyyy-MM-dd")),
                     Database.CrearParametro("@Porcentaje", Porcentaje));
                 Database.ConfirmarTransaccion();
                 return InsertedId;
@@ -33,6 +37,7 @@ namespace PagoAgilFrba.Core
         {
             using (Database database = new Database())
             {
+                DateTime Now = DateTime.Parse(ConfigurationManager.AppSettings.Get("SystemDate"), new CultureInfo("es-ES", true)); ;
                 return database.EjecutarQuery(@"SELECT 
 	                                                F.id, 
 	                                                F.nro 'Numero', 
@@ -45,10 +50,11 @@ namespace PagoAgilFrba.Core
 	                                                F.id_empresa = E.id AND 
 	                                                F.id_pago IS NOT NULL AND 
 	                                                F.id_rendicion IS NULL AND
-	                                                E.dia_rendicion = DAY(GETDATE()) AND
+	                                                E.dia_rendicion = @Day AND
 	                                                I.id_factura = F.id
                                                 GROUP BY F.id, F.nro, F.id_empresa, E.nombre, E.cuit
-                                                ORDER BY F.id desc");
+                                                ORDER BY F.id desc",
+                                                Database.CrearParametro("@Day", int.Parse(Now.ToString("dd"))));
             }
         }
 

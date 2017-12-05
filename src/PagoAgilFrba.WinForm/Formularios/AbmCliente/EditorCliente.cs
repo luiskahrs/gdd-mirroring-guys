@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
+using System.Globalization;
+using System.Configuration;
 
 namespace PagoAgilFrba
 {
@@ -111,7 +113,7 @@ namespace PagoAgilFrba
             txtTelefono.Text = string.Empty;
             txtDireccion.Text = string.Empty;
             txtCodPostal.Text = string.Empty;
-            dtpFecNac.Value = DateTime.Now;
+            dtpFecNac.Value = DateTime.Parse(ConfigurationManager.AppSettings.Get("SystemDate"), new CultureInfo("es-ES", true));
             ckHabilitado.Checked = true;
         }
 

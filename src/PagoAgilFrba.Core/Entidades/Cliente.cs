@@ -2,6 +2,7 @@
 {
     using System;
     using System.Data;
+    using System.Globalization;
     using System.Collections.Generic;
 
     public class Cliente : EntidadBase
@@ -68,7 +69,7 @@
                     DNI = decimal.Parse(dtCliente.Rows[0]["DNI"].ToString()),
                     Email = dtCliente.Rows[0]["Email"].ToString(),
                     Telefono = dtCliente.Rows[0]["Telefono"].ToString(),
-                    Fecha_Nacimiento = DateTime.Parse(dtCliente.Rows[0]["Fecha_Nacimiento"].ToString()),
+                    Fecha_Nacimiento = DateTime.ParseExact(dtCliente.Rows[0]["Fecha_Nacimiento"].ToString(), "yyyy-MM-dd", new CultureInfo("es-ES", true)),
                     Habilitado = bool.Parse(dtCliente.Rows[0]["Habilitado"].ToString())
                 };
 
