@@ -11,15 +11,12 @@
         {
             using (Database database = new Database())
             {
-                return database.EjecutarQuery(@"SELECT TOP 5 E.nombre 'Nombre', ((SELECT COUNT(*) FROM MIRRORING_GUYS.Factura F2 WHERE F2.id_empresa = E.id AND F2.id_pago IS NOT NULL) * 100.0) / (SELECT COUNT(*) FROM MIRRORING_GUYS.Factura F2 WHERE F2.id_empresa = E.id) 'Porcentaje'
-                                                FROM MIRRORING_GUYS.Factura F, MIRRORING_GUYS.Empresa E, MIRRORING_GUYS.Pago P
-                                                WHERE
-	                                                E.id = F.id_empresa AND
-	                                                P.id = F.id_pago AND
-	                                                YEAR(P.fecha) = @Year AND
-	                                                (MONTH(P.fecha) = @Month1 OR MONTH(P.fecha) = @Month2 OR MONTH(P.fecha) = @Month3)
-                                                GROUP BY E.nombre, E.id
-                                                ORDER BY ((SELECT COUNT(*) FROM MIRRORING_GUYS.Factura F2 WHERE F2.id_empresa = E.id AND F2.id_pago IS NOT NULL) * 100.0) / (SELECT COUNT(*) FROM MIRRORING_GUYS.Factura F2 WHERE F2.id_empresa = E.id) desc",
+                return database.EjecutarQuery(@"SELECT TOP 5 
+	                                                E.nombre 'Nombre',
+	                                                ((SELECT COUNT(*) FROM MIRRORING_GUYS.Factura F WHERE F.id_empresa = E.id AND F.id_pago IS NOT NULL AND YEAR(F.fecha) = @Year AND (MONTH(F.fecha) = @Month1 OR MONTH(F.fecha) = @Month2 OR MONTH(F.fecha) = @Month3)) * 100.0) / (SELECT COUNT(*) FROM MIRRORING_GUYS.Factura F WHERE F.id_empresa = E.id AND YEAR(F.fecha) = @Year AND (MONTH(F.fecha) = @Month1 OR MONTH(F.fecha) = @Month2 OR MONTH(F.fecha) = @Month3)) 'Porcentaje'
+                                                FROM MIRRORING_GUYS.Empresa E
+                                                WHERE (SELECT COUNT(*) FROM MIRRORING_GUYS.Factura F WHERE F.id_empresa = E.id AND YEAR(F.fecha) = @Year AND (MONTH(F.fecha) = @Month1 OR MONTH(F.fecha) = @Month2 OR MONTH(F.fecha) = @Month3)) > 0
+                                                ORDER BY ((SELECT COUNT(*) FROM MIRRORING_GUYS.Factura F WHERE F.id_empresa = E.id AND F.id_pago IS NOT NULL AND YEAR(F.fecha) = @Year AND (MONTH(F.fecha) = @Month1 OR MONTH(F.fecha) = @Month2 OR MONTH(F.fecha) = @Month3)) * 100.0) / (SELECT COUNT(*) FROM MIRRORING_GUYS.Factura F WHERE F.id_empresa = E.id AND YEAR(F.fecha) = @Year AND (MONTH(F.fecha) = @Month1 OR MONTH(F.fecha) = @Month2 OR MONTH(F.fecha) = @Month3)) desc",
                                                 Database.CrearParametro("@Year", Year),
                                                 Database.CrearParametro("@Month1", Month1),
                                                 Database.CrearParametro("@Month2", Month2),
@@ -33,15 +30,15 @@
             using (Database database = new Database())
             {
                 return database.EjecutarQuery(@"SELECT TOP 5 E.nombre
-                                                FROM MIRRORING_GUYS.Factura F, MIRRORING_GUYS.ItemFactura I, MIRRORING_GUYS.Empresa E
-                                                WHERE 
-	                                                F.id = I.id_factura AND
-	                                                F.id_empresa = E.id AND
-	                                                F.id_rendicion IS NOT NULL AND
-	                                                YEAR(F.fecha) = @Year AND
-	                                                (MONTH(F.fecha) = @Month1 OR MONTH(F.fecha) = @Month2 OR MONTH(F.fecha) = @Month3)
-                                                GROUP BY E.nombre
-                                                ORDER BY SUM(I.monto) desc",
+                                                FROM MIRRORING_GUYS.Empresa E
+                                                ORDER BY (SELECT SUM(Lala.Rendido) FROM (SELECT F.id_empresa 'Empresa',
+		                                                ISNULL((SELECT SUM(I.monto) * R.porcentaje_comision / 100
+		                                                FROM MIRRORING_GUYS.ItemFactura I, MIRRORING_GUYS.Rendicion R
+		                                                WHERE F.id = I.id_factura AND F.id_rendicion = R.id AND YEAR(R.fecha) = @Year AND (MONTH(R.fecha) = @Month1 OR MONTH(R.fecha) = @Month2 OR MONTH(R.fecha) = @Month3)
+		                                                GROUP BY R.porcentaje_comision), 0) AS 'Rendido'
+	                                                FROM MIRRORING_GUYS.Factura F
+	                                                WHERE F.id_rendicion IS NOT NULL AND YEAR(F.fecha) = @Year AND (MONTH(F.fecha) = @Month1 OR MONTH(F.fecha) = @Month2 OR MONTH(F.fecha) = @Month3)) AS Lala
+	                                                WHERE Lala.Empresa = E.id) desc",
                                                 Database.CrearParametro("@Year", Year),
                                                 Database.CrearParametro("@Month1", Month1),
                                                 Database.CrearParametro("@Month2", Month2),
@@ -77,14 +74,14 @@
             using (Database database = new Database())
             {
                 return database.EjecutarQuery(@"SELECT TOP 5 C.nombre 'Nombre', C.apellido 'Apellido'
-                                                FROM MIRRORING_GUYS.Factura F, MIRRORING_GUYS.Cliente C, MIRRORING_GUYS.Pago P
-                                                WHERE
-	                                                C.id = F.id_cliente AND
-	                                                P.id = F.id_pago AND
-	                                                YEAR(P.fecha) = @Year AND
-	                                                (MONTH(P.fecha) = @Month1 OR MONTH(P.fecha) = @Month2 OR MONTH(P.fecha) = @Month3)
-                                                GROUP BY C.nombre, C.apellido, C.id
-                                                ORDER BY ((SELECT COUNT(*) FROM MIRRORING_GUYS.Factura F2 WHERE F2.id_cliente = C.id AND F2.id_pago IS NOT NULL) * 100.0) / (SELECT COUNT(*) FROM MIRRORING_GUYS.Factura F2 WHERE F2.id_cliente = C.id) desc",
+                                                FROM MIRRORING_GUYS.Cliente C
+                                                WHERE (SELECT COUNT(*) FROM MIRRORING_GUYS.Factura F
+	                                                WHERE F.id_cliente = C.id AND YEAR(F.fecha) = @Year AND (MONTH(F.fecha) = @Month1 OR MONTH(F.fecha) = @Month2 OR MONTH(F.fecha) = @Month3)) > 0
+                                                ORDER BY ((SELECT COUNT(*) FROM MIRRORING_GUYS.Factura F, MIRRORING_GUYS.Pago P WHERE F.id_cliente = C.id AND F.id_pago IS NOT NULL AND F.id_pago = P.id AND
+		                                                YEAR(F.fecha) = @Year AND (MONTH(F.fecha) = @Month1 OR MONTH(F.fecha) = @Month2 OR MONTH(F.fecha) = @Month3) AND
+		                                                YEAR(P.fecha) = @Year AND (MONTH(P.fecha) = @Month1 OR MONTH(P.fecha) = @Month2 OR MONTH(P.fecha) = @Month3)) * 100) /
+		                                                (SELECT COUNT(*) FROM MIRRORING_GUYS.Factura F WHERE F.id_cliente = C.id AND 
+		                                                 YEAR(F.fecha) = @Year AND (MONTH(F.fecha) = @Month1 OR MONTH(F.fecha) = @Month2 OR MONTH(F.fecha) = @Month3)) desc",
                                                 Database.CrearParametro("@Year", Year),
                                                 Database.CrearParametro("@Month1", Month1),
                                                 Database.CrearParametro("@Month2", Month2),
