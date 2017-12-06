@@ -336,21 +336,6 @@ namespace PagoAgilFrba.Core
             }
         }
 
-        public void Pagar()
-        {
-            using (Database Database = new Database())
-            {
-                
-                    Database.EjecutarNonQuery(
-                            "UPDATE [MIRRORING_GUYS].[Factura]" +
-                            "SET [id_pago] = @IdPag" +
-                            " WHERE id = @FId",
-                            CommandType.Text,
-                            Database.CrearParametro("@IdPag", this.IdPago),
-                            Database.CrearParametro("@FId", this.Id));
-            }
-        }
-
         public static void BorrarPago(int Id)
         {
             using (Database Database = new Database())

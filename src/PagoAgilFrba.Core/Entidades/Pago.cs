@@ -19,9 +19,9 @@ namespace PagoAgilFrba.Core
             DateTime Now = DateTime.Parse(ConfigurationManager.AppSettings.Get("SystemDate"), new CultureInfo("es-ES", true));;
                 Database.IniciarTransaccion();
                 int InsertedId = Database.EjecutarEscalar<int>(
-                    "INSERT INTO [MIRRORING_GUYS].[Pago] ([fecha],[id_forma_pago],[id_sucursal],[id_cliente])" +
+                    "INSERT INTO [MIRRORING_GUYS].[Pago] ([nro], [fecha],[id_forma_pago],[id_sucursal],[id_cliente])" +
                     "output INSERTED.ID " +
-                    "VALUES (@Fecha,@ForPago,@Sucu,@Cli)",
+                    "VALUES ((select max(nro) + 1 from [MIRRORING_GUYS].[Pago]), @Fecha,@ForPago,@Sucu,@Cli)",
                     Database.CrearParametro("@Fecha", Now.ToString("yyyy-MM-dd")),
                     Database.CrearParametro("@ForPago", IdFormaPago),
                     Database.CrearParametro("@Sucu", Sus.Id),
@@ -30,7 +30,15 @@ namespace PagoAgilFrba.Core
                 foreach (Factura f in Facturas)
                 {
                     f.IdPago = InsertedId;
-                    f.Pagar();
+                    //f.Pagar();
+
+                    Database.EjecutarNonQuery(
+                        "UPDATE [MIRRORING_GUYS].[Factura]" +
+                        "SET [id_pago] = @IdPag" +
+                        " WHERE id = @FId",
+                        CommandType.Text,
+                        Database.CrearParametro("@IdPag", f.IdPago),
+                        Database.CrearParametro("@FId", f.Id));
 
                     int IdHisto = Database.EjecutarEscalar<int>(
                         "INSERT INTO [MIRRORING_GUYS].[HistoricoPago] ([id_factura],[id_pago]) " +
@@ -65,12 +73,5 @@ namespace PagoAgilFrba.Core
                 return descs;
             }
         }
-
-        
-
-
-
-
-
     }
 }
